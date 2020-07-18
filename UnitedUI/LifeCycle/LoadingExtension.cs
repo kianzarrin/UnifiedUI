@@ -1,7 +1,7 @@
 namespace UnitedUI.LifeCycle
 {
     using ICities;
-    using UnitedUI.Util;
+    using KianCommons;
 
     public class LoadingExtention : LoadingExtensionBase
     {
