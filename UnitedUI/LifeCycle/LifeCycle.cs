@@ -1,6 +1,6 @@
 namespace UnitedUI.LifeCycle
 {
-    using UnitedUI.Util;
+    using 
 
     public static class LifeCycle
     {
@@ -9,14 +9,12 @@ namespace UnitedUI.LifeCycle
             Log.Info("LifeCycle.Load() called");
             PluginUtil.Init();
             HarmonyExtension.InstallHarmony();
-            SerializableDataExtension.LoadGlobalConfig();
         }
 
         public static void Release()
         {
             Log.Info("LifeCycle.Release() called");
             HarmonyExtension.UninstallHarmony();
-            SerializableDataExtension.SaveGlobalConfig();
         }
     }
 }
