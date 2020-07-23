@@ -1,0 +1,152 @@
+namespace UnitedUI.GUI {
+    using ColossalFramework;
+    using ColossalFramework.UI;
+    using KianCommons;
+    using KianCommons.UI;
+    using System;
+    using UnityEngine;
+    using GUI.ModButtons;
+    using Util;
+    using PluginUtil = Util.PluginUtil;
+
+    public class MainPanel : UIAutoSizePanel {
+        public static readonly SavedFloat SavedX = new SavedFloat(
+            "PanelX", Settings.FileName, 0, true);
+        public static readonly SavedFloat SavedY = new SavedFloat(
+            "PanelY", Settings.FileName, 0, true);
+        public static readonly SavedBool SavedDraggable = new SavedBool(
+            "PanelDraggable", Settings.FileName, def: false, true);
+
+        #region Instanciation
+        public static MainPanel Instance { get; private set; }
+
+        public static MainPanel Create() {
+            var uiView = UIView.GetAView();
+            MainPanel panel = uiView.AddUIComponent(typeof(MainPanel)) as MainPanel;
+            return panel;
+        }
+
+        public static void Release() {
+            Destroy(Instance);
+        }
+
+        #endregion Instanciation
+
+        public override void Awake() {
+            base.Awake();
+            Instance = this;
+        }
+
+
+        bool started_ = false;
+        public override void Start() {
+            base.Start();
+            Log.Debug("MainPanel started");
+
+            width = 150;
+            name = "MainPanel";
+            backgroundSprite = "MenuPanel2";
+            absolutePosition = new Vector3(SavedX, SavedY);
+
+            {
+                var dragHandle_ = AddUIComponent<UIDragHandle>();
+                dragHandle_.width = width;
+                dragHandle_.height = 42;
+                dragHandle_.relativePosition = Vector3.zero;
+                dragHandle_.target = parent;
+
+                var lblCaption = dragHandle_.AddUIComponent<UILabel>();
+                lblCaption.text = "United UI";
+                lblCaption.relativePosition = new Vector3(14, 14, 0);
+            }
+            //this.padding = new RectOffset(0,10,10,10);
+            this.autoLayoutPadding = new RectOffset(0, 10, 5, 5);
+
+            //AddSpacePanel(this, 10);
+
+            {
+                var panel = AddPanel();
+                panel.AddUIComponent<NodeControllerButton>();
+                panel.AddUIComponent<NetworkDetectiveButton>();
+            }
+
+
+            isVisible = false;
+            RefreshSizeRecursive();
+            Invalidate();
+            started_ = true;
+        }
+
+        UIAutoSizePanel AddPanel() => AddPanel(this);
+
+        static UIAutoSizePanel AddPanel(UIPanel panel) {
+            HelpersExtensions.AssertNotNull(panel, "panel");
+            int pad_horizontal = 10;
+            int pad_vertical = 5;
+            UIAutoSizePanel newPanel = panel.AddUIComponent<UIAutoSizePanel>();
+            HelpersExtensions.AssertNotNull(newPanel, "newPanel");
+            newPanel.autoLayoutDirection = LayoutDirection.Horizontal;
+            newPanel.width = panel.width - pad_horizontal * 2;
+            newPanel.autoLayoutPadding =
+                new RectOffset(pad_horizontal, pad_horizontal, pad_vertical, pad_vertical);
+            return newPanel;
+        }
+
+        static UIPanel AddSpacePanel(UIPanel panel, int space) {
+            panel = panel.AddUIComponent<UIPanel>();
+            panel.width = panel.width;
+            panel.height = space;
+            return panel;
+        }
+
+        public void Open() {
+            Log.Debug("MainPanel.Open() called started_="+started_);
+            if (!started_)
+                return;
+            Show();
+            RefreshSizeRecursive();
+            RefreshButtons();
+        }
+
+        public void Close() {
+            Log.Debug("MainPanel.Close() called");
+            Hide();
+        }
+
+        protected override void OnPositionChanged() {
+            base.OnPositionChanged();
+            Log.Debug("OnPositionChanged called");
+
+            Vector2 resolution = GetUIView().GetScreenResolution();
+
+            absolutePosition = new Vector2(
+                Mathf.Clamp(absolutePosition.x, 0, resolution.x - width),
+                Mathf.Clamp(absolutePosition.y, 0, resolution.y - height));
+
+            SavedX.value = absolutePosition.x;
+            SavedY.value = absolutePosition.y;
+            Log.Debug("absolutePosition: " + absolutePosition);
+        }
+
+        public static void GoToInstance(InstanceID instanceID) {
+            Vector3 pos = instanceID.Type switch
+            {
+                InstanceType.NetNode => instanceID.NetNode.ToNode().m_position,
+                InstanceType.NetSegment => instanceID.NetSegment.ToSegment().m_middlePosition,
+                _ => throw new NotImplementedException("instanceID.Type:" + instanceID.Type),
+            };
+            pos.y = Camera.main.transform.position.y;
+            ToolsModifierControl.cameraController.SetTarget(instanceID, pos, true);
+        }
+
+        void RefreshButtons() {
+            if (!started_)
+                return;
+            NodeControllerButton.Instance.isVisible = PluginUtil.Instance.NodeController.IsActive;
+            NetworkDetectiveButton.Instance.isVisible = PluginUtil.Instance.NetworkDetective.IsActive;
+
+            Invalidate();
+        }
+    }
+}
+

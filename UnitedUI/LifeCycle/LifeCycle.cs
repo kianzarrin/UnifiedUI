@@ -4,6 +4,7 @@ namespace UnitedUI.LifeCycle
     using KianCommons;
     using UnitedUI.GUI;
     using UnityEngine;
+    using Util;
 
     public static class LifeCycle
     {
@@ -12,13 +13,19 @@ namespace UnitedUI.LifeCycle
             Log.Info("LifeCycle.Load() called");
             PluginUtil.Init();
             //HarmonyExtension.InstallHarmony();
-            UIView.GetAView().gameObject.AddComponent<FloatingButton>();
+            UIView.GetAView().AddUIComponent(typeof(MainPanel));
+            UIView.GetAView().AddUIComponent(typeof(FloatingButton));
         }
 
-        public static void Release()
-        {
+        public static void Release() {
             Log.Info("LifeCycle.Release() called");
-            Destroy<FloatingButton>();
+
+            FloatingButton.Instance?.Hide();
+            Object.Destroy(FloatingButton.Instance);
+
+            MainPanel.Instance?.Hide();
+            Object.Destroy(MainPanel.Instance);
+
             //HarmonyExtension.UninstallHarmony();
         }
 
