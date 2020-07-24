@@ -28,7 +28,7 @@ namespace UnitedUI.GUI {
 
         bool started_ = false;
         public override void Start() {
-            Log.Debug("FloatingButton.Start() is called.");
+            Log.Debug("GenericButton.Start() is called for " + Name);
             base.Start();
             name = Name;
             size = new Vector2(40, 40);
@@ -40,12 +40,20 @@ namespace UnitedUI.GUI {
             Show();
             Invalidate();
 
+
             started_ = true;
-            Log.Debug("GenericButtonBase.Start() done!");
+            Log.Debug("GenericButton.Start() done! for " + Name);
+        }
+
+        public virtual void OnToolChanged(ToolBase newTool) {
+            var tool = Tool;
+            if (!tool)
+                return;
+            IsActive = newTool == Tool;
         }
 
         public override void OnDestroy() {
-            Log.Debug("FloatingButton.OnDestroy() called!");
+            Log.Debug("GenericButton.OnDestroy() called for " + Name);
             Hide();
             base.OnDestroy();
         }
@@ -79,14 +87,15 @@ namespace UnitedUI.GUI {
         }
 
         public virtual void Activate() {
-            Log.Debug("FloatingButton.Open() called");
+            Log.Debug("GenericButton.Open() called for " + Name);
             IsActive = true;
-            if(Tool)ToolsModifierControl.toolController.CurrentTool = Tool;
+            var tool = Tool;
+            if(tool)ToolsModifierControl.toolController.CurrentTool = tool;
             Component?.Hide();
         }
 
         public virtual void Deactivate() {
-            Log.Debug("FloatingButton.Close() called");
+            Log.Debug("GenericButton.Close() called  for " + Name);
             IsActive = false;
             if (Tool && ToolsModifierControl.toolController?.CurrentTool == Tool)
                 ToolsModifierControl.SetTool<DefaultTool>();
@@ -99,7 +108,7 @@ namespace UnitedUI.GUI {
         }
 
         protected override void OnClick(UIMouseEventParameter p) {
-            Log.Debug("FloatingButton.OnClick() called");
+            Log.Debug("GenericButton.OnClick() called  for " + Name);
             base.OnClick(p);
             Toggle();
         }
@@ -115,7 +124,7 @@ namespace UnitedUI.GUI {
                 .Where(tool => tool.GetType().Name == name)
                 .FirstOrDefault();
             if (ret == null)
-                Log.Error("coudl not find tool: " + name);
+                Log.Error("could not find tool: " + name);
             return ret;
         }
     }

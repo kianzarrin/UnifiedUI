@@ -1,6 +1,15 @@
 namespace UnitedUI.Util {
     using ColossalFramework.Plugins;
+    using ICities;
     using KianCommons;
+
+    public static class PluginExtensions {
+        public static IUserMod GetUserModInstance(this PluginManager.PluginInfo pluggin) =>
+            pluggin.userModInstance as IUserMod;
+
+        public static string GetModName(this PluginManager.PluginInfo pluggin) =>
+            GetUserModInstance(pluggin).Name;
+    }
 
     public class PluginUtil {
         public static PluginUtil Instance;
@@ -10,7 +19,13 @@ namespace UnitedUI.Util {
         public PluginMod IntersectionMarkup = new PluginMod("Intersection Marking", 2140418403ul);
         public PluginMod RoundaboutBuilder = new PluginMod("Roundabout Builder");
 
-        public static void Init() => Instance = new PluginUtil();
+        public static void Init() {
+            Instance = new PluginUtil();
+            //Log.Info("Pluggins:");
+            //foreach (PluginManager.PluginInfo current in PluginManager.instance.GetPluginsInfo()) {
+            //    Log.Info($"name:{current.GetModName()} id:{current.publishedFileID.AsUInt64}");
+            //}
+        }
     }
 
     public enum SearchModeT {
@@ -40,13 +55,13 @@ namespace UnitedUI.Util {
             foreach (PluginManager.PluginInfo current in PluginManager.instance.GetPluginsInfo()) {
                 if (Match(current)) {
                     PluginInfo = current;
-                    Log.Info("Found pluggin:" + current.name);
+                    Log.Info("Found pluggin:" + current.GetModName());
                     return;
                 }
             }
         }
         public bool Match(PluginManager.PluginInfo plugin) {
-            string name1 = plugin.name.ToLower();
+            string name1 = plugin.GetModName().ToLower();
             string name2 = SearchName.ToLower();
             if (SearchMode == SearchModeT.Contains) {
                 if (name1.Contains(name2))

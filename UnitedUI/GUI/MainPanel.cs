@@ -37,56 +37,73 @@ namespace UnitedUI.GUI {
             Instance = this;
         }
 
+        private UILabel lblCaption_;
+        private UIDragHandle dragHandle_;
+        UIAutoSizePanel containerPanel_;
 
         bool started_ = false;
         public override void Start() {
             base.Start();
             Log.Debug("MainPanel started");
 
-            width = 150;
+            //width = 150;
             name = "MainPanel";
             backgroundSprite = "MenuPanel2";
             absolutePosition = new Vector3(SavedX, SavedY);
 
             {
-                var dragHandle_ = AddUIComponent<UIDragHandle>();
-                dragHandle_.width = width;
+                dragHandle_ = AddUIComponent<UIDragHandle>();
                 dragHandle_.height = 42;
                 dragHandle_.relativePosition = Vector3.zero;
                 dragHandle_.target = parent;
 
-                var lblCaption = dragHandle_.AddUIComponent<UILabel>();
-                lblCaption.text = "United UI";
-                lblCaption.relativePosition = new Vector3(14, 14, 0);
-            }
-            //this.padding = new RectOffset(0,10,10,10);
-            this.autoLayoutPadding = new RectOffset(0, 10, 5, 5);
+                lblCaption_ = dragHandle_.AddUIComponent<UILabel>();
+                lblCaption_.text = "UnitedUI";
+                lblCaption_.name = "UnitedUI_title";
+                lblCaption_.textScale = .7f;
 
-            //AddSpacePanel(this, 10);
+            }
+
+            containerPanel_ = AddPanel();
+            containerPanel_.padding = new RectOffset(5, 5, 0, 0);
+            containerPanel_.autoLayoutPadding = new RectOffset(0,0,5,5);
 
             {
-                var panel = AddPanel();
-                panel.AddUIComponent<NodeControllerButton>();
-                panel.AddUIComponent<NetworkDetectiveButton>();
+                var panel = AddPanel(containerPanel_);
+                panel.backgroundSprite = "GenericPanelWhite";
+
+                if (PluginUtil.Instance.NetworkDetective.IsActive)
+                    panel.AddUIComponent<NetworkDetectiveButton>();
+
+                if (PluginUtil.Instance.IntersectionMarkup.IsActive)
+                    panel.AddUIComponent<IntersectionMarkingButton>();
+
+                if (PluginUtil.Instance.RoundaboutBuilder.IsActive)
+                    panel.AddUIComponent<RoundaboutBuilderButton>();
+
+                if (PluginUtil.Instance.PedestrianBridge.IsActive)
+                    panel.AddUIComponent<PedestrianBridgeButton>();
+
+                if (PluginUtil.Instance.NodeController.IsActive)
+                    panel.AddUIComponent<NodeControllerButton>();
+
             }
 
 
             isVisible = false;
-            RefreshSizeRecursive();
-            Invalidate();
             started_ = true;
+            Refresh();
         }
 
         UIAutoSizePanel AddPanel() => AddPanel(this);
 
         static UIAutoSizePanel AddPanel(UIPanel panel) {
             HelpersExtensions.AssertNotNull(panel, "panel");
-            int pad_horizontal = 10;
-            int pad_vertical = 5;
+            int pad_horizontal = 0;
+            int pad_vertical = 0;
             UIAutoSizePanel newPanel = panel.AddUIComponent<UIAutoSizePanel>();
             HelpersExtensions.AssertNotNull(newPanel, "newPanel");
-            newPanel.autoLayoutDirection = LayoutDirection.Horizontal;
-            newPanel.width = panel.width - pad_horizontal * 2;
+            newPanel.autoLayoutDirection = LayoutDirection.Vertical;
             newPanel.autoLayoutPadding =
                 new RectOffset(pad_horizontal, pad_horizontal, pad_vertical, pad_vertical);
             return newPanel;
@@ -104,8 +121,7 @@ namespace UnitedUI.GUI {
             if (!started_)
                 return;
             Show();
-            RefreshSizeRecursive();
-            RefreshButtons();
+            Refresh();
         }
 
         public void Close() {
@@ -139,13 +155,29 @@ namespace UnitedUI.GUI {
             ToolsModifierControl.cameraController.SetTarget(instanceID, pos, true);
         }
 
-        void RefreshButtons() {
-            if (!started_)
-                return;
-            NodeControllerButton.Instance.isVisible = PluginUtil.Instance.NodeController.IsActive;
-            NetworkDetectiveButton.Instance.isVisible = PluginUtil.Instance.NetworkDetective.IsActive;
-
+        void Refresh() {
+            RefreshButtons();
+            //Invalidate();
+            dragHandle_.width = lblCaption_.width;
+            RefreshSizeRecursive();
+            dragHandle_.width = width;
+            lblCaption_.relativePosition = new Vector2((width - lblCaption_.width) * 0.5f, 14);
+            dragHandle_.width = width;
             Invalidate();
+        }
+
+        void RefreshButtons() {
+            if(NetworkDetectiveButton.Instance)
+                NetworkDetectiveButton.Instance.isVisible = PluginUtil.Instance.NetworkDetective.IsActive;
+            if(NodeControllerButton.Instance)
+                NodeControllerButton.Instance.isVisible = PluginUtil.Instance.NodeController.IsActive;
+            if (PedestrianBridgeButton.Instance)
+                NetworkDetectiveButton.Instance.isVisible = PluginUtil.Instance.PedestrianBridge.IsActive;
+            if (IntersectionMarkingButton.Instance)
+                NetworkDetectiveButton.Instance.isVisible = PluginUtil.Instance.IntersectionMarkup.IsActive;
+            if (RoundaboutBuilderButton.Instance)
+                NetworkDetectiveButton.Instance.isVisible = PluginUtil.Instance.RoundaboutBuilder.IsActive;
+
         }
     }
 }

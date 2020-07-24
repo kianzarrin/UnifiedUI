@@ -24,7 +24,7 @@ namespace UnitedUI.GUI {
         public bool active_ = false;
         public bool IsActive {
             get=> active_;
-            set { if (value) UseActiveSprites(); else UseDeactiveSprites(); }
+            set { if (value) UseActiveSprites(); else UseInactiveSprites(); }
         } 
 
         private UIDragHandle drag_ { get; set; }
@@ -73,7 +73,7 @@ namespace UnitedUI.GUI {
             }
             Log.Debug("atlas name is: " + atlas.name);
             this.atlas = atlas;
-            UseDeactiveSprites();
+            UseInactiveSprites();
             return atlas;
         }
 
@@ -96,7 +96,7 @@ namespace UnitedUI.GUI {
             active_ = true;
         }
 
-        public void UseDeactiveSprites() {
+        public void UseInactiveSprites() {
             focusedBgSprite = normalBgSprite = disabledBgSprite = IconNormal;
             hoveredBgSprite = IconHovered;
             pressedBgSprite = IconPressed;
