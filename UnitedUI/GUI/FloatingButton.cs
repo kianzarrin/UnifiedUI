@@ -122,10 +122,9 @@ namespace UnitedUI.GUI {
         }
 
         bool moving_ = false;
-        protected override void OnMouseUp(UIMouseEventParameter p) {
-            Log.Debug("FloatingButton.OnMouseUp() called");
-            base.OnMouseUp(p);
-            moving_ = false; // OnMouseUp is called after onclick.
+        protected override void OnMouseDown(UIMouseEventParameter p) {
+            base.OnMouseDown(p);
+            moving_ = false;
         }
 
         protected override void OnClick(UIMouseEventParameter p) {
@@ -147,7 +146,6 @@ namespace UnitedUI.GUI {
             base.OnPositionChanged();
             Log.Debug("OnPositionChanged called");
             if (!started_) return;
-            moving_ = true;
 
             Vector2 resolution = GetUIView().GetScreenResolution();
 
@@ -156,6 +154,7 @@ namespace UnitedUI.GUI {
                 Mathf.Clamp(absolutePosition.y, 0, resolution.y - height));
 
             Vector2 delta = new Vector2(absolutePosition.x - SavedX, absolutePosition.y - SavedY);
+            moving_ = delta.sqrMagnitude > 1f;
             // TODO move main panel by delta.
 
             SavedX.value = absolutePosition.x;

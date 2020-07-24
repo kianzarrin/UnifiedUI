@@ -64,18 +64,19 @@ namespace UnitedUI.GUI {
 
             }
 
-            containerPanel_ = AddPanel();
-            containerPanel_.padding = new RectOffset(5, 5, 0, 0);
-            containerPanel_.autoLayoutPadding = new RectOffset(0,0,5,5);
+            var body = AddPanel();
+            body.autoLayoutPadding = new RectOffset(5, 5, 5, 5);
+
+            var g1  = AddPanel();
 
             {
-                var panel = AddPanel(containerPanel_);
+                var panel = AddPanel(g1);
                 panel.backgroundSprite = "GenericPanelWhite";
 
                 if (PluginUtil.Instance.NetworkDetective.IsActive)
                     panel.AddUIComponent<NetworkDetectiveButton>();
 
-                if (PluginUtil.Instance.IntersectionMarkup.IsActive)
+                if (PluginUtil.Instance.IntersectionMarking.IsActive)
                     panel.AddUIComponent<IntersectionMarkingButton>();
 
                 if (PluginUtil.Instance.RoundaboutBuilder.IsActive)
@@ -167,16 +168,17 @@ namespace UnitedUI.GUI {
         }
 
         void RefreshButtons() {
-            if(NetworkDetectiveButton.Instance)
-                NetworkDetectiveButton.Instance.isVisible = PluginUtil.Instance.NetworkDetective.IsActive;
-            if(NodeControllerButton.Instance)
-                NodeControllerButton.Instance.isVisible = PluginUtil.Instance.NodeController.IsActive;
-            if (PedestrianBridgeButton.Instance)
-                NetworkDetectiveButton.Instance.isVisible = PluginUtil.Instance.PedestrianBridge.IsActive;
-            if (IntersectionMarkingButton.Instance)
-                NetworkDetectiveButton.Instance.isVisible = PluginUtil.Instance.IntersectionMarkup.IsActive;
-            if (RoundaboutBuilderButton.Instance)
-                NetworkDetectiveButton.Instance.isVisible = PluginUtil.Instance.RoundaboutBuilder.IsActive;
+            // uncomment code bellow to support hot reload. start code also needs change.
+            //if(NetworkDetectiveButton.Instance)
+            //    NetworkDetectiveButton.Instance.isVisible = PluginUtil.Instance.NetworkDetective.IsActive;
+            //if(NodeControllerButton.Instance)
+            //    NodeControllerButton.Instance.isVisible = PluginUtil.Instance.NodeController.IsActive;
+            //if (PedestrianBridgeButton.Instance)
+            //    NetworkDetectiveButton.Instance.isVisible = PluginUtil.Instance.PedestrianBridge.IsActive;
+            //if (IntersectionMarkingButton.Instance)
+            //    NetworkDetectiveButton.Instance.isVisible = PluginUtil.Instance.IntersectionMarkup.IsActive;
+            //if (RoundaboutBuilderButton.Instance)
+            //    NetworkDetectiveButton.Instance.isVisible = PluginUtil.Instance.RoundaboutBuilder.IsActive;
 
         }
     }

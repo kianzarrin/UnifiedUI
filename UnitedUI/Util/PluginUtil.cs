@@ -16,7 +16,7 @@ namespace UnitedUI.Util {
         public PluginMod NodeController = new PluginMod("Node Controller");
         public PluginMod NetworkDetective = new PluginMod("Network detective");
         public PluginMod PedestrianBridge = new PluginMod("Pedestrian Bridge");
-        public PluginMod IntersectionMarkup = new PluginMod("Intersection Marking", 2140418403ul);
+        public PluginMod IntersectionMarking = new PluginMod("Intersection Marking", 2140418403ul);
         public PluginMod RoundaboutBuilder = new PluginMod("Roundabout Builder");
 
         public static void Init() {

@@ -18,6 +18,7 @@ namespace UnitedUI.GUI {
         public abstract string SpritesFileName { get; }
         public virtual string Name => GetType().Name;
         public virtual ToolBase Tool => null;
+        public virtual string Tooltip => null;
         public virtual UIComponent Component => null;
 
         public bool active_ = false;
@@ -31,6 +32,7 @@ namespace UnitedUI.GUI {
             Log.Debug("GenericButton.Start() is called for " + Name);
             base.Start();
             name = Name;
+            if (Tooltip != null) tooltip = Tooltip;
             size = new Vector2(40, 40);
 
             SetupSprites();
