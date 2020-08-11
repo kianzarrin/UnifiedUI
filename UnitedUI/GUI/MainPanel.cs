@@ -63,15 +63,16 @@ namespace UnitedUI.GUI {
                 lblCaption_.textScale = .7f;
 
             }
-
             var body = AddPanel();
             body.autoLayoutPadding = new RectOffset(5, 5, 5, 5);
 
-            var g1  = AddPanel();
+            var g1  = AddPanel(body);
+            g1.backgroundSprite = "GenericPanelWhite";
+            g1.color = new Color32(200, 200, 200, byte.MaxValue);
 
             {
                 var panel = AddPanel(g1);
-                panel.backgroundSprite = "GenericPanelWhite";
+
 
                 if (PluginUtil.Instance.NetworkDetective.IsActive)
                     panel.AddUIComponent<NetworkDetectiveButton>();
@@ -104,7 +105,7 @@ namespace UnitedUI.GUI {
             int pad_vertical = 0;
             UIAutoSizePanel newPanel = panel.AddUIComponent<UIAutoSizePanel>();
             HelpersExtensions.AssertNotNull(newPanel, "newPanel");
-            newPanel.autoLayoutDirection = LayoutDirection.Vertical;
+            newPanel.autoLayoutDirection = LayoutDirection.Horizontal;
             newPanel.autoLayoutPadding =
                 new RectOffset(pad_horizontal, pad_horizontal, pad_vertical, pad_vertical);
             return newPanel;

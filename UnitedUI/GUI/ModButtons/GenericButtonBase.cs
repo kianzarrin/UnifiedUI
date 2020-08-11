@@ -6,6 +6,7 @@ namespace UnitedUI.GUI {
     using ColossalFramework;
     using System;
     using System.Linq;
+    using UnitedUI.LifeCycle;
 
     public abstract class GenericButton : UIButton {
         const string IconNormal = "IconNormal";
@@ -42,6 +43,7 @@ namespace UnitedUI.GUI {
             Show();
             Invalidate();
 
+            ThreadingExtension.EventToolChanged += tool => OnToolChanged(tool);
 
             started_ = true;
             Log.Debug("GenericButton.Start() done! for " + Name);

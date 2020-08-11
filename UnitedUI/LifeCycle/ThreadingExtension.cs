@@ -1,8 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using ICities;
+using KianCommons;
+using System;
 
 namespace UnitedUI.LifeCycle {
     public class ThreadingExtension: ThreadingExtensionBase {
@@ -19,16 +17,22 @@ namespace UnitedUI.LifeCycle {
             EventToolChanged = null;
         }
 
-        public delegate bool ToolChangedHandler(ToolBase newTool);
+        public delegate void ToolChangedHandler(ToolBase newTool);
         public static event ToolChangedHandler EventToolChanged;
 
         ToolBase prevTool;
         public override void OnUpdate(float realTimeDelta, float simulationTimeDelta) {
             base.OnUpdate(realTimeDelta, simulationTimeDelta);
-            var currentTool = ToolsModifierControl.toolController.CurrentTool;
-            if (currentTool != prevTool) {
-                prevTool = currentTool;
-                EventToolChanged?.Invoke(currentTool);
+            try {
+                var currentTool = ToolsModifierControl.toolController.CurrentTool;
+                if (currentTool != prevTool) {
+                    prevTool = currentTool;
+                    Log.Debug($"OnUpdate(): invoking EventToolChanged (EventToolChanged==null : {EventToolChanged == null})");
+                    EventToolChanged?.Invoke(currentTool);
+                }
+            } catch(Exception e) {
+                Log.Error(e.ToString() + "\n\t  ----logged at-----");
+                throw e;
             }
         }
     }
