@@ -5,6 +5,7 @@ namespace UnitedUI.LifeCycle
     using UnitedUI.GUI;
     using UnityEngine;
     using Util;
+    using PluginUtil = Util.PluginUtil;
 
     public static class LifeCycle
     {

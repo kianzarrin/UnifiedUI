@@ -35,6 +35,7 @@ namespace UnitedUI.GUI {
         public override void Awake() {
             base.Awake();
             Instance = this;
+            AutoSize2 = true;
         }
 
         private UILabel lblCaption_;
@@ -73,7 +74,6 @@ namespace UnitedUI.GUI {
             {
                 var panel = AddPanel(g1);
 
-
                 if (PluginUtil.Instance.NetworkDetective.IsActive)
                     panel.AddUIComponent<NetworkDetectiveButton>();
 
@@ -108,6 +108,8 @@ namespace UnitedUI.GUI {
             newPanel.autoLayoutDirection = LayoutDirection.Horizontal;
             newPanel.autoLayoutPadding =
                 new RectOffset(pad_horizontal, pad_horizontal, pad_vertical, pad_vertical);
+            newPanel.AutoSize2 = true;
+
             return newPanel;
         }
 

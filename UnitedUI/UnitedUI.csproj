@@ -44,19 +44,12 @@
   <ItemGroup>
     <Compile Remove="KianCommons\KianCommons\Patches\PrefixUtils.cs" />
     <Compile Remove="KianCommons\KianCommons\Util\CSURUtil.cs" />
-    <Compile Remove="KianCommons\KianCommons\Util\PluginUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="KianCommons\.git" />
     <None Remove="KianCommons\.gitattributes" />
     <None Remove="KianCommons\.gitignore" />
-    <None Remove="Resources\A.png" />
-    <None Remove="Resources\B.png" />
     <None Remove="Resources\sprites.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\A.png" />
-    <EmbeddedResource Include="Resources\B.png" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CitiesHarmony.API" Version="1.0.4" />
@@ -90,6 +83,14 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="KianCommons\libs\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Resources\A.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\B.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Target Name="DeployToModDirectory" AfterTargets="Build">
     <GetAssemblyIdentity AssemblyFiles="$(TargetPath)">

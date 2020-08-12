@@ -6,6 +6,9 @@ insert_final_newline=true
 trim_trailing_whitespace=true
 indent_style=space
 
+# CS7035: The specified version string does not conform to the recommended format - major.minor.build.revision
+dotnet_diagnostic.CS7035.severity = none
+
 [*]
 charset=utf-8
 end_of_line=crlf

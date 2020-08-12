@@ -2,14 +2,8 @@ namespace UnitedUI.Util {
     using ColossalFramework.Plugins;
     using ICities;
     using KianCommons;
-
-    public static class PluginExtensions {
-        public static IUserMod GetUserModInstance(this PluginManager.PluginInfo pluggin) =>
-            pluggin.userModInstance as IUserMod;
-
-        public static string GetModName(this PluginManager.PluginInfo pluggin) =>
-            GetUserModInstance(pluggin).Name;
-    }
+    using System;
+    using static KianCommons.PluginUtil;
 
     public class PluginUtil {
         public static PluginUtil Instance;
@@ -28,11 +22,7 @@ namespace UnitedUI.Util {
         }
     }
 
-    public enum SearchModeT {
-        Contains,
-        StartsWidth,
-    }
-
+    [Obsolete]
     public class PluginMod {
         public PluginManager.PluginInfo PluginInfo { get; set; }
         public bool IsActive => PluginInfo?.isEnabled ?? false;
@@ -42,41 +32,16 @@ namespace UnitedUI.Util {
 
         public string SearchName { get; private set; }
 
-        public SearchModeT SearchMode { get; private set; }
+        public SearchOptionT SearchOptios { get; private set; }
 
-        public PluginMod(string searchName, ulong searchId, SearchModeT searchMode = SearchModeT.Contains) :
-            this(searchName, new[] { searchId }, searchMode) { }
+        public PluginMod(string searchName, ulong searchId, SearchOptionT searchOptions = DefaultsearchOptions) :
+            this(searchName, new[] { searchId }, searchOptions) { }
 
-        public PluginMod(string searchName, ulong[] searchIds = null, SearchModeT searchMode = SearchModeT.Contains) {
+        public PluginMod(string searchName, ulong[] searchIds = null, SearchOptionT searchOptions = DefaultsearchOptions) {
             SearchName = searchName;
             SearchIDs = searchIds;
-            SearchMode = searchMode;
-            PluginInfo = null;
-            foreach (PluginManager.PluginInfo current in PluginManager.instance.GetPluginsInfo()) {
-                if (Match(current)) {
-                    PluginInfo = current;
-                    Log.Info("Found pluggin:" + current.GetModName());
-                    return;
-                }
-            }
-        }
-        public bool Match(PluginManager.PluginInfo plugin) {
-            string name1 = plugin.GetModName().ToLower();
-            string name2 = SearchName.ToLower();
-            if (SearchMode == SearchModeT.Contains) {
-                if (name1.Contains(name2))
-                    return true;
-            } else if (SearchMode == SearchModeT.StartsWidth) {
-                if (name1.StartsWith(name2))
-                    return true;
-            }
-            if (SearchIDs != null) {
-                foreach (var id in SearchIDs) {
-                    if (id == plugin.publishedFileID.AsUInt64)
-                        return true;
-                }
-            }
-            return false;
+            SearchOptios = searchOptions;
+            PluginInfo = GetPlugin(searchName, searchIds, searchOptions);
         }
     }
 }
