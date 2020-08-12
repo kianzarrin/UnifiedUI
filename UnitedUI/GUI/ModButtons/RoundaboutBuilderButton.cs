@@ -5,7 +5,7 @@ using System.Collections;
 using System.Linq;
 
 namespace UnitedUI.GUI.ModButtons {
-    public class RoundaboutBuilderButton : GenericButton {
+    public class RoundaboutBuilderButton : GenericModButton {
         public static RoundaboutBuilderButton Instance;
         public RoundaboutBuilderButton() : base() => Instance = this;
         public override string SpritesFileName => "B.png";
@@ -22,10 +22,10 @@ namespace UnitedUI.GUI.ModButtons {
             var type = UIWindow.GetType();
             var methodInfo = type.GetMethod("Toggle");
             methodInfo.Invoke(UIWindow, null);
-            OnToolChanged(ToolsModifierControl.toolController.CurrentTool);
+            OnRefresh(ToolsModifierControl.toolController.CurrentTool);
         }
 
-        public override void OnToolChanged(ToolBase newTool) {
+        public override void OnRefresh(ToolBase newTool) {
             Log.Debug("RoundaboutBuilderButton.OnToolChanged(): newTool.namespace = " + newTool?.GetType()?.Namespace ?? "false");
             IsActive = newTool?.GetType()?.Namespace?.StartsWith("RoundaboutBuilder") ?? false;
         }

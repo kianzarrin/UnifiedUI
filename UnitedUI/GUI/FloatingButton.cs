@@ -5,7 +5,7 @@ namespace UnitedUI.GUI {
     using UnityEngine;
     using ColossalFramework;
 
-    public class FloatingButton : UIButton {
+    public class FloatingButton : ButtonBase {
         public static FloatingButton Instance { get; private set; }
         public static readonly SavedFloat SavedX = new SavedFloat(
             "ButtonX", Settings.FileName, 0, true);
@@ -14,18 +14,7 @@ namespace UnitedUI.GUI {
         public static readonly SavedBool SavedDraggable = new SavedBool(
             "ButtonDraggable", Settings.FileName, def:false, true);
 
-        const string IconNormal = "IconNormal";
-        const string IconHovered = "IconHovered";
-        const string IconPressed = "IconPressed";
-        public static string AtlasName = "UnitedUIFloatingButton_rev" +
-            typeof(FloatingButton).Assembly.GetName().Version.Revision;
-        public const int SIZE = 64;
-
-        public bool active_ = false;
-        public bool IsActive {
-            get=> active_;
-            set { if (value) UseActiveSprites(); else UseInactiveSprites(); }
-        } 
+        public override string SpritesFileName => "A.png";
 
         private UIDragHandle drag_ { get; set; }
 
@@ -38,43 +27,15 @@ namespace UnitedUI.GUI {
             }
         }
 
+
         bool started_ = false;
         public override void Start() {
             Log.Debug("FloatingButton.Start() is called.");
             base.Start();
-            name = nameof(FloatingButton);
-            absolutePosition = new Vector3(SavedX, SavedY);
-            size = new Vector2(40, 40);
-
-            SetupSprites();
-            SetupDrag();
-            // m_TooltipBox = GetUIView()?.defaultTooltipBox; // Set up the tooltip
-
-            canFocus = false;
-            Show();
-            Invalidate();
-
             Instance = this;
+            absolutePosition = new Vector3(SavedX, SavedY);
+            SetupDrag();
             started_ = true;
-            Log.Debug("FloatingButton.Start() done!");
-        }
-
-        public override void OnDestroy() {
-            Log.Debug("FloatingButton.OnDestroy() called!");
-            Hide();
-            base.OnDestroy();
-        }
-
-        public UITextureAtlas SetupSprites() {
-            string[] spriteNames = new string[] { IconPressed, IconHovered, IconNormal };
-            var atlas = TextureUtil.GetAtlas(AtlasName);
-            if (atlas == UIView.GetAView().defaultAtlas) {
-                atlas = TextureUtil.CreateTextureAtlas("A.png", AtlasName, SIZE, SIZE, spriteNames);
-            }
-            Log.Debug("atlas name is: " + atlas.name);
-            this.atlas = atlas;
-            UseInactiveSprites();
-            return atlas;
         }
 
         public void SetupDrag() {
@@ -86,22 +47,6 @@ namespace UnitedUI.GUI {
             drag_.width = width;
             drag_.height = height;
             drag_.enabled =  SavedDraggable;
-        }
-
-        public void UseActiveSprites() {
-            focusedBgSprite = normalBgSprite = disabledBgSprite = IconPressed;
-            hoveredBgSprite = IconPressed;
-            pressedBgSprite = IconPressed;
-            Invalidate();
-            active_ = true;
-        }
-
-        public void UseInactiveSprites() {
-            focusedBgSprite = normalBgSprite = disabledBgSprite = IconNormal;
-            hoveredBgSprite = IconHovered;
-            pressedBgSprite = IconPressed;
-            Invalidate();
-            active_ = false;
         }
 
         public void Open() {

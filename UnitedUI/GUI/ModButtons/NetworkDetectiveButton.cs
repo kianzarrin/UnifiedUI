@@ -1,5 +1,5 @@
 namespace UnitedUI.GUI.ModButtons {
-    public class NetworkDetectiveButton : GenericButton {
+    public class NetworkDetectiveButton : GenericModButton {
         public static NetworkDetectiveButton Instance;
         public NetworkDetectiveButton() : base() => Instance = this;
         public override string SpritesFileName => "B.png";

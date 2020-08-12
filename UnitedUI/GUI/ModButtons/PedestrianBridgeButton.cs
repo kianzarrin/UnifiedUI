@@ -1,5 +1,5 @@
 namespace UnitedUI.GUI.ModButtons {
-    public class PedestrianBridgeButton : GenericButton {
+    public class PedestrianBridgeButton : GenericModButton {
         public static PedestrianBridgeButton Instance;
         public PedestrianBridgeButton() : base() => Instance = this;
         public override string SpritesFileName => "B.png";

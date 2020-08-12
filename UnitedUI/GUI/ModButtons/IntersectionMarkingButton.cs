@@ -1,5 +1,5 @@
 namespace UnitedUI.GUI.ModButtons {
-    public class IntersectionMarkingButton : GenericButton {
+    public class IntersectionMarkingButton : GenericModButton {
         public static IntersectionMarkingButton Instance;
         public IntersectionMarkingButton() : base() => Instance = this;
         public override string SpritesFileName => "B.png";

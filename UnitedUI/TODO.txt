@@ -1,0 +1,1 @@
+remove pluggin utils and add plugins to individual button.

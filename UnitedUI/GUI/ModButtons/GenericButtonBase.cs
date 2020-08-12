@@ -3,116 +3,66 @@ namespace UnitedUI.GUI {
     using KianCommons.UI;
     using KianCommons;
     using UnityEngine;
-    using ColossalFramework;
     using System;
     using System.Linq;
     using UnitedUI.LifeCycle;
+    using ColossalFramework.Plugins;
 
-    public abstract class GenericButton : UIButton {
-        const string IconNormal = "IconNormal";
-        const string IconHovered = "IconHovered";
-        const string IconPressed = "IconPressed";
-        public string AtlasName => $"{GetType().FullName}_rev" + 
-            typeof(GenericButton).Assembly.GetName().Version.Revision;
-        public const int SIZE = 64;
-
-        public abstract string SpritesFileName { get; }
-        public virtual string Name => GetType().Name;
+    public abstract class GenericModButton : ButtonBase {
         public virtual ToolBase Tool => null;
         public virtual string Tooltip => null;
-        public virtual UIComponent Component => null;
+        public virtual UIComponent Widnow => null;
+        public virtual PluginManager.PluginInfo Plugin => null;
+        private PluginManager.PluginInfo plugin_;
 
-        public bool active_ = false;
-        public bool IsActive {
-            get => active_;
-            set { if (value) UseActiveSprites(); else UseDeactiveSprites(); }
+        public override void Awake() {
+            base.Awake();
+            plugin_ = Plugin;
         }
 
-        bool started_ = false;
         public override void Start() {
-            Log.Debug("GenericButton.Start() is called for " + Name);
+            Log.Debug("GenericModButton.Start() is called for " + Name);
             base.Start();
-            name = Name;
             if (Tooltip != null) tooltip = Tooltip;
-            size = new Vector2(40, 40);
-
-            SetupSprites();
-            // m_TooltipBox = GetUIView()?.defaultTooltipBox; // Set up the tooltip
-
-            canFocus = false;
-            Show();
-            Invalidate();
-
-            ThreadingExtension.EventToolChanged += tool => OnToolChanged(tool);
-
-            started_ = true;
-            Log.Debug("GenericButton.Start() done! for " + Name);
         }
 
-        public virtual void OnToolChanged(ToolBase newTool) {
+        public virtual void OnRefresh(ToolBase newTool) {
             var tool = Tool;
             if (!tool)
                 return;
             IsActive = newTool == Tool;
         }
 
-        public override void OnDestroy() {
-            Log.Debug("GenericButton.OnDestroy() called for " + Name);
-            Hide();
-            base.OnDestroy();
+        public virtual bool ShouldPopulate() {
+            Log.Debug("GenericModButton.ShouldShow() called for " + Name);
+            return Tool != null || Widnow != null || PluginExtensions.IsActive(Plugin);
         }
 
-        public UITextureAtlas SetupSprites() {
-            string[] spriteNames = new string[] { IconPressed, IconHovered, IconNormal };
-            var atlas = TextureUtil.GetAtlas(AtlasName);
-            if (atlas == UIView.GetAView().defaultAtlas) {
-                atlas = TextureUtil.CreateTextureAtlas(SpritesFileName, AtlasName, SIZE, SIZE, spriteNames);
-            }
-            Log.Debug("atlas name is: " + atlas.name);
-            this.atlas = atlas;
-            UseDeactiveSprites();
-            return atlas;
-        }
-
-        public void UseActiveSprites() {
-            focusedBgSprite = normalBgSprite = disabledBgSprite = IconPressed;
-            hoveredBgSprite = IconPressed;
-            pressedBgSprite = IconPressed;
-            Invalidate();
-            active_ = true;
-        }
-
-        public void UseDeactiveSprites() {
-            focusedBgSprite = normalBgSprite = disabledBgSprite = IconNormal;
-            hoveredBgSprite = IconHovered;
-            pressedBgSprite = IconPressed;
-            Invalidate();
-            active_ = false;
-        }
+        public virtual bool ShowShow() => true;
 
         public virtual void Activate() {
-            Log.Debug("GenericButton.Open() called for " + Name);
+            Log.Debug("GenericModButton.Open() called for " + Name);
             IsActive = true;
             var tool = Tool;
             if(tool)ToolsModifierControl.toolController.CurrentTool = tool;
-            Component?.Hide();
+            Widnow?.Hide();
         }
 
         public virtual void Deactivate() {
-            Log.Debug("GenericButton.Close() called  for " + Name);
+            Log.Debug("GenericModButton.Close() called  for " + Name);
             IsActive = false;
             if (Tool && ToolsModifierControl.toolController?.CurrentTool == Tool)
                 ToolsModifierControl.SetTool<DefaultTool>();
-            Component?.Show();
+            Widnow?.Show();
         }
 
-        public void Toggle() {
+        public virtual void Toggle() {
             if (IsActive) Deactivate();
             else Activate();
         }
 
         protected override void OnClick(UIMouseEventParameter p) {
-            Log.Debug("GenericButton.OnClick() called  for " + Name);
+            Log.Debug("GenericModButton.OnClick() called  for " + Name);
             base.OnClick(p);
             Toggle();
         }
