@@ -34,7 +34,7 @@ namespace UnitedUI.GUI {
         }
 
         public virtual bool ShouldPopulate() {
-            Log.Debug("GenericModButton.ShouldShow() called for " + Name);
+            Log.Debug("GenericModButton.ShouldShow() called for " + Name, false);
             return Tool != null || Widnow != null || PluginExtensions.IsActive(Plugin);
         }
 
@@ -62,7 +62,7 @@ namespace UnitedUI.GUI {
         }
 
         protected override void OnClick(UIMouseEventParameter p) {
-            Log.Debug("GenericModButton.OnClick() called  for " + Name);
+            Log.Debug("GenericModButton.OnClick() called  for " + Name, false);
             base.OnClick(p);
             Toggle();
         }

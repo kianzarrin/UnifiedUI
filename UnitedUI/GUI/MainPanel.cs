@@ -135,7 +135,7 @@ namespace UnitedUI.GUI {
 
         protected override void OnPositionChanged() {
             base.OnPositionChanged();
-            Log.Debug("OnPositionChanged called");
+            Log.DebugWait("OnPositionChanged called", id: "OnPositionChanged called".GetHashCode(), seconds: 0.2f, copyToGameLog: false);
 
             Vector2 resolution = GetUIView().GetScreenResolution();
 
@@ -145,7 +145,7 @@ namespace UnitedUI.GUI {
 
             SavedX.value = absolutePosition.x;
             SavedY.value = absolutePosition.y;
-            Log.Debug("absolutePosition: " + absolutePosition);
+            Log.DebugWait("absolutePosition: " + absolutePosition, id: "absolutePosition: ".GetHashCode(), seconds: 0.2f, copyToGameLog: false);
         }
 
         public static void GoToInstance(InstanceID instanceID) {

@@ -41,7 +41,7 @@ namespace UnitedUI.GUI
 
         public override void Start()
         {
-            Log.Debug("GenericButton.Start() is called for " + Name);
+            Log.Debug("GenericButton.Start() is called for " + Name, false);
             base.Start();
             if (Tooltip != null) tooltip = Tooltip;
 
@@ -55,7 +55,7 @@ namespace UnitedUI.GUI
 
         public override void OnDestroy()
         {
-            Log.Debug("GenericButton.OnDestroy() called for " + Name);
+            Log.Debug("GenericButton.OnDestroy() called for " + Name, false);
             Hide();
             base.OnDestroy();
         }
@@ -68,7 +68,7 @@ namespace UnitedUI.GUI
             {
                 atlas = TextureUtil.CreateTextureAtlas(SpritesFileName, AtlasName, SIZE, SIZE, spriteNames);
             }
-            Log.Debug("atlas name is: " + atlas.name);
+            Log.Debug("atlas name is: " + atlas.name, false);
             this.atlas = atlas;
             UseDeactiveSprites();
             return atlas;
