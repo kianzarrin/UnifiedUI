@@ -65,7 +65,7 @@ namespace UnitedUI.GUI {
                 lblCaption_ = dragHandle_.AddUIComponent<UILabel>();
                 lblCaption_.text = "UnitedUI";
                 lblCaption_.name = "UnitedUI_title";
-                lblCaption_.font.size = 12;
+                lblCaption_.textScale = 0.75f;
             }
 
             var body = AddPanel();
