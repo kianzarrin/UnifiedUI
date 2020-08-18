@@ -1,3 +1,7 @@
-remove pluggin utils and add plugins to individual button.
 
-BUT: MULTIPLE tools can be selected at the same time.
+top panel too thick
+
+Investigate: MULTIPLE tools can be selected at the same time.
+
+
+remove pluggin utils and add plugins to individual button.

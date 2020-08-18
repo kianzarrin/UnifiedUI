@@ -91,6 +91,9 @@
     <None Update="Resources\B.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\MainPanel.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\NodeController.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

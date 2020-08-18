@@ -17,6 +17,9 @@ namespace UnitedUI.GUI {
         public static readonly SavedBool SavedDraggable = new SavedBool(
             "PanelDraggable", Settings.FileName, def: false, true);
 
+        public string AtlasName => $"{GetType().FullName}_rev" + this.VersionOf();
+        string spriteFileName_ = "MainPanel.png";
+
         #region Instanciation
         public static MainPanel Instance { get; private set; }
 
@@ -46,34 +49,35 @@ namespace UnitedUI.GUI {
         public override void Start() {
             base.Start();
             Log.Debug("MainPanel started");
-
-            //width = 150;
             name = "MainPanel";
-            backgroundSprite = "MenuPanel2";
+
+            SetupSprites();
+            //backgroundSprite = "MenuPanel2";
+
             absolutePosition = new Vector3(SavedX, SavedY);
 
             {
                 dragHandle_ = AddUIComponent<UIDragHandle>();
-                dragHandle_.height = 42;
+                dragHandle_.height = 20;
                 dragHandle_.relativePosition = Vector3.zero;
                 dragHandle_.target = parent;
 
                 lblCaption_ = dragHandle_.AddUIComponent<UILabel>();
                 lblCaption_.text = "UnitedUI";
                 lblCaption_.name = "UnitedUI_title";
-                lblCaption_.textScale = .7f;
-
+                lblCaption_.font.size = 12;
             }
-            var body = AddPanel();
-            body.autoLayoutPadding = new RectOffset(5, 5, 5, 5);
 
-            var g1  = AddPanel(body);
-            g1.backgroundSprite = "GenericPanelWhite";
-            g1.color = new Color32(200, 200, 200, byte.MaxValue);
+            var body = AddPanel();
+            body.autoLayoutPadding = new RectOffset(2, 0, 2, 2);
 
             {
-                var panel = AddPanel(g1);
-
+                var g1  = AddPanel(body);
+                g1.backgroundSprite = "GenericPanelWhite";
+                g1.color = new Color32(170, 170, 170, byte.MaxValue);
+                var panel = g1;
+                g1.name = "group1";
+            
                 if (PluginUtil.Instance.NetworkDetective.IsActive)
                     panel.AddUIComponent<NetworkDetectiveButton>();
 
@@ -91,10 +95,24 @@ namespace UnitedUI.GUI {
 
             }
 
-
             isVisible = false;
             started_ = true;
             Refresh();
+        }
+
+        public UITextureAtlas SetupSprites() {
+            string[] spriteNames = new string[] { "background" };
+            var atlas = TextureUtil.GetAtlas(AtlasName);
+            if (atlas == UIView.GetAView().defaultAtlas) {
+                atlas = TextureUtil.CreateTextureAtlas(spriteFileName_, AtlasName, spriteNames);
+            }
+            Log.Debug("atlas name is: " + atlas.name, false);
+            this.atlas = atlas;
+            atlas.sprites[0].border = new RectOffset(8, 8, 13, 8);
+
+            backgroundSprite = "background";
+
+            return atlas;
         }
 
         UIAutoSizePanel AddPanel() => AddPanel(this);
@@ -164,8 +182,9 @@ namespace UnitedUI.GUI {
             //Invalidate();
             dragHandle_.width = lblCaption_.width;
             RefreshSizeRecursive();
+
             dragHandle_.width = width;
-            lblCaption_.relativePosition = new Vector2((width - lblCaption_.width) * 0.5f, 14);
+            lblCaption_.relativePosition = new Vector2((width - lblCaption_.width) * 0.5f, 3);
             dragHandle_.width = width;
             Invalidate();
         }

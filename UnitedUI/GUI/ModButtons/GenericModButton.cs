@@ -26,11 +26,12 @@ namespace UnitedUI.GUI {
             if (Tooltip != null) tooltip = Tooltip;
         }
 
-        public virtual void OnRefresh(ToolBase newTool) {
+        public override void OnRefresh(ToolBase newTool) {
             var tool = Tool;
             if (!tool)
                 return;
             IsActive = newTool == Tool;
+            //Log.Debug($"GenericModButton.OnRefresh({newTool}) Name:{Name} Tool:{tool}");
         }
 
         public virtual bool ShouldPopulate() {

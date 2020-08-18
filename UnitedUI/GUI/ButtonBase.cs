@@ -48,8 +48,9 @@ namespace UnitedUI.GUI
             SetupSprites();
             // m_TooltipBox = GetUIView()?.defaultTooltipBox; // Set up the tooltip
 
-            ThreadingExtension.EventToolChanged += tool => OnRefresh(tool);
+            ThreadingExtension.EventToolChanged += OnRefresh;
         }
+
 
         public virtual void OnRefresh(ToolBase newTool) { }
 
