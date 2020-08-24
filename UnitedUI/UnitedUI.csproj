@@ -50,6 +50,23 @@
     <None Remove="KianCommons\.gitattributes" />
     <None Remove="KianCommons\.gitignore" />
     <None Remove="Resources\sprites.png" />
+    <None Remove="Resources\uui_1440928803.png" />
+    <None Remove="Resources\uui_1625704117.png" />
+    <None Remove="Resources\uui_1645781000.png" />
+    <None Remove="Resources\uui_1899640536.png" />
+    <None Remove="Resources\uui_1925527132_compound_curve.png" />
+    <None Remove="Resources\uui_1925527132_simple_curve.png" />
+    <None Remove="Resources\uui_1925527132_smooth_slope.png" />
+    <None Remove="Resources\uui_1925527132_y_junction.png" />
+    <None Remove="Resources\uui_2030755273.png" />
+    <None Remove="Resources\uui_2053313369.png" />
+    <None Remove="Resources\uui_2085403475.png" />
+    <None Remove="Resources\uui_2152013104.png" />
+    <None Remove="Resources\uui_2159934925.png" />
+    <None Remove="Resources\uui_592076973_left.png" />
+    <None Remove="Resources\uui_592076973_right.png" />
+    <None Remove="Resources\uui_672248733.png" />
+    <None Remove="Resources\uui_878991312.png" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CitiesHarmony.API" Version="1.0.4" />
