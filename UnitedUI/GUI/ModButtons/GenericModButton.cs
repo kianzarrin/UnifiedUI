@@ -27,11 +27,11 @@ namespace UnitedUI.GUI {
         }
 
         public override void OnRefresh(ToolBase newTool) {
+            //Log.Debug($"GenericModButton.OnRefresh({newTool}) Name:{Name} Tool:{Tool}");
             var tool = Tool;
             if (!tool)
                 return;
             IsActive = newTool == Tool;
-            //Log.Debug($"GenericModButton.OnRefresh({newTool}) Name:{Name} Tool:{tool}");
         }
 
         public virtual bool ShouldPopulate() {
@@ -68,11 +68,21 @@ namespace UnitedUI.GUI {
             Toggle();
         }
 
+        /// <summary>
+        /// Get tool instance using reflrect naemsapce.typename.instance
+        /// </summary>
+        /// <param name="assemblyName">assembly to look for tool</param>
+        /// <param name="fullName">namespace.typename of the class that contains the tool instance</param>
+        /// <param name="instanceName">static field name pointing to the tool.</param>
+        /// <returns></returns>
         public static ToolBase GetTool(string assemblyName, string fullName, string instanceName) {
             var fieldInfo = Type.GetType(fullName + ", " + assemblyName)?.GetField(instanceName);
             return fieldInfo?.GetValue(null) as ToolBase ?? throw new Exception("Could not find " + fullName);
         }
 
+        /// <summary>
+        /// returns the tool of a given name from  toolController.
+        /// </summary>
         public static ToolBase GetTool(string name) {
             GameObject gameObject = ToolsModifierControl.toolController.gameObject;
             var ret = gameObject.GetComponents<ToolBase>()

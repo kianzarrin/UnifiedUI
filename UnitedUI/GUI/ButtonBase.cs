@@ -41,7 +41,7 @@ namespace UnitedUI.GUI
 
         public override void Start()
         {
-            Log.Debug("GenericButton.Start() is called for " + Name, false);
+            Log.Debug("ButtonBase.Start() is called for " + Name, false);
             base.Start();
             if (Tooltip != null) tooltip = Tooltip;
 
@@ -56,7 +56,7 @@ namespace UnitedUI.GUI
 
         public override void OnDestroy()
         {
-            Log.Debug("GenericButton.OnDestroy() called for " + Name, false);
+            Log.Debug("ButtonBase.OnDestroy() called for " + Name, false);
             Hide();
             base.OnDestroy();
         }

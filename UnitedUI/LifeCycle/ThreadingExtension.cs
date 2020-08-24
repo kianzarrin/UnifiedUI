@@ -26,8 +26,10 @@ namespace UnitedUI.LifeCycle {
             try {
                 var currentTool = ToolsModifierControl.toolController.CurrentTool;
                 if (currentTool != prevTool) {
+                    if (EventToolChanged == null)
+                        Log.Info("WARNING: EventToolChanged==null");
+                    //Log.Debug($"ThreadingExtension.OnUpdate(): invoking EventToolChanged. currentTool={currentTool} prevTool={prevTool}");
                     prevTool = currentTool;
-                    Log.Debug($"OnUpdate(): invoking EventToolChanged (EventToolChanged==null : {EventToolChanged == null})");
                     EventToolChanged?.Invoke(currentTool);
                 }
             } catch(Exception e) {
