@@ -1,7 +1,11 @@
+fix order of icons states.
 
-top panel too thick
 
-Investigate: MULTIPLE tools can be selected at the same time.
-
+UUI options:
+- crossing toggle mode
+- Add/remove/Move node
 
 remove pluggin utils and add plugins to individual button.
+
+Node controller Crossing button
+Add Node / Remove Node button. 

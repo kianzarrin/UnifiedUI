@@ -63,7 +63,7 @@ namespace UnitedUI.GUI
 
         public UITextureAtlas SetupSprites()
         {
-            string[] spriteNames = new string[] { IconNormal, IconPressed, IconHovered, IconDisabled };
+            string[] spriteNames = new string[] { IconNormal, IconHovered, IconPressed, IconDisabled };
             var atlas = TextureUtil.GetAtlas(AtlasName);
             if (atlas == UIView.GetAView().defaultAtlas)
             {
