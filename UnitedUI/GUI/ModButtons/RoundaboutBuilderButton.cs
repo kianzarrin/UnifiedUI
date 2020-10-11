@@ -3,6 +3,7 @@ using KianCommons;
 using System;
 using System.Collections;
 using System.Linq;
+using UnityEngine;
 
 namespace UnitedUI.GUI.ModButtons {
     public class RoundaboutBuilderButton : GenericModButton {
@@ -16,6 +17,9 @@ namespace UnitedUI.GUI.ModButtons {
             ?.FirstOrDefault()
             ?? throw new Exception("Could not found RAB_ToolOptionsPanel");
 
+        public override UIComponent GetOriginalButton() =>
+            FindObjectsOfType<UIButton>().Where(c => c.name == "RoundaboutButton").FirstOrDefault();
+
         protected override void OnClick(UIMouseEventParameter p) {
             // Commented out to ignore base behaviour
             // base.OnClick(p);
@@ -26,7 +30,7 @@ namespace UnitedUI.GUI.ModButtons {
         }
 
         public override void OnRefresh(ToolBase newTool) {
-            Log.Debug("RoundaboutBuilderButton.OnToolChanged(): newTool.namespace = " + newTool?.GetType()?.Namespace ?? "false");
+            Log.Debug("RoundaboutBuilderButton.OnToolChanged(): newTool.namespace = " + newTool?.GetType()?.Namespace ?? "null");
             IsActive = newTool?.GetType()?.Namespace?.StartsWith("RoundaboutBuilder") ?? false;
         }
     }

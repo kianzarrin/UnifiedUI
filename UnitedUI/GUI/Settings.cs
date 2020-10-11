@@ -2,6 +2,8 @@ namespace UnitedUI.GUI {
     using ColossalFramework.UI;
     using ICities;
     using ColossalFramework;
+    using System;
+    using KianCommons;
 
     public static class Settings {
         public const string FileName = nameof(UnitedUI);
@@ -12,15 +14,23 @@ namespace UnitedUI.GUI {
             }
         }
 
+        public static SavedBool HideOriginalButtons { get; } = new SavedBool(nameof(HideOriginalButtons), FileName, true, true);
+
         public static void OnSettingsUI(UIHelperBase helper) {
-            UIHelper group = helper.AddGroup("Node Controller") as UIHelper;
-            UIPanel panel = group.self as UIPanel;
+            try {
+                var showCheckBox = helper.AddCheckbox(
+                    "Hide original activation buttons",
+                    HideOriginalButtons,
+                    val => HideOriginalButtons.value = val
+                    ) as UICheckBox;
 
-            //var keymappings = panel.gameObject.AddComponent<KeymappingsPanel>();
-            //keymappings.AddKeymapping("Activation Shortcut", NodeControllerTool.ActivationShortcut);
 
-
-
+                //var keymappings = panel.gameObject.AddComponent<KeymappingsPanel>();
+                //keymappings.AddKeymapping("Activation Shortcut", NodeControllerTool.ActivationShortcut);
+            }
+            catch (Exception e){
+                Log.Exception(e);
+            }
         }
     }
 }

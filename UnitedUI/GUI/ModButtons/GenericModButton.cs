@@ -7,6 +7,7 @@ namespace UnitedUI.GUI {
     using System.Linq;
     using UnitedUI.LifeCycle;
     using ColossalFramework.Plugins;
+    using System.Linq;
 
     public abstract class GenericModButton : ButtonBase {
         public virtual ToolBase Tool => null;
@@ -14,6 +15,10 @@ namespace UnitedUI.GUI {
         public virtual UIComponent Widnow => null;
         public virtual PluginManager.PluginInfo Plugin => null;
         private PluginManager.PluginInfo plugin_;
+
+        UIComponent originalButton_;
+        /// <summary>button to turn off</summary>
+        public virtual UIComponent GetOriginalButton() => null;
 
         public override void Awake() {
             base.Awake();
@@ -24,10 +29,21 @@ namespace UnitedUI.GUI {
             Log.Debug("GenericModButton.Start() is called for " + Name);
             base.Start();
             if (Tooltip != null) tooltip = Tooltip;
+            TurnOffOriginalButton();
+        }
+
+        public void TurnOffOriginalButton() {
+            if (originalButton_ == null)
+                originalButton_ = GetOriginalButton();
+            if (originalButton_) {
+                originalButton_.isVisible = !Settings.HideOriginalButtons;
+            }
         }
 
         public override void OnRefresh(ToolBase newTool) {
             //Log.Debug($"GenericModButton.OnRefresh({newTool}) Name:{Name} Tool:{Tool}");
+            TurnOffOriginalButton();
+
             var tool = Tool;
             if (!tool)
                 return;
@@ -45,7 +61,8 @@ namespace UnitedUI.GUI {
             Log.Debug("GenericModButton.Open() called for " + Name);
             IsActive = true;
             var tool = Tool;
-            if(tool)ToolsModifierControl.toolController.CurrentTool = tool;
+
+            if (tool) tool.enabled = true; // ToolsModifierControl.toolController.CurrentTool = tool;
             Widnow?.Hide();
         }
 
@@ -90,6 +107,18 @@ namespace UnitedUI.GUI {
                 .FirstOrDefault();
             if (ret == null)
                 Log.Error("could not find tool: " + name);
+            return ret;
+        }
+
+        /// <summary>
+        /// returns the button of a given type name.
+        /// </summary>
+        public static UIButton GetButton(string typeName) {
+            var ret = GameObject.FindObjectsOfType<UIButton>()
+                .Where(c => c.GetType().Name == typeName)
+                .FirstOrDefault();
+            if (ret == null)
+                Log.Error("could not find button: " + typeName);
             return ret;
         }
     }

@@ -1,3 +1,5 @@
+using ColossalFramework.UI;
+
 namespace UnitedUI.GUI.ModButtons {
     public class PedestrianBridgeButton : GenericModButton {
         public static PedestrianBridgeButton Instance;
@@ -5,6 +7,6 @@ namespace UnitedUI.GUI.ModButtons {
         public override string SpritesFileName => "uui_pedestrian_bridge_builder.png";
         public override string Tooltip => "Automatic Pedestrian bridge builder";
         public override ToolBase Tool => GetTool("PedBridgeTool");
-        
+        public override UIComponent GetOriginalButton() => GetButton("PedestrianBridgeButton");
     }
 }

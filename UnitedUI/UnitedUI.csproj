@@ -99,9 +99,6 @@
     <Reference Include="System.Data.DataSetExtensions" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="KianCommons\libs\" />
-  </ItemGroup>
-  <ItemGroup>
     <None Update="Resources\A.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

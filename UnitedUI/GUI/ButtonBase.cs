@@ -4,8 +4,6 @@ namespace UnitedUI.GUI
     using KianCommons.UI;
     using KianCommons;
     using UnityEngine;
-    using System;
-    using System.Linq;
     using UnitedUI.LifeCycle;
     using ColossalFramework.Plugins;
 
@@ -50,7 +48,6 @@ namespace UnitedUI.GUI
 
             ThreadingExtension.EventToolChanged += OnRefresh;
         }
-
 
         public virtual void OnRefresh(ToolBase newTool) { }
 

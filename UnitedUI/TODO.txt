@@ -1,11 +1,6 @@
-fix order of icons states.
-
-
 UUI options:
-- crossing toggle mode
+- NC crossing toggle mode
 - Add/remove/Move node
 
 remove pluggin utils and add plugins to individual button.
 
-Node controller Crossing button
-Add Node / Remove Node button. 
