@@ -42,6 +42,7 @@ namespace UnifiedUI.LifeCycle {
                 //Log.Debug($"ThreadingExtension.OnUpdate(): invoking EventToolChanged. currentTool={currentTool} prevTool={prevTool}");
                 prevTool = currentTool;
                 EventToolChanged?.Invoke(currentTool);
+                Patches.HandleESC.Refresh();
             }
         }
     }
