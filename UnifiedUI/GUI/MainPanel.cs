@@ -13,7 +13,7 @@ namespace UnifiedUI.GUI {
         public static readonly SavedFloat SavedX = new SavedFloat(
             "PanelX", Settings.FileName, 0, true);
         public static readonly SavedFloat SavedY = new SavedFloat(
-            "PanelY", Settings.FileName, 0, true);
+            "PanelY", Settings.FileName, 150, true);
         public static readonly SavedBool SavedDraggable = new SavedBool(
             "PanelDraggable", Settings.FileName, def: false, true);
 

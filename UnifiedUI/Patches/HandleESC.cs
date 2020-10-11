@@ -9,7 +9,7 @@ namespace UnifiedUI.Patches {
         static UIComponent PauseMenu { get; } = UIView.library.Get("PauseMenu");
         static DefaultTool defaultTool_ => ToolsModifierControl.GetTool<DefaultTool>();
 
-        static void Postfix(ref ToolBase __instance) {
+        static void Postfix(ToolBase __instance) {
             try {
                 if (!GUI.Settings.HandleESC) return;
                 if (PauseMenu?.isVisible == true && __instance != defaultTool_) {

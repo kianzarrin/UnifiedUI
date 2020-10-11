@@ -10,7 +10,7 @@ namespace UnifiedUI.GUI {
         public static readonly SavedFloat SavedX = new SavedFloat(
             "ButtonX", Settings.FileName, 0, true);
         public static readonly SavedFloat SavedY = new SavedFloat(
-            "ButtonY", Settings.FileName, 0, true);
+            "ButtonY", Settings.FileName, 100, true);
         public static readonly SavedBool SavedDraggable = new SavedBool(
             "ButtonDraggable", Settings.FileName, def:false, true);
 
