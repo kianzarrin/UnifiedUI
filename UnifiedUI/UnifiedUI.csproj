@@ -1,0 +1,156 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <ProjectGuid>{4E0BB9B3-EFB1-4D63-99D8-A3B82D33E4FE}</ProjectGuid>
+    <TargetFramework>net35</TargetFramework>
+    <Deterministic>false</Deterministic>
+    <AssemblyTitle>NodeController</AssemblyTitle>
+    <Product>NodeController</Product>
+    <Copyright>Copyright ©  2020</Copyright>
+    <Deterministic>false</Deterministic>
+    <AssemblyVersion>0.1.0.*</AssemblyVersion>
+    <FileAlignment>512</FileAlignment>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DefineConstants />
+  </PropertyGroup>
+  <PropertyGroup>
+    <MangedDLLPath>..\dependencies</MangedDLLPath>
+    <SteamPath>~/Library/Application Support/Steam/</SteamPath>
+    <SteamPath Condition="! Exists ('$(SteamPath)')">$(ProgramFiles)\Steam</SteamPath>
+    <SteamPath Condition="! Exists ('$(SteamPath)')">$(Registry:HKEY_CURRENT_USER\Software\Valve\Steam@SteamPath)</SteamPath>
+    <CSPath>$(SteamPath)\steamapps\common\Cities_Skylines</CSPath>
+    <MangedDLLPath Condition="!  Exists ('$(MangedDLLPath)')">$(CSPath)\Cities_Data\Managed</MangedDLLPath>
+    <AssemblyName>UnifiedUI</AssemblyName>
+    <RootNamespace>UnifiedUI</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="KianCommons\KianCommons\obj\**" />
+    <Compile Remove="KianCommons\KianCommons\Properties\**" />
+    <Compile Remove="KianCommons\libs\**" />
+    <EmbeddedResource Remove="KianCommons\KianCommons\obj\**" />
+    <EmbeddedResource Remove="KianCommons\KianCommons\Properties\**" />
+    <EmbeddedResource Remove="KianCommons\libs\**" />
+    <None Remove="KianCommons\KianCommons\obj\**" />
+    <None Remove="KianCommons\KianCommons\Properties\**" />
+    <None Remove="KianCommons\libs\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="KianCommons\KianCommons\Patches\PrefixUtils.cs" />
+    <Compile Remove="KianCommons\KianCommons\Util\CSURUtil.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="KianCommons\.git" />
+    <None Remove="KianCommons\.gitattributes" />
+    <None Remove="KianCommons\.gitignore" />
+    <None Remove="Resources\sprites.png" />
+    <None Remove="Resources\uui_1440928803.png" />
+    <None Remove="Resources\uui_1625704117.png" />
+    <None Remove="Resources\uui_1645781000.png" />
+    <None Remove="Resources\uui_1899640536.png" />
+    <None Remove="Resources\uui_1925527132_compound_curve.png" />
+    <None Remove="Resources\uui_1925527132_simple_curve.png" />
+    <None Remove="Resources\uui_1925527132_smooth_slope.png" />
+    <None Remove="Resources\uui_1925527132_y_junction.png" />
+    <None Remove="Resources\uui_2030755273.png" />
+    <None Remove="Resources\uui_2053313369.png" />
+    <None Remove="Resources\uui_2085403475.png" />
+    <None Remove="Resources\uui_2152013104.png" />
+    <None Remove="Resources\uui_2159934925.png" />
+    <None Remove="Resources\uui_592076973_left.png" />
+    <None Remove="Resources\uui_592076973_right.png" />
+    <None Remove="Resources\uui_672248733.png" />
+    <None Remove="Resources\uui_878991312.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="CitiesHarmony.API" Version="1.0.4" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(MangedDLLPath)\Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ColossalManaged">
+      <HintPath>$(MangedDLLPath)\ColossalManaged.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ICities">
+      <HintPath>$(MangedDLLPath)\ICities.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>$(MangedDLLPath)\UnityEngine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.Networking">
+      <HintPath>$(MangedDLLPath)\UnityEngine.Networking.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>$(MangedDLLPath)\UnityEngine.UI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Resources\A.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\B.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\MainPanel.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\NodeController.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\uui.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\uui_imt.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\uui_network_detective.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\uui_node_controller.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\uui_pedestrian_bridge_builder.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\uui_roundabout_builder.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <Target Name="DeployToModDirectory" AfterTargets="Build">
+    <GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
+      <Output TaskParameter="Assemblies" ItemName="Targets" />
+    </GetAssemblyIdentity>
+    <PropertyGroup>
+      <DeployDir>$(LOCALAPPDATA)\Colossal Order\Cities_Skylines\Addons\Mods\$(ProjectName)\</DeployDir>
+      <UnityPath>$(MSBuildExtensionsPath64)\..\Unity\</UnityPath>
+      <UnityPath Condition="! Exists ('$(UnityPath)')">..\Unity\</UnityPath>
+      <MonoDir>$(UnityPath)Editor\Data\MonoBleedingEdge\</MonoDir>
+    </PropertyGroup>
+    <ItemGroup>
+      <AuxilaryFiles Include="$(TargetDir)**/*.*" Exclude="$(TargetPath);$(TargetDir)*.pdb" />
+      <VersionNumber Include="@(Targets->'%(Version)')" />
+    </ItemGroup>
+    <Delete Files="$(TargetPath).mdb" />
+    <Exec Command="&quot;$(MonoDir)bin\mono.exe&quot; &quot;$(MonoDir)lib\mono\4.5\pdb2mdb.exe&quot; &quot;$(TargetPath)&quot;" />
+    <Copy SourceFiles="$(TargetPath).mdb" DestinationFolder="$(DeployDir)" />
+    <Copy SourceFiles="@(AuxilaryFiles)" DestinationFolder="$(DeployDir)" />
+    <!-- <Message Importance="high" Text="Deleting $(DeployDir)$(TargetFileName)" /> -->
+    <Delete Files="$(DeployDir)$(TargetFileName)" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(DeployDir)" />
+    <Message Importance="high" Text="AssemblyVersion= @(VersionNumber)" />
+  </Target>
+</Project>
