@@ -8,6 +8,7 @@ namespace UnifiedUI.GUI {
     using GUI.ModButtons;
     using Util;
     using PluginUtil = Util.PluginUtil;
+    using System.Collections.Generic;
 
     public class MainPanel : UIAutoSizePanel {
         public static readonly SavedFloat SavedX = new SavedFloat(
@@ -39,11 +40,14 @@ namespace UnifiedUI.GUI {
             base.Awake();
             Instance = this;
             AutoSize2 = true;
+            ModButtons = new List<GenericModButton>();
         }
 
         private UILabel lblCaption_;
         private UIDragHandle dragHandle_;
         UIAutoSizePanel containerPanel_;
+
+        public List<GenericModButton> ModButtons;
 
         bool started_ = false;
         public override void Start() {
@@ -79,20 +83,19 @@ namespace UnifiedUI.GUI {
                 g1.name = "group1";
             
                 if (PluginUtil.Instance.NetworkDetective.IsActive)
-                    panel.AddUIComponent<NetworkDetectiveButton>();
+                    ModButtons.Add(panel.AddUIComponent<NetworkDetectiveButton>());
 
                 if (PluginUtil.Instance.IntersectionMarking.IsActive)
-                    panel.AddUIComponent<IntersectionMarkingButton>();
+                    ModButtons.Add(panel.AddUIComponent<IntersectionMarkingButton>());
 
                 if (PluginUtil.Instance.RoundaboutBuilder.IsActive)
-                    panel.AddUIComponent<RoundaboutBuilderButton>();
+                    ModButtons.Add(panel.AddUIComponent<RoundaboutBuilderButton>());
 
                 if (PluginUtil.Instance.PedestrianBridge.IsActive)
-                    panel.AddUIComponent<PedestrianBridgeButton>();
+                    ModButtons.Add(panel.AddUIComponent<PedestrianBridgeButton>());
 
                 if (PluginUtil.Instance.NodeController.IsActive)
-                    panel.AddUIComponent<NodeControllerButton>();
-
+                    ModButtons.Add(panel.AddUIComponent<NodeControllerButton>());
             }
 
             isVisible = false;
@@ -190,6 +193,9 @@ namespace UnifiedUI.GUI {
         }
 
         void RefreshButtons() {
+            foreach (var btn in ModButtons)
+                btn.HandleOriginalButton();
+
             // uncomment code bellow to support hot reload. start code also needs change.
             //if(NetworkDetectiveButton.Instance)
             //    NetworkDetectiveButton.Instance.isVisible = PluginUtil.Instance.NetworkDetective.IsActive;

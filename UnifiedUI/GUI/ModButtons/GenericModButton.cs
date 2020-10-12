@@ -29,20 +29,24 @@ namespace UnifiedUI.GUI {
             Log.Debug("GenericModButton.Start() is called for " + Name);
             base.Start();
             if (Tooltip != null) tooltip = Tooltip;
-            TurnOffOriginalButton();
+            HandleOriginalButton();
         }
 
-        public void TurnOffOriginalButton() {
+        public void HandleOriginalButton() {
+            //if (originalButton_ != null)
+            //    return; // already handled.
+            originalButton_ = originalButton_ ?? GetOriginalButton();
             if (originalButton_ == null)
-                originalButton_ = GetOriginalButton();
-            if (originalButton_) {
-                originalButton_.isVisible = !Settings.HideOriginalButtons;
-            }
+                return; // original button not provided or not ready yet.
+
+            //originalButton_.isVisible = !Settings.HideOriginalButtons;
+            //originalButton_.eventVisibilityChanged += (_, __) => originalButton_.isVisible = !Settings.HideOriginalButtons;
+            originalButton_.gameObject.SetActive(!Settings.HideOriginalButtons);
         }
 
         public override void OnRefresh(ToolBase newTool) {
             //Log.Debug($"GenericModButton.OnRefresh({newTool}) Name:{Name} Tool:{Tool}");
-            TurnOffOriginalButton();
+            HandleOriginalButton();
 
             var tool = Tool;
             if (!tool)
@@ -51,11 +55,11 @@ namespace UnifiedUI.GUI {
         }
 
         public virtual bool ShouldPopulate() {
-            Log.Debug("GenericModButton.ShouldShow() called for " + Name, false);
+            Log.Debug("GenericModButton.ShouldPopulate() called for " + Name, false);
             return Tool != null || Widnow != null || PluginExtensions.IsActive(Plugin);
         }
 
-        public virtual bool ShowShow() => true;
+        public virtual bool ShouldShow() => true;
 
         public virtual void Activate() {
             Log.Debug("GenericModButton.Open() called for " + Name);
@@ -119,6 +123,8 @@ namespace UnifiedUI.GUI {
                 .FirstOrDefault();
             if (ret == null)
                 Log.Error("could not find button: " + typeName);
+            else
+                Log.Debug($"GetButton({typeName})->{ret}");
             return ret;
         }
     }

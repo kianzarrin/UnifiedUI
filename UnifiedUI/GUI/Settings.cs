@@ -19,7 +19,7 @@ namespace UnifiedUI.GUI {
 
         public static void OnSettingsUI(UIHelperBase helper) {
             try {
-                var showCheckBox = helper.AddCheckbox(
+                var hideCheckBox = helper.AddCheckbox(
                     "Hide original activation buttons",
                     HideOriginalButtons,
                     val => {
@@ -27,6 +27,7 @@ namespace UnifiedUI.GUI {
                         // TODO refresh buttons.
                     }
                     ) as UICheckBox;
+                hideCheckBox.tooltip = "might need game restart";
 
                 var showCheckBox2 = helper.AddCheckbox(
                     "Handle ESC key (esc key exists current tool if any).",
