@@ -69,7 +69,7 @@
     <None Remove="Resources\uui_878991312.png" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="CitiesHarmony.API" Version="1.0.4" />
+    <PackageReference Include="CitiesHarmony.API" Version="1.0.6" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
