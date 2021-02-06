@@ -169,17 +169,6 @@ namespace UnifiedUI.GUI {
             Log.DebugWait("absolutePosition: " + absolutePosition, id: "absolutePosition: ".GetHashCode(), seconds: 0.2f, copyToGameLog: false);
         }
 
-        public static void GoToInstance(InstanceID instanceID) {
-            Vector3 pos = instanceID.Type switch
-            {
-                InstanceType.NetNode => instanceID.NetNode.ToNode().m_position,
-                InstanceType.NetSegment => instanceID.NetSegment.ToSegment().m_middlePosition,
-                _ => throw new NotImplementedException("instanceID.Type:" + instanceID.Type),
-            };
-            pos.y = Camera.main.transform.position.y;
-            ToolsModifierControl.cameraController.SetTarget(instanceID, pos, true);
-        }
-
         void Refresh() {
             RefreshButtons();
             //Invalidate();

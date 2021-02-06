@@ -7,7 +7,7 @@
     <Product>NodeController</Product>
     <Copyright>Copyright ©  2020</Copyright>
     <Deterministic>false</Deterministic>
-    <AssemblyVersion>0.1.4.*</AssemblyVersion>
+    <AssemblyVersion>0.1.5.*</AssemblyVersion>
     <FileAlignment>512</FileAlignment>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
@@ -31,19 +31,37 @@
     <RootNamespace>UnifiedUI</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="KianCommons\KianCommons\Math\**" />
+    <Compile Remove="KianCommons\KianCommons\ObjUnity3D\**" />
     <Compile Remove="KianCommons\KianCommons\obj\**" />
     <Compile Remove="KianCommons\KianCommons\Properties\**" />
+    <Compile Remove="KianCommons\KianCommons\Serialization\**" />
     <Compile Remove="KianCommons\libs\**" />
+    <EmbeddedResource Remove="KianCommons\KianCommons\Math\**" />
+    <EmbeddedResource Remove="KianCommons\KianCommons\ObjUnity3D\**" />
     <EmbeddedResource Remove="KianCommons\KianCommons\obj\**" />
     <EmbeddedResource Remove="KianCommons\KianCommons\Properties\**" />
+    <EmbeddedResource Remove="KianCommons\KianCommons\Serialization\**" />
     <EmbeddedResource Remove="KianCommons\libs\**" />
+    <None Remove="KianCommons\KianCommons\Math\**" />
+    <None Remove="KianCommons\KianCommons\ObjUnity3D\**" />
     <None Remove="KianCommons\KianCommons\obj\**" />
     <None Remove="KianCommons\KianCommons\Properties\**" />
+    <None Remove="KianCommons\KianCommons\Serialization\**" />
     <None Remove="KianCommons\libs\**" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="KianCommons\KianCommons\Patches\PrefixUtils.cs" />
+    <Compile Remove="KianCommons\KianCommons\Plugins\AdaptiveRoadsUtil.cs" />
+    <Compile Remove="KianCommons\KianCommons\UI\RenderUtil.cs" />
+    <Compile Remove="KianCommons\KianCommons\Util\AssemblyTypeExtensions.cs" />
+    <Compile Remove="KianCommons\KianCommons\Util\AuxilaryThread.cs" />
     <Compile Remove="KianCommons\KianCommons\Util\CSURUtil.cs" />
+    <Compile Remove="KianCommons\KianCommons\Util\EnumBitMaskExtensions.cs" />
+    <Compile Remove="KianCommons\KianCommons\Util\GridUtil.cs" />
+    <Compile Remove="KianCommons\KianCommons\Util\MeshUtil.cs" />
+    <Compile Remove="KianCommons\KianCommons\Util\NetUtil.cs" />
+    <Compile Remove="KianCommons\KianCommons\Util\StackHelpers.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="KianCommons\.git" />

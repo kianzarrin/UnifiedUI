@@ -14,8 +14,8 @@ namespace UnifiedUI.GUI {
             }
         }
 
-        public static SavedBool HideOriginalButtons { get; } = new SavedBool(nameof(HideOriginalButtons), FileName, true, true);
-        public static SavedBool HandleESC { get; } = new SavedBool(nameof(HandleESC), FileName, true, true);
+        public static SavedBool HideOriginalButtons { get; } = new SavedBool("HideOriginalButtons", FileName, true, true);
+        public static SavedBool HandleESC { get; } = new SavedBool("HandleESC", FileName, true, true);
 
         public static void OnSettingsUI(UIHelperBase helper) {
             try {
@@ -24,6 +24,7 @@ namespace UnifiedUI.GUI {
                     HideOriginalButtons,
                     val => {
                         HideOriginalButtons.value = val;
+                        Log.Info("HideOriginalButtons set to " + val);
                         // TODO refresh buttons.
                     }
                     ) as UICheckBox;

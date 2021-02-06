@@ -2,8 +2,9 @@ namespace UnifiedUI.Util {
     using ColossalFramework.Plugins;
     using ICities;
     using KianCommons;
+    using KianCommons.Plugins;
     using System;
-    using static KianCommons.PluginUtil;
+    using static KianCommons.Plugins.PluginUtil;
 
     public class PluginUtil {
         public static PluginUtil Instance;
