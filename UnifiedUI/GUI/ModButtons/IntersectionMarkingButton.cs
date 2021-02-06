@@ -1,6 +1,5 @@
 using ColossalFramework.UI;
-using UnityEngine;
-using System.Linq;
+using System.Collections.Generic;
 
 namespace UnifiedUI.GUI.ModButtons {
     public class IntersectionMarkingButton : GenericModButton {
@@ -9,6 +8,7 @@ namespace UnifiedUI.GUI.ModButtons {
         public override string SpritesFileName => "uui_imt.png";
         public override string Tooltip => "Intersection marking tool";
         public override ToolBase Tool => GetTool("NodeMarkupTool");
-        public override UIComponent GetOriginalButton() => GetButton("NodeMarkupButton");
+        public override  IEnumerable<UIComponent> GetOriginalButtons() =>
+            GetButtons("NodeMarkupButton");
     }
 }

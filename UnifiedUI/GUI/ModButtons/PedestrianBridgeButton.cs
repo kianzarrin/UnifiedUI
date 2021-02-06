@@ -1,4 +1,5 @@
 using ColossalFramework.UI;
+using System.Collections.Generic;
 
 namespace UnifiedUI.GUI.ModButtons {
     public class PedestrianBridgeButton : GenericModButton {
@@ -7,6 +8,7 @@ namespace UnifiedUI.GUI.ModButtons {
         public override string SpritesFileName => "uui_pedestrian_bridge_builder.png";
         public override string Tooltip => "Automatic Pedestrian bridge builder";
         public override ToolBase Tool => GetTool("PedBridgeTool");
-        public override UIComponent GetOriginalButton() => GetButton("PedestrianBridgeButton");
+        public override IEnumerable<UIComponent> GetOriginalButtons() =>
+            GetButtons("PedestrianBridgeButton");
     }
 }

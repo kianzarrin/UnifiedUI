@@ -1,25 +1,23 @@
 namespace UnifiedUI.GUI {
     using ColossalFramework.UI;
-    using KianCommons.UI;
     using KianCommons;
     using UnityEngine;
     using System;
     using System.Linq;
-    using UnifiedUI.LifeCycle;
     using ColossalFramework.Plugins;
-    using System.Linq;
     using KianCommons.Plugins;
+    using System.Collections.Generic;
 
     public abstract class GenericModButton : ButtonBase {
         public virtual ToolBase Tool => null;
-        public virtual string Tooltip => null;
         public virtual UIComponent Widnow => null;
         public virtual PluginManager.PluginInfo Plugin => null;
         private PluginManager.PluginInfo plugin_;
 
-        UIComponent originalButton_;
+        List<UIComponent> originalButtons_ = new List<UIComponent>();
         /// <summary>button to turn off</summary>
         public virtual UIComponent GetOriginalButton() => null;
+        public virtual IEnumerable<UIComponent> GetOriginalButtons() => null;
 
         public override void Awake() {
             base.Awake();
@@ -31,18 +29,23 @@ namespace UnifiedUI.GUI {
             base.Start();
             if (Tooltip != null) tooltip = Tooltip;
             HandleOriginalButton();
+            Settings.RefreshButtons += HandleOriginalButton;
+        }
+
+        void PopulateOriginalButtons() {
+            originalButtons_.Clear();
+            var a = GetOriginalButton();
+            var b = GetOriginalButtons();
+            if (a is not null)
+                originalButtons_.Add(a);
+            if(!b.IsNullorEmpty())
+                originalButtons_.AddRange(b);
         }
 
         public void HandleOriginalButton() {
-            //if (originalButton_ != null)
-            //    return; // already handled.
-            originalButton_ = originalButton_ ?? GetOriginalButton();
-            if (originalButton_ == null)
-                return; // original button not provided or not ready yet.
-
-            //originalButton_.isVisible = !Settings.HideOriginalButtons;
-            //originalButton_.eventVisibilityChanged += (_, __) => originalButton_.isVisible = !Settings.HideOriginalButtons;
-            originalButton_.gameObject.SetActive(!Settings.HideOriginalButtons);
+            PopulateOriginalButtons();
+            foreach (var c in originalButtons_)
+                c.gameObject.SetActive(!Settings.HideOriginalButtons);
         }
 
         public override void OnRefresh(ToolBase newTool) {
@@ -119,14 +122,43 @@ namespace UnifiedUI.GUI {
         /// returns the button of a given type name.
         /// </summary>
         public static UIButton GetButton(string typeName) {
-            var ret = GameObject.FindObjectsOfType<UIButton>()
-                .Where(c => !(c is GenericModButton) && c.GetType().Name == typeName)
+            var ret = UIView.GetAView()
+                .GetComponentsInChildren<UIButton>(includeInactive:true)
+                .Where(c => c is not GenericModButton && c.GetType().Name == typeName)
                 .FirstOrDefault();
             if (ret == null)
                 Log.Error("could not find button: " + typeName);
             else
                 Log.Debug($"GetButton({typeName})->{ret}");
             return ret;
+        }
+
+        /// <summary>
+        /// returns all the button of a given type name.
+        /// </summary>
+        public static IEnumerable<UIComponent> GetButtons(string typeName) {
+            var ret = UIView.GetAView()
+                .GetComponentsInChildren<UIButton>(includeInactive:true)
+                .Where(c => c is not GenericModButton && c.GetType().Name == typeName);
+            if (ret.IsNullorEmpty())
+                Log.Error("could not find any button of type: " + typeName);
+            else
+                Log.Debug($"GetButtons({typeName})->{ret.ToSTR()}");
+            return ret.Select(c => c as UIComponent);
+        }
+
+                /// <summary>
+        /// returns all the button of a given type name.
+        /// </summary>
+        public static IEnumerable<UIComponent> FindButtons(string name) {
+            var ret = UIView.GetAView()
+                .GetComponentsInChildren<UIButton>(includeInactive:true)
+                .Where(c => c is not GenericModButton && c.name == name);
+            if (ret.IsNullorEmpty())
+                Log.Error("could not find any button with name: " + name);
+            else
+                Log.Debug($"FindButtons({name})->{ret.ToSTR()}");
+            return ret.Select(c => c as UIComponent);
         }
     }
 }

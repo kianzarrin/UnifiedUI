@@ -1,6 +1,7 @@
 using ColossalFramework.Plugins;
 using ColossalFramework.UI;
 using KianCommons.Plugins;
+using System.Collections.Generic;
 
 namespace UnifiedUI.GUI.ModButtons {
     public class NodeControllerButton : GenericModButton {
@@ -11,6 +12,7 @@ namespace UnifiedUI.GUI.ModButtons {
         public override ToolBase Tool => GetTool("NodeControllerTool");
         public override PluginManager.PluginInfo Plugin =>
             PluginUtil.GetPlugin("Node Controller");
-        public override UIComponent GetOriginalButton() => GetButton("NodeControllerButton");
+        public override IEnumerable<UIComponent> GetOriginalButtons() =>
+            GetButtons("NodeControllerButton");
     }
 }

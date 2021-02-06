@@ -1,9 +1,8 @@
 using ColossalFramework.UI;
 using KianCommons;
 using System;
-using System.Collections;
 using System.Linq;
-using UnityEngine;
+using System.Collections.Generic;
 
 namespace UnifiedUI.GUI.ModButtons {
     public class RoundaboutBuilderButton : GenericModButton {
@@ -17,8 +16,11 @@ namespace UnifiedUI.GUI.ModButtons {
             ?.FirstOrDefault()
             ?? throw new Exception("Could not found RAB_ToolOptionsPanel");
 
-        public override UIComponent GetOriginalButton() =>
-            FindObjectsOfType<UIButton>().Where(c => c.name == "RoundaboutButton").FirstOrDefault();
+        public override IEnumerable<UIComponent> GetOriginalButtons() =>
+            UIView.GetAView()
+            .GetComponentsInParent<UIButton>(includeInactive: true)
+            .Where(c => c.name == "RoundaboutButton")
+            .Select(c => c as UIComponent);
 
         protected override void OnClick(UIMouseEventParameter p) {
             // Commented out to ignore base behaviour
@@ -30,6 +32,7 @@ namespace UnifiedUI.GUI.ModButtons {
         }
 
         public override void OnRefresh(ToolBase newTool) {
+            HandleOriginalButton();
             Log.Debug("RoundaboutBuilderButton.OnToolChanged(): newTool.namespace = " + newTool?.GetType()?.Namespace ?? "null");
             IsActive = newTool?.GetType()?.Namespace?.StartsWith("RoundaboutBuilder") ?? false;
         }

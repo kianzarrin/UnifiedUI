@@ -16,6 +16,8 @@ namespace UnifiedUI.GUI {
 
         public static SavedBool HideOriginalButtons { get; } = new SavedBool("HideOriginalButtons", FileName, true, true);
         public static SavedBool HandleESC { get; } = new SavedBool("HandleESC", FileName, true, true);
+        public static event Action RefreshButtons;
+
 
         public static void OnSettingsUI(UIHelperBase helper) {
             try {
@@ -25,18 +27,18 @@ namespace UnifiedUI.GUI {
                     val => {
                         HideOriginalButtons.value = val;
                         Log.Info("HideOriginalButtons set to " + val);
-                        // TODO refresh buttons.
-                    }
-                    ) as UICheckBox;
-                hideCheckBox.tooltip = "might need game restart";
+                        RefreshButtons?.Invoke();
+                    }) as UICheckBox;
+                //hideCheckBox.tooltip = "might need game restart";
 
                 var showCheckBox2 = helper.AddCheckbox(
-                    "Handle ESC key (esc key exists current tool if any).",
+                    "Handle ESC key (esc key exits current tool if any).",
                     HandleESC,
                     val => {
                         HandleESC.value = val;
-                    }
-                    ) as UICheckBox;
+                        Log.Info("HandleESC set to " + val);
+                    }) as UICheckBox;
+
                 //var keymappings = panel.gameObject.AddComponent<KeymappingsPanel>();
                 //keymappings.AddKeymapping("Activation Shortcut", NodeControllerTool.ActivationShortcut);
             }
