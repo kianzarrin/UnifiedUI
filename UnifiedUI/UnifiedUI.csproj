@@ -7,7 +7,7 @@
     <Product>NodeController</Product>
     <Copyright>Copyright ©  2020</Copyright>
     <Deterministic>false</Deterministic>
-    <AssemblyVersion>0.1.5.*</AssemblyVersion>
+    <AssemblyVersion>0.1.6.*</AssemblyVersion>
     <FileAlignment>512</FileAlignment>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
