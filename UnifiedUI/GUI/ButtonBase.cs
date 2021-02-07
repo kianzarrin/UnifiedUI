@@ -19,7 +19,6 @@ namespace UnifiedUI.GUI
         public abstract string SpritesFileName { get; }
         public virtual string Name => GetType().Name;
         public virtual string Tooltip => null;
-        private PluginManager.PluginInfo plugin_;
 
         public bool active_ = false;
         public bool IsActive
@@ -35,21 +34,21 @@ namespace UnifiedUI.GUI
             size = new Vector2(SIZE, SIZE);
             canFocus = false;
             name = Name;
+            if (Tooltip != null) tooltip = Tooltip;
         }
 
         public override void Start()
         {
             Log.Debug("ButtonBase.Start() is called for " + Name, false);
             base.Start();
-            if (Tooltip != null) tooltip = Tooltip;
 
             SetupSprites();
             // m_TooltipBox = GetUIView()?.defaultTooltipBox; // Set up the tooltip
 
-            ThreadingExtension.EventToolChanged += OnRefresh;
+            ThreadingExtension.EventToolChanged += OnToolChanged;
         }
 
-        public virtual void OnRefresh(ToolBase newTool) { }
+        public virtual void OnToolChanged(ToolBase newTool) { }
 
         public override void OnDestroy()
         {

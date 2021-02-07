@@ -27,12 +27,11 @@ namespace UnifiedUI.GUI {
         public override void Start() {
             Log.Debug("GenericModButton.Start() is called for " + Name);
             base.Start();
-            if (Tooltip != null) tooltip = Tooltip;
-            HandleOriginalButton();
-            Settings.RefreshButtons += HandleOriginalButton;
+            HandleOriginalButtons();
+            Settings.RefreshButtons += HandleOriginalButtons;
         }
 
-        void PopulateOriginalButtons() {
+        void CollectOriginalButtons() {
             originalButtons_.Clear();
             var a = GetOriginalButton();
             var b = GetOriginalButtons();
@@ -42,15 +41,15 @@ namespace UnifiedUI.GUI {
                 originalButtons_.AddRange(b);
         }
 
-        public void HandleOriginalButton() {
-            PopulateOriginalButtons();
+        public void HandleOriginalButtons() {
+            CollectOriginalButtons();
             foreach (var c in originalButtons_)
                 c.gameObject.SetActive(!Settings.HideOriginalButtons);
         }
 
-        public override void OnRefresh(ToolBase newTool) {
+        public override void OnToolChanged(ToolBase newTool) {
             //Log.Debug($"GenericModButton.OnRefresh({newTool}) Name:{Name} Tool:{Tool}");
-            HandleOriginalButton();
+            HandleOriginalButtons();
 
             var tool = Tool;
             if (!tool)
@@ -63,15 +62,13 @@ namespace UnifiedUI.GUI {
             return Tool != null || Widnow != null || PluginExtensions.IsActive(Plugin);
         }
 
-        public virtual bool ShouldShow() => true;
-
         public virtual void Activate() {
             Log.Debug("GenericModButton.Open() called for " + Name);
             IsActive = true;
             var tool = Tool;
 
             if (tool) tool.enabled = true; // ToolsModifierControl.toolController.CurrentTool = tool;
-            Widnow?.Hide();
+            Widnow?.Show();
         }
 
         public virtual void Deactivate() {
@@ -79,7 +76,7 @@ namespace UnifiedUI.GUI {
             IsActive = false;
             if (Tool && ToolsModifierControl.toolController?.CurrentTool == Tool)
                 ToolsModifierControl.SetTool<DefaultTool>();
-            Widnow?.Show();
+            Widnow?.Hide();
         }
 
         public virtual void Toggle() {
@@ -108,13 +105,13 @@ namespace UnifiedUI.GUI {
         /// <summary>
         /// returns the tool of a given name from  toolController.
         /// </summary>
-        public static ToolBase GetTool(string name) {
+        public static ToolBase GetTool(string typeName) {
             GameObject gameObject = ToolsModifierControl.toolController.gameObject;
             var ret = gameObject.GetComponents<ToolBase>()
-                .Where(tool => tool.GetType().Name == name)
+                .Where(tool => tool.GetType().Name == typeName)
                 .FirstOrDefault();
             if (ret == null)
-                Log.Error("could not find tool: " + name);
+                Log.Error("could not find tool: " + typeName);
             return ret;
         }
 

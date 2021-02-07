@@ -28,11 +28,11 @@ namespace UnifiedUI.GUI.ModButtons {
             var type = UIWindow.GetType();
             var methodInfo = type.GetMethod("Toggle");
             methodInfo.Invoke(UIWindow, null);
-            OnRefresh(ToolsModifierControl.toolController.CurrentTool);
+            OnToolChanged(ToolsModifierControl.toolController.CurrentTool);
         }
 
-        public override void OnRefresh(ToolBase newTool) {
-            HandleOriginalButton();
+        public override void OnToolChanged(ToolBase newTool) {
+            HandleOriginalButtons();
             Log.Debug("RoundaboutBuilderButton.OnToolChanged(): newTool.namespace = " + newTool?.GetType()?.Namespace ?? "null");
             IsActive = newTool?.GetType()?.Namespace?.StartsWith("RoundaboutBuilder") ?? false;
         }

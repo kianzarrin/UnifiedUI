@@ -183,7 +183,7 @@ namespace UnifiedUI.GUI {
 
         void RefreshButtons() {
             foreach (var btn in ModButtons)
-                btn.HandleOriginalButton();
+                btn.HandleOriginalButtons();
 
             // uncomment code bellow to support hot reload. start code also needs change.
             //if(NetworkDetectiveButton.Instance)
