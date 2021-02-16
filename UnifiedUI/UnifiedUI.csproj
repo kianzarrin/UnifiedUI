@@ -7,7 +7,7 @@
     <Product>UnifiedUI</Product>
     <Copyright>Copyright ©  2020</Copyright>
     <Deterministic>false</Deterministic>
-    <AssemblyVersion>0.1.7.*</AssemblyVersion>
+    <AssemblyVersion>0.1.8.*</AssemblyVersion>
     <FileAlignment>512</FileAlignment>
     <LangVersion>latest</LangVersion>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
