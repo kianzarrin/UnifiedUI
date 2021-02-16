@@ -17,10 +17,7 @@ namespace UnifiedUI.GUI.ModButtons {
             ?? throw new Exception("Could not found RAB_ToolOptionsPanel");
 
         public override IEnumerable<UIComponent> GetOriginalButtons() =>
-            UIView.GetAView()
-            .GetComponentsInParent<UIButton>(includeInactive: true)
-            .Where(c => c.name == "RoundaboutButton")
-            .Select(c => c as UIComponent);
+            FindButtons("RoundaboutButton");
 
         protected override void OnClick(UIMouseEventParameter p) {
             // Commented out to ignore base behaviour

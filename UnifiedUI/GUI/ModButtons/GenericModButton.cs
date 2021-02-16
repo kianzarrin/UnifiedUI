@@ -135,7 +135,7 @@ namespace UnifiedUI.GUI {
         /// </summary>
         public static IEnumerable<UIComponent> GetButtons(string typeName) {
             var ret = UIView.GetAView()
-                .GetComponentsInChildren<UIButton>(includeInactive:true)
+                .GetComponentsInChildren<UIButton>(includeInactive:true) // TODO: is includeInactive this redundant?
                 .Where(c => c is not GenericModButton && c.GetType().Name == typeName);
             if (ret.IsNullorEmpty())
                 Log.Error("could not find any button of type: " + typeName);
