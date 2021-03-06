@@ -36,8 +36,6 @@
     <CSPath>$(SteamPath)\steamapps\common\Cities_Skylines</CSPath>
     <ContentPath>$(SteamPath)\steamapps\workshop\content\255710\$(ContentID)</ContentPath>
     <ManagedDLLPath Condition="!  Exists ('$(ManagedDLLPath)')">$(CSPath)\Cities_Data\Managed</ManagedDLLPath>
-    <AssemblyName>UnifiedUI</AssemblyName>
-    <RootNamespace>UnifiedUI</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="KianCommons\KianCommons\Math\**" />

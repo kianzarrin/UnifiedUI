@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.29926.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnifiedUI", "UnifiedUI\UnifiedUI.csproj", "{4E0BB9B3-EFB1-4D63-99D8-A3B82D33E4FE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnfiedUI.API", "UnfiedUI.API\UnfiedUI.API.csproj", "{79AF0FB7-AC3D-4592-AABA-FC1619089FEF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,6 +20,12 @@ Global
 		{4E0BB9B3-EFB1-4D63-99D8-A3B82D33E4FE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4E0BB9B3-EFB1-4D63-99D8-A3B82D33E4FE}.Workshop|Any CPU.ActiveCfg = Workshop|Any CPU
 		{4E0BB9B3-EFB1-4D63-99D8-A3B82D33E4FE}.Workshop|Any CPU.Build.0 = Workshop|Any CPU
+		{79AF0FB7-AC3D-4592-AABA-FC1619089FEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79AF0FB7-AC3D-4592-AABA-FC1619089FEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79AF0FB7-AC3D-4592-AABA-FC1619089FEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79AF0FB7-AC3D-4592-AABA-FC1619089FEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79AF0FB7-AC3D-4592-AABA-FC1619089FEF}.Workshop|Any CPU.ActiveCfg = Debug|Any CPU
+		{79AF0FB7-AC3D-4592-AABA-FC1619089FEF}.Workshop|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

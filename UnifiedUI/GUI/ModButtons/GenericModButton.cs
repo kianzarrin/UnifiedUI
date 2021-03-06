@@ -138,13 +138,13 @@ namespace UnifiedUI.GUI {
                 .GetComponentsInChildren<UIButton>(includeInactive:true) // TODO: is includeInactive this redundant?
                 .Where(c => c is not GenericModButton && c.GetType().Name == typeName);
             if (ret.IsNullorEmpty())
-                Log.Error("could not find any button of type: " + typeName);
+                Log.Debug("could not find any button of type: " + typeName);
             else
                 Log.Debug($"GetButtons({typeName})->{ret.ToSTR()}");
             return ret.Select(c => c as UIComponent);
         }
 
-                /// <summary>
+        /// <summary>
         /// returns all the button of a given type name.
         /// </summary>
         public static IEnumerable<UIComponent> FindButtons(string name) {
@@ -152,7 +152,7 @@ namespace UnifiedUI.GUI {
                 .GetComponentsInChildren<UIButton>(includeInactive:true)
                 .Where(c => c is not GenericModButton && c.name == name);
             if (ret.IsNullorEmpty())
-                Log.Error("could not find any button with name: " + name);
+                Log.Debug("could not find any button with name: " + name);
             else
                 Log.Debug($"FindButtons({name})->{ret.ToSTR()}");
             return ret.Select(c => c as UIComponent);
