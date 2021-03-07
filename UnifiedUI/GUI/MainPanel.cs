@@ -40,14 +40,14 @@ namespace UnifiedUI.GUI {
             base.Awake();
             Instance = this;
             AutoSize2 = true;
-            ModButtons = new List<GenericModButton>();
+            ModButtons = new List<ButtonBase>();
         }
 
         private UILabel lblCaption_;
         private UIDragHandle dragHandle_;
         UIAutoSizePanel containerPanel_;
 
-        public List<GenericModButton> ModButtons;
+        public List<ButtonBase> ModButtons;
 
         bool started_ = false;
         public override void Start() {
@@ -79,8 +79,8 @@ namespace UnifiedUI.GUI {
                 var g1  = AddPanel(body);
                 g1.backgroundSprite = "GenericPanelWhite";
                 g1.color = new Color32(170, 170, 170, byte.MaxValue);
-                var panel = g1;
                 g1.name = "group1";
+                var panel = g1;
             
                 if (PluginUtil.Instance.NetworkDetective.IsActive)
                     ModButtons.Add(panel.AddUIComponent<NetworkDetectiveButton>());
@@ -101,6 +101,13 @@ namespace UnifiedUI.GUI {
             isVisible = false;
             started_ = true;
             Refresh();
+        }
+
+        public UIComponent Register(API.IUUIButton ibutton) {
+            var panel = this.Find<UIPanel>("group1");
+            var c = ExternalCustomButton.Create(panel, ibutton);
+            ModButtons.Add(c);
+            return c;
         }
 
         public UITextureAtlas SetupSprites() {
@@ -182,8 +189,10 @@ namespace UnifiedUI.GUI {
         }
 
         void RefreshButtons() {
-            foreach (var btn in ModButtons)
-                btn.HandleOriginalButtons();
+            foreach(var btn in ModButtons) {
+                if(btn is GenericModButton btn2)
+                    btn2.HandleOriginalButtons();
+            }
 
             // uncomment code bellow to support hot reload. start code also needs change.
             //if(NetworkDetectiveButton.Instance)

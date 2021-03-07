@@ -1,6 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <ProjectGuid>{4E0BB9B3-EFB1-4D63-99D8-A3B82D33E4FE}</ProjectGuid>
     <TargetFramework>net35</TargetFramework>
     <Deterministic>false</Deterministic>
     <AssemblyTitle>UnifiedUI</AssemblyTitle>
@@ -95,6 +94,9 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="CitiesHarmony.API" Version="2.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\UnfiedUI.API\UnifiedUI.API.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp">

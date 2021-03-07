@@ -1,18 +1,22 @@
-﻿using ColossalFramework.UI;
-namespace UnfiedUI.API
+﻿namespace UnifiedUI.API
 {
+    using ColossalFramework.UI;
+    using UnityEngine;
+
     public interface IUUIButton
     {
         string Name { get; }
         string Group { get; } // future feature.
         string Tooltip { get; } // optional
         string SpritesFile { get; }
-        ToolBase Tool { get; } // optional
-        UIComponent Window { get; } // optional
-        void OnToggle(); // optional
+
+        void OnToggle();
+
+        // return false to hide button (for example when action could not be activated in the given context)
+        bool ShouldShow(); 
     }
 
-    public interface UUIMod {
-        void Register(IUUIButton button);
+    public interface IUUIMod {
+        MonoBehaviour Register(IUUIButton button);
     }
 }
