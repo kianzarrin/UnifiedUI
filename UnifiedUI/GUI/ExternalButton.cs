@@ -15,6 +15,7 @@ namespace UnifiedUI.GUI {
             if (tooltip != null) ret.tooltip = tooltip;
             ret.Tool = tool;
             ret.Window = window;
+            if(window) window.eventVisibilityChanged += (c,val) => ret.IsActive = val;
             return ret;
         }
 
@@ -26,7 +27,8 @@ namespace UnifiedUI.GUI {
 
         public override void OnToolChanged(ToolBase newTool) {
             //Log.Debug($"GenericModButton.OnRefresh({newTool}) Name:{Name} Tool:{Tool}");
-            IsActive = newTool == Tool;
+            if(Tool)
+                IsActive = newTool == Tool;
         }
 
         public virtual bool ShouldShow() => true;

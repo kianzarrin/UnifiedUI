@@ -74,7 +74,8 @@ namespace UnifiedUI.GUI {
         public virtual void Deactivate() {
             Log.Debug("GenericModButton.Close() called  for " + Name);
             IsActive = false;
-            if (Tool && ToolsModifierControl.toolController?.CurrentTool == Tool)
+            var tool = Tool;
+            if(tool && ToolsModifierControl.toolController?.CurrentTool == tool)
                 ToolsModifierControl.SetTool<DefaultTool>();
             Widnow?.Hide();
         }

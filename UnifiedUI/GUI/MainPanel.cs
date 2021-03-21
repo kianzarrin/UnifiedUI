@@ -104,9 +104,17 @@ namespace UnifiedUI.GUI {
         }
 
         public UIComponent Register
-            (string name, string groupName, string tooltip, string spritefile, Action onToggle, Action<ToolBase> onToolChanged = null) {
+            (string name, string groupName, string tooltip, string spritefile, Action<bool> onToggle, Action<ToolBase> onToolChanged = null) {
             var panel = this.Find<UIPanel>("group1");
-            var c = ExternalCustomButton.Create(panel, name, groupName, spritefile, tooltip, onToggle, onToolChanged);
+            var c = ExternalCustomButton.Create(panel, name, spritefile, tooltip, onToggle, onToolChanged);
+            ModButtons.Add(c);
+            return c;
+        }
+
+        public UIComponent Register
+            (string name, string groupName, string tooltip, string spritefile, ToolBase tool) {
+            var panel = this.Find<UIPanel>("group1");
+            var c = ExternalCustomButton.Create(panel, name, spritefile, tooltip, tool);
             ModButtons.Add(c);
             return c;
         }

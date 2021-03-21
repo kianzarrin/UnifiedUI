@@ -2,42 +2,39 @@ namespace UnifiedUI.GUI {
     using ColossalFramework.UI;
     using KianCommons;
     using System;
-    using UnifiedUI.API;
 
     public class ExternalCustomButton : ButtonBase {
         Action<ToolBase> OnToolChanged_;
-        Func<bool> ShouldShow_;
-        Action Activate_;
-        Action Deactivate_;
+        ToolBase Tool_;
+        Action<bool> Toggle_;
         string SpritesFileName_;
 
         public void Release() => Destroy(gameObject);
 
         public static ExternalCustomButton Create(
             UIComponent parent,
+            string name,
+            string tooltip,
             string spritesFile,
-            Action activate,
-            Action deactivate,
-            Func<bool> shouldShow = null,
+            Action<bool> onToggle,
             Action<ToolBase> onToolChanged = null) {
             var ret = parent.AddUIComponent<ExternalCustomButton>();
-            ret.Activate_ = activate;
-            ret.Deactivate_ = deactivate;
-            ret.ShouldShow_ = shouldShow;
+            ret.tooltip = tooltip;
+
+            ret.name = name;
+            ret.Toggle_ = onToggle;
             ret.OnToolChanged_ = onToolChanged;
             ret.SpritesFileName_ = spritesFile;
             return ret;
         }
 
         public static ExternalCustomButton Create
-            (UIComponent parent, string name, string groupName, string tooltip, string spritefile, Action onToggle, Action<ToolBase> onToolChanged = null) {
+            (UIComponent parent, string name, string tooltip, string spritefile, ToolBase tool) {
             var ret = parent.AddUIComponent<ExternalCustomButton>();
-            ret.Activate_ = onToggle;
-            ret.Deactivate_ = onToggle;
-            ret.OnToolChanged_ = onToolChanged;
             ret.SpritesFileName_ = spritefile;
             ret.tooltip = tooltip;
             ret.name = name;
+            ret.Tool_ = tool;
             return ret;
         }
 
@@ -48,18 +45,20 @@ namespace UnifiedUI.GUI {
             base.OnDestroy();
         }
         public override void OnToolChanged(ToolBase newTool) {
-            if (ShouldShow_ != null)
-                isVisible = ShouldShow_.Invoke();
+            if(Tool_) IsActive = Tool_ == newTool;
             OnToolChanged_?.Invoke(newTool);
         }
         public void Activate() {
             IsActive = true;
-            Activate_();
+            if(Tool_) Tool_.enabled = true;
+            Toggle_(true);
         }
         public void Deactivate() {
             Log.Debug("ExternalButton.Deactivate() called  for " + Name);
+            if(Tool_ && ToolsModifierControl.toolController?.CurrentTool == Tool_)
+                ToolsModifierControl.SetTool<DefaultTool>();
             IsActive = false;
-            Deactivate_();
+            Toggle_(false);
         }
     }
 }

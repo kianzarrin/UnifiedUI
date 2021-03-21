@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>UnifiedUI.Helpers</name>
+    </assembly>
+    <members>
+        <member name="M:UnifiedUI.Helpers.UUIHelpers.GetParameterTypes``1">
+            <typeparam name="TDelegate">delegate type</typeparam>
+            <returns>Type[] represeting arguments of the delegate.</returns>
+        </member>
+        <member name="M:UnifiedUI.Helpers.UUIHelpers.GetMethod``1(System.Type,System.String)">
+            <summary>
+            Gets directly declared method based on a delegate that has
+            the same name as the target method
+            </summary>
+            <param name="type">the class/type where the method is delcared</param>
+            <param name="name">the name of the method</param>
+        </member>
+    </members>
+</doc>

@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnifiedUI", "UnifiedUI\Unif
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnifiedUI.Helpers", "UnifiedUI.Helpers\UnifiedUI.Helpers.csproj", "{C04FC54E-384D-4ED2-9001-5BAD94306970}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UUIExampleMod", "ExampleMod\UUIExampleMod.csproj", "{3C8DEE8D-BDA9-4932-92B0-AF00FF217259}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,6 +28,12 @@ Global
 		{C04FC54E-384D-4ED2-9001-5BAD94306970}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C04FC54E-384D-4ED2-9001-5BAD94306970}.Workshop|Any CPU.ActiveCfg = Debug|Any CPU
 		{C04FC54E-384D-4ED2-9001-5BAD94306970}.Workshop|Any CPU.Build.0 = Debug|Any CPU
+		{3C8DEE8D-BDA9-4932-92B0-AF00FF217259}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C8DEE8D-BDA9-4932-92B0-AF00FF217259}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C8DEE8D-BDA9-4932-92B0-AF00FF217259}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C8DEE8D-BDA9-4932-92B0-AF00FF217259}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C8DEE8D-BDA9-4932-92B0-AF00FF217259}.Workshop|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C8DEE8D-BDA9-4932-92B0-AF00FF217259}.Workshop|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

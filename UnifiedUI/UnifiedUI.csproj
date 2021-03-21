@@ -20,9 +20,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Workshop|AnyCPU'">
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DefineConstants />
-  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Workshop|AnyCPU' ">
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
@@ -100,6 +97,9 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\UnifiedUI.Helpers\UnifiedUI.Helpers.csproj" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="Assembly-CSharp">
       <HintPath>$(ManagedDLLPath)\Assembly-CSharp.dll</HintPath>
       <Private>False</Private>
@@ -172,9 +172,19 @@
       <AuxilaryFiles Include="$(TargetDir)**/*.*" Exclude="$(TargetPath);$(TargetDir)*.pdb" />
       <VersionNumber Include="@(Targets->'%(Version)')" />
     </ItemGroup>
-    <Delete Files="$(TargetPath).mdb" />
+    <Delete Files="$(TargetDir)*.mdb" />
     <Exec Command="&quot;$(MonoDir)bin\mono.exe&quot; &quot;$(MonoDir)lib\mono\4.5\pdb2mdb.exe&quot; &quot;$(TargetPath)&quot;" />
     <Copy SourceFiles="$(TargetPath).mdb" DestinationFolder="$(DeployDir)" />
+    <Delete Files="$(TargetPath).mdb" />
+    <Exec Command="&quot;$(pdb2mdb)&quot; &quot;$(TargetPath)&quot;" />
+    <Exec Command="&quot;$(pdb2mdb)&quot; &quot;$(TargetDir)UnifiedUI.Helpers.dll&quot;" />
+    <Copy SourceFiles="$(TargetPath).mdb" DestinationFolder="$(DeployDir)" />
+    <Copy SourceFiles="$(TargetDir)UnifiedUI.Helpers.dll" DestinationFolder="$(DeployDir)" />
+    <Copy SourceFiles="$(TargetDir)UnifiedUI.Helpers.dll.mdb" DestinationFolder="$(DeployDir)" />
+    <Copy SourceFiles="$(TargetDir)UnifiedUI.Helpers.xml" DestinationFolder="$(DeployDir)" />
+
+
+
     <Copy SourceFiles="@(AuxilaryFiles)" DestinationFolder="$(DeployDir)" />
     <!-- <Message Importance="high" Text="Deleting $(DeployDir)$(TargetFileName)" /> -->
     <Delete Files="$(DeployDir)$(TargetFileName)" />
