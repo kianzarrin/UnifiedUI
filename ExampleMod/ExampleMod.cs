@@ -51,7 +51,7 @@
         UIComponent button;
         protected override void Awake() {
             base.Awake();
-            string sprites = UserModExtension.Instance.GetFullPath("Resources", "sprites.png");
+            string sprites = UserModExtension.Instance.GetFullPath("Resources", "B.png");
             button = UUIHelpers.RegisterToolButton(
                 name: "ExampleModButton",
                 groupName: null, // default group

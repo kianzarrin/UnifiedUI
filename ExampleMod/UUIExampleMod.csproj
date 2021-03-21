@@ -46,6 +46,11 @@
     <Reference Include="UnityEngine" />
     <Reference Include="UnityEngine.UI" />
   </ItemGroup>
+  <ItemGroup>
+    <None Update="Resources\B.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
  
   <Target Name="DeployToModDirectory" AfterTargets="Build">
     <Message Importance="high" Text="DeployToModDirectory ..." />
@@ -69,7 +74,7 @@
     <Copy SourceFiles="$(TargetDir)UnifiedUI.Helpers.dll.mdb" DestinationFolder="$(DeployDir)" />
     <Copy SourceFiles="$(TargetDir)UnifiedUI.Helpers.xml" DestinationFolder="$(DeployDir)" />
 
-    <Copy SourceFiles="@(AuxiliaryFiles)" DestinationFolder="$(DeployDir)" />
+    <Copy SourceFiles="$(TargetDir)Resources/B.png" DestinationFolder="$(DeployDir)/Resources" />
     <Delete Files="$(DeployDir)$(TargetFileName)" />
     <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(DeployDir)" />
     <Message Importance="high" Text="AssemblyVersion=@(VersionNumber) time=$(Now)" />
