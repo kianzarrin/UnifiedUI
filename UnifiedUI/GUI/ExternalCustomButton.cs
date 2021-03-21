@@ -29,15 +29,15 @@ namespace UnifiedUI.GUI {
             return ret;
         }
 
-        public static ExternalCustomButton Create(UIComponent parent, IUUIButton button) {
+        public static ExternalCustomButton Create
+            (UIComponent parent, string name, string groupName, string tooltip, string spritefile, Action onToggle, Action<ToolBase> onToolChanged = null) {
             var ret = parent.AddUIComponent<ExternalCustomButton>();
-            ret.Activate_ = button.OnToggle;
-            ret.Deactivate_ = button.OnToggle;
-            ret.ShouldShow_ = button.ShouldShow;
-            ret.OnToolChanged_ = null;
-            ret.SpritesFileName_ = button.SpritesFile;
-            ret.tooltip = button.Tooltip;
-            ret.name = button.Name;
+            ret.Activate_ = onToggle;
+            ret.Deactivate_ = onToggle;
+            ret.OnToolChanged_ = onToolChanged;
+            ret.SpritesFileName_ = spritefile;
+            ret.tooltip = tooltip;
+            ret.name = name;
             return ret;
         }
 

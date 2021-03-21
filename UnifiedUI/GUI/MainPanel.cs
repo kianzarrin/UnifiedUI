@@ -103,9 +103,10 @@ namespace UnifiedUI.GUI {
             Refresh();
         }
 
-        public UIComponent Register(API.IUUIButton ibutton) {
+        public UIComponent Register
+            (string name, string groupName, string tooltip, string spritefile, Action onToggle, Action<ToolBase> onToolChanged = null) {
             var panel = this.Find<UIPanel>("group1");
-            var c = ExternalCustomButton.Create(panel, ibutton);
+            var c = ExternalCustomButton.Create(panel, name, groupName, spritefile, tooltip, onToggle, onToolChanged);
             ModButtons.Add(c);
             return c;
         }

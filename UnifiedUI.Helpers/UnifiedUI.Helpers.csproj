@@ -25,7 +25,6 @@
     </AssemblySearchPaths>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\UnfiedUI.API\UnifiedUI.API.csproj" />
     <Reference Include="Assembly-CSharp" />
     <Reference Include="ColossalManaged" />
     <Reference Include="ICities" />
