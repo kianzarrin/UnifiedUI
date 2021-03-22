@@ -6,6 +6,7 @@
     <LangVersion>latest</LangVersion>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <PathMap>$(MSBuildProjectDirectory)/=$(ProjectName)/</PathMap>
 
     <ManagedDLLPath>../dependencies</ManagedDLLPath>
@@ -20,9 +21,6 @@
       $(CitiesSkylinesBinaries);
       ../libs/
     </AssemblySearchPaths>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <Reference>
