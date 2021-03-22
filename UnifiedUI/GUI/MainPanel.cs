@@ -121,7 +121,13 @@ namespace UnifiedUI.GUI {
             else
                 this.AttachUIComponent(g.gameObject);
 
-            var c = ExternalCustomButton.Create(g, name, spritefile, tooltip, onToggle, onToolChanged);
+            var c = ExternalCustomButton.Create(
+                parent: g,
+                name: name,
+                tooltip: tooltip,
+                spritesFile: spritefile,
+                onToggle: onToggle,
+                onToolChanged: onToolChanged);
             ModButtons.Add(c);
             return c;
         }
@@ -132,7 +138,12 @@ namespace UnifiedUI.GUI {
             if(g == null)
                 g = AddGroup(this, DEFAULT_GROUP);
 
-            var c = ExternalCustomButton.Create(g, name, spritefile, tooltip, tool);
+            var c = ExternalButton.Create(
+                parent: g,
+                name: name,
+                tooltip:tooltip,
+                spritesFile: spritefile,
+                tool:tool);
             ModButtons.Add(c);
             return c;
         }

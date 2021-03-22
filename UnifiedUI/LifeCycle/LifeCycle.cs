@@ -12,7 +12,6 @@ namespace UnifiedUI.LifeCycle {
     public static class LifeCycle {
         public static string HARMONY_ID = "CS.Kian.UnifiedUI";
 
-
         public static SimulationManager.UpdateMode UpdateMode => SimulationManager.instance.m_metaData.m_updateMode;
         public static LoadMode Mode => (LoadMode)UpdateMode;
         public static string Scene => SceneManager.GetActiveScene().name;

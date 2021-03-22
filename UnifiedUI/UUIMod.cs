@@ -9,14 +9,14 @@ namespace UnifiedUI.API {
             (string name, string groupName, string tooltip, string spritefile, Action<bool> onToggle, Action<ToolBase> onToolChanged = null) {
             if(!MainPanel.Instance)
                 LifeCycle.Load();
-            return MainPanel.Instance.Register(name, groupName, spritefile, tooltip, onToggle, onToolChanged);
+            return MainPanel.Instance.Register(name, groupName, tooltip, spritefile,  onToggle, onToolChanged);
         }
 
         public static UIComponent Register
             (string name, string groupName, string tooltip, string spritefile, ToolBase tool) {
             if(!MainPanel.Instance)
                 LifeCycle.Load();
-            return MainPanel.Instance.Register(name, groupName, spritefile, tooltip, tool);
+            return MainPanel.Instance.Register(name, groupName, tooltip, spritefile,  tool);
         }
     }
 }

@@ -2,24 +2,28 @@ namespace UnifiedUI.GUI {
     using ColossalFramework.UI;
     using KianCommons;
 
-    public abstract class ExternalButton : ButtonBase {
+    public class ExternalButton : ButtonBase {
         public ToolBase Tool;
-        public UIComponent Window;
+        string SpritesFileName_;
+        public override string SpritesFileName => SpritesFileName_;
 
         public static ExternalButton Create(
             UIComponent parent,
-            string tooltip = null,
-            ToolBase tool = null,
-            UIComponent window = null) {
+            string name,
+            string tooltip,
+            string spritesFile,
+            ToolBase tool) {
             var ret = parent.AddUIComponent<ExternalButton>();
             if (tooltip != null) ret.tooltip = tooltip;
+            if(!string.IsNullOrEmpty(name)) ret.name = name;
+            else ret.name = tool.GetType().FullName;
+            ret.SpritesFileName_ = spritesFile;
             ret.Tool = tool;
-            ret.Window = window;
-            if(window) window.eventVisibilityChanged += (c,val) => ret.IsActive = val;
             return ret;
         }
 
         public void Release() => Destroy(gameObject);
+
         public override void OnDestroy() {
             this.SetAllDeclaredFieldsToNull();
             base.OnDestroy();
@@ -31,13 +35,10 @@ namespace UnifiedUI.GUI {
                 IsActive = newTool == Tool;
         }
 
-        public virtual bool ShouldShow() => true;
-
         public virtual void Activate() {
             Log.Debug("ExternalButton.Activate() called for " + Name);
             IsActive = true;
             if (Tool) Tool.enabled = true; // ToolsModifierControl.toolController.CurrentTool = tool;
-            Window?.Show();
         }
 
         public virtual void Deactivate() {
@@ -45,7 +46,6 @@ namespace UnifiedUI.GUI {
             IsActive = false;
             if (Tool && ToolsModifierControl.toolController?.CurrentTool == Tool)
                 ToolsModifierControl.SetTool<DefaultTool>();
-            Window?.Hide();
         }
 
         public virtual void Toggle() {

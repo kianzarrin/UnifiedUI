@@ -69,7 +69,12 @@
             string name, string groupName, string tooltip, string spritefile, ToolBase tool) {
             if (!IsUUIEnabled()) return null;
             var Register = CreateDelegate<RegisterHandlerTool>(GetUUI(), "Register");
-            return Register(name, groupName, spritefile, tooltip, tool);
+            return Register(
+                name:name, 
+                groupName:groupName, 
+                tooltip: tooltip,
+                spritefile: spritefile,  
+                tool: tool);
         }
 
         /// <summary>
@@ -85,7 +90,13 @@
             string name, string groupName, string tooltip, string spritefile, Action<bool> onToggle, Action<ToolBase> onToolChanged = null) {
             if (!IsUUIEnabled()) return null;
             var Register = CreateDelegate<RegisterHandlerCustom>(GetUUI(), "Register");
-            UIComponent compoennt = Register(name, groupName, spritefile, tooltip, onToggle, onToolChanged);
+            UIComponent compoennt = Register(
+                name: name,
+                groupName: groupName,
+                tooltip: tooltip,
+                spritefile: spritefile,
+                onToggle, 
+                onToolChanged);
             return new UUICustomButton(compoennt);
         }
 
@@ -111,7 +122,7 @@
         public static string GetFullPath(this IUserMod userModInstance, params string[] paths) {
             string ret = userModInstance.GetModPath();
             foreach(string path in paths)
-                Path.Combine(ret, path);
+                ret = Path.Combine(ret, path);
             return ret;
         }
 
