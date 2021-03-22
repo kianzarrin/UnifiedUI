@@ -17,6 +17,7 @@ namespace UnifiedUI.GUI {
         public static SavedBool HideOriginalButtons { get; } = new SavedBool("HideOriginalButtons", FileName, true, true);
         public static SavedBool HandleESC { get; } = new SavedBool("HandleESC", FileName, true, true);
         public static event Action RefreshButtons;
+        public static void DoRefreshButtons() => RefreshButtons?.Invoke();
 
 
         public static void OnSettingsUI(UIHelperBase helper) {

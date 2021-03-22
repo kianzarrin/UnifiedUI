@@ -5,12 +5,6 @@ namespace UnifiedUI.LifeCycle
 
     public class LoadingExtention : LoadingExtensionBase
     {
-        public override void OnLevelLoaded(LoadMode mode)
-        {
-            Log.Debug("LoadingExtention.OnLevelLoaded");
-            LifeCycle.Load();
-        }
-
         public override void OnLevelUnloading()
         {
             Log.Debug("LoadingExtention.OnLevelUnloading");

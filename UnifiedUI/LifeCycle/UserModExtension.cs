@@ -13,21 +13,13 @@ namespace UnifiedUI.LifeCycle
         public string Description => "organsized UI for some other mods into one unified place.";
 
         [UsedImplicitly]
-        public void OnEnabled() {
-            KianCommons.UI.TextureUtil.EmbededResources = false;
-            HarmonyHelper.EnsureHarmonyInstalled();
-            if (HelpersExtensions.InGame)
-                LifeCycle.Load();
-        }
+        public void OnEnabled() => LifeCycle.Enable();
+        
 
         [UsedImplicitly]
-        public void OnDisabled() {
-            LifeCycle.Release();
-        }
+        public void OnDisabled() => LifeCycle.Disable();
 
         [UsedImplicitly]
-        public void OnSettingsUI(UIHelperBase helper) {
-            GUI.Settings.OnSettingsUI(helper);
-        }
+        public void OnSettingsUI(UIHelperBase helper) => GUI.Settings.OnSettingsUI(helper);
     }
 }
