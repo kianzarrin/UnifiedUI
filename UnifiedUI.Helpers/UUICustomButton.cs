@@ -21,6 +21,9 @@
             set => pIsActive_.SetValue(Button, value, null);
         }
 
-        public void Release() => GameObject.Destroy(Button?.gameObject);
+        public void Release() {
+            Button = null;
+            Button?.Destroy();
+        }
     }
 }

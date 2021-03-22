@@ -4,6 +4,16 @@
         <name>UnifiedUI.Helpers</name>
     </assembly>
     <members>
+        <member name="P:UnifiedUI.Helpers.UUICustomButton.Button">
+            <summary>
+            UUI button. you can hide this if necessary.
+            </summary>
+        </member>
+        <member name="P:UnifiedUI.Helpers.UUICustomButton.IsPressed">
+            <summary>
+            Use this to change buttons state when mod is closed externally (without clicking on the UUI button).
+            </summary>
+        </member>
         <member name="M:UnifiedUI.Helpers.UUIHelpers.GetParameterTypes``1">
             <typeparam name="TDelegate">delegate type</typeparam>
             <returns>Type[] represeting arguments of the delegate.</returns>
@@ -15,6 +25,52 @@
             </summary>
             <param name="type">the class/type where the method is delcared</param>
             <param name="name">the name of the method</param>
+        </member>
+        <member name="M:UnifiedUI.Helpers.UUIHelpers.RegisterToolButton(System.String,System.String,System.String,System.String,ToolBase)">
+            <summary>
+            register a button to tie to the given tool.
+            </summary>
+            <param name="name">game object name for button</param>
+            <param name="groupName">the group under which button will be added. use null to addd to the default gorup.</param>
+            <param name="spritefile">full path to the file that contains 4 40x40x button sprites(see example)</param>
+            <param name="tool">the tool to tie the buttont to.</param>
+            <returns>component containing the button. you can hide this component if necessary.</returns>
+        </member>
+        <member name="M:UnifiedUI.Helpers.UUIHelpers.RegisterCustomButton(System.String,System.String,System.String,System.String,System.Action{System.Boolean},System.Action{ToolBase})">
+            <summary>
+            register a button to add to UUI.
+            </summary>
+            <param name="name">game object name for button</param>
+            <param name="groupName">the group under which button will be added. use null to addd to the default gorup.</param>
+            <param name="spritefile">full path to the file that contains 4 40x40x button sprites(see example)</param>
+            <param name="onToggle">call-back for when the button is activated/deactivated</param>
+            <param name="onToolChanged">call-back for when any active tool changes.</param>
+            <returns>wrapper for the button which you can use to change the its state.</returns>
+        </member>
+        <member name="M:UnifiedUI.Helpers.UUIHelpers.Destroy(UnityEngine.Component)">
+            <summary>
+            Destroy all gameObjects, components, and children
+            </summary>
+        </member>
+        <member name="M:UnifiedUI.Helpers.UUIHelpers.GetModPath(ICities.IUserMod)">
+            <summary>
+            Gets the path to the mod that has the user mod instance.
+            </summary>
+            <param name="userModInstance">instance of IUserMod</param>
+            <returns>path to mod</returns>
+        </member>
+        <member name="M:UnifiedUI.Helpers.UUIHelpers.GetFullPath(ICities.IUserMod,System.String[])">
+            <summary>
+            Gets the full path to a file from the input mod
+            </summary>
+            <param name="userModInstance">instance of IUserMod</param>
+            <param name="paths">diretory,file names to combine</param>
+            <returns>full path to file.</returns>
+        </member>
+        <member name="M:UnifiedUI.Helpers.UUIHelpers.IsUUIEnabled">
+            <summary>
+            test if UnifiedUI is present and enable.
+            </summary>
         </member>
     </members>
 </doc>

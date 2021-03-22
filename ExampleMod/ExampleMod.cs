@@ -26,8 +26,7 @@
 
         public void OnDisabled() {
             Instance = null;
-            if (InGameOrEditor)
-                LifeCycle.Release();
+            LifeCycle.Release();
         }
 
         public override void OnLevelLoaded(LoadMode mode) => LifeCycle.Init();
@@ -37,13 +36,11 @@
 
     internal static class LifeCycle {
         internal static void Init() {
-            var tool = ToolsModifierControl.toolController.gameObject.AddComponent<ExampleTool>();
-
+            Debug.Log("[UUIExampleMod] LifeCycle.Init()");
+            ToolsModifierControl.toolController.gameObject.AddComponent<ExampleTool>();
         }
-        internal static void Release() {
-            var tool = ToolsModifierControl.toolController.GetComponent<ExampleTool>();
-            GameObject.Destroy(tool);
-        }
+        internal static void Release() =>
+            ToolsModifierControl.toolController.GetComponent<ExampleTool>()?.Destroy();
     }
 
     public class ExampleTool : ToolBase {
@@ -52,6 +49,7 @@
         protected override void Awake() {
             base.Awake();
             string sprites = UserModExtension.Instance.GetFullPath("Resources", "B.png");
+            Debug.Log("[UUIExampleMod] ExampleTool.Awake() sprites=" + sprites);
             button = UUIHelpers.RegisterToolButton(
                 name: "ExampleModButton",
                 groupName: null, // default group
@@ -67,6 +65,7 @@
 
 
         protected override void OnEnable() {
+            Debug.Log("[UUIExampleMod] ExampleTool.OnEnable()");
             base.OnEnable();
             label = UIView.GetAView().AddUIComponent(typeof(UILabel)) as UILabel;
             label.text = "Hello world!";
