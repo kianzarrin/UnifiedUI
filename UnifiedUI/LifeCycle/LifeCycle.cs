@@ -23,13 +23,11 @@ namespace UnifiedUI.LifeCycle {
             HelpersExtensions.VERBOSE = false;
 
             HarmonyHelper.EnsureHarmonyInstalled();
-            LoadingManager.instance.m_levelLoaded += Load;
             if(HelpersExtensions.InGameOrEditor)
                 HotReload();
         }
 
         public static void Disable() {
-            LoadingManager.instance.m_levelLoaded -= Load;
             Release(); // in case of hot unload
         }
 
@@ -38,16 +36,22 @@ namespace UnifiedUI.LifeCycle {
         }
 
         public static void HotReload() {
-            Load(UpdateMode);
+            Load();
         }
 
-        public static void Load(SimulationManager.UpdateMode mode = 0) {
+        public static void Load() {
             Log.Info("LifeCycle.Load() called");
             PluginUtil.Init();
             HarmonyUtil.InstallHarmony(HARMONY_ID);
-            UIView.GetAView().AddUIComponent(typeof(MainPanel));
-            UIView.GetAView().AddUIComponent(typeof(FloatingButton));
+            var uiView = UIView.GetAView();
+            if(!uiView.GetComponentInChildren<MainPanel>())
+                uiView.AddUIComponent(typeof(MainPanel));
+            if(!uiView.GetComponentInChildren<FloatingButton>())
+                uiView.AddUIComponent(typeof(FloatingButton));
+            
         }
+
+        public static bool HasMainPanel => UIView.GetAView().GetComponentInChildren<MainPanel>();
 
         public static void Release() {
             Log.Info("LifeCycle.Release() called");

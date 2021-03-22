@@ -17,6 +17,7 @@ namespace UnifiedUI.GUI {
             "PanelY", Settings.FileName, 150, true);
         public static readonly SavedBool SavedDraggable = new SavedBool(
             "PanelDraggable", Settings.FileName, def: false, true);
+        const string DEFAULT_GROUP = "group1";
 
         public string AtlasName => $"{GetType().FullName}_rev" + this.VersionOf();
         string spriteFileName_ = "MainPanel.png";
@@ -42,6 +43,13 @@ namespace UnifiedUI.GUI {
             AutoSize2 = true;
             ModButtons = new List<ButtonBase>();
         }
+
+        public override void OnDestroy() {
+            this.SetAllDeclaredFieldsToNull();
+            Instance = null;
+            base.OnDestroy();
+        }
+
 
         private UILabel lblCaption_;
         private UIDragHandle dragHandle_;
@@ -74,12 +82,14 @@ namespace UnifiedUI.GUI {
 
             var body = AddPanel();
             body.autoLayoutPadding = new RectOffset(2, 0, 2, 2);
+            containerPanel_ = body;
 
             {
-                var g1  = AddPanel(body);
-                g1.backgroundSprite = "GenericPanelWhite";
-                g1.color = new Color32(170, 170, 170, byte.MaxValue);
-                g1.name = "group1";
+                var g1 = Find<UIPanel>(DEFAULT_GROUP);
+                if(g1 == null)
+                    g1 = AddGroup(body, DEFAULT_GROUP);
+                else 
+                    body.AttachUIComponent(g1.gameObject);
                 var panel = g1;
             
                 if (PluginUtil.Instance.NetworkDetective.IsActive)
@@ -105,16 +115,24 @@ namespace UnifiedUI.GUI {
 
         public UIComponent Register
             (string name, string groupName, string tooltip, string spritefile, Action<bool> onToggle, Action<ToolBase> onToolChanged = null) {
-            var panel = this.Find<UIPanel>("group1");
-            var c = ExternalCustomButton.Create(panel, name, spritefile, tooltip, onToggle, onToolChanged);
+            var g = Find<UIPanel>(DEFAULT_GROUP);
+            if(g == null)
+                g = AddGroup(this, DEFAULT_GROUP);
+            else
+                this.AttachUIComponent(g.gameObject);
+
+            var c = ExternalCustomButton.Create(g, name, spritefile, tooltip, onToggle, onToolChanged);
             ModButtons.Add(c);
             return c;
         }
 
         public UIComponent Register
             (string name, string groupName, string tooltip, string spritefile, ToolBase tool) {
-            var panel = this.Find<UIPanel>("group1");
-            var c = ExternalCustomButton.Create(panel, name, spritefile, tooltip, tool);
+            var g = Find<UIPanel>(DEFAULT_GROUP);
+            if(g == null)
+                g = AddGroup(this, DEFAULT_GROUP);
+
+            var c = ExternalCustomButton.Create(g, name, spritefile, tooltip, tool);
             ModButtons.Add(c);
             return c;
         }
@@ -135,6 +153,14 @@ namespace UnifiedUI.GUI {
         }
 
         UIAutoSizePanel AddPanel() => AddPanel(this);
+
+        UIAutoSizePanel AddGroup(UIPanel parent, string name) {
+            var g = AddPanel(parent);
+            g.backgroundSprite = "GenericPanelWhite";
+            g.color = new Color32(170, 170, 170, byte.MaxValue);
+            g.name = name;
+            return g;
+        }
 
         static UIAutoSizePanel AddPanel(UIPanel panel) {
             Assertion.AssertNotNull(panel, "panel");
