@@ -37,7 +37,7 @@
 
         internal static TDelegate CreateDelegate<TDelegate>(Type type, string name) where TDelegate : Delegate {
             var method = type.GetMethod<TDelegate>(name);
-            return (TDelegate)Delegate.CreateDelegate(type, method);
+            return (TDelegate)Delegate.CreateDelegate(typeof(TDelegate), method);
         }
 
         internal static IEnumerable<PluginManager.PluginInfo> Plugins => PluginManager.instance.GetPluginsInfo();

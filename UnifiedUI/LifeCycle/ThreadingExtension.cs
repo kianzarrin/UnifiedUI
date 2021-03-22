@@ -34,6 +34,7 @@ namespace UnifiedUI.LifeCycle {
         ToolBase prevTool;
         void CaptureToolChanged() {
             var currentTool = ToolsModifierControl.toolController.CurrentTool;
+            if(!currentTool) return;  // tool is being destroyed. do not poke around!
             if (!currentTool.enabled)
                 Log.DebugWait($"WARNING: currentTool({currentTool}) is disabled", seconds: 1f);
             if (currentTool != prevTool) {
