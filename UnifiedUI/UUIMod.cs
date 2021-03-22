@@ -1,16 +1,14 @@
 namespace UnifiedUI.API {
+    using ColossalFramework.UI;
     using System;
     using UnifiedUI.GUI;
-    using UnityEngine;
-    using ColossalFramework.UI;
 
-
-
-    public class UUIMod {
-        public UIComponent Register
+    public static class UUIMod {
+        public static UIComponent Register
             (string name, string groupName, string tooltip, string spritefile, Action<bool> onToggle, Action<ToolBase> onToolChanged = null) =>
             MainPanel.Instance.Register(name, groupName, spritefile, tooltip, onToggle, onToolChanged);
-        public UIComponent Register
+
+        public static UIComponent Register
             (string name, string groupName, string tooltip, string spritefile, ToolBase tool) =>
             MainPanel.Instance.Register(name, groupName, spritefile, tooltip, tool);
     }
