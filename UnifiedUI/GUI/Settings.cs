@@ -1,10 +1,10 @@
 namespace UnifiedUI.GUI {
     using ColossalFramework;
     using ColossalFramework.UI;
-    using ICities;
     using KianCommons;
     using System;
     using System.Collections.Generic;
+    using static KianCommons.ReflectionHelpers;
 
     public static class Settings {
         public const string FileName = nameof(UnifiedUI);
@@ -20,29 +20,32 @@ namespace UnifiedUI.GUI {
         public static event Action RefreshButtons;
         public static void DoRefreshButtons() => RefreshButtons?.Invoke();
 
-
         public static void Collisions(UIHelper helper) {
-            var mainPanel = MainPanel.Instance;
-            if(mainPanel != null) {
+            try {
+                LogCalled();
+                if(MainPanel.Instance is MainPanel mainPanel) {
 
-                var keys = new List<SavedInputKey>();
-                foreach(var b in mainPanel.ModButtons) {
-                    if(b.ActivationKey != null)
-                        keys.Add(b.ActivationKey);
-                }
-                keys.AddRange(mainPanel.CustomHotkeys.Keys);
+                    var keys = new List<SavedInputKey>();
+                    foreach(var b in mainPanel.ModButtons) {
+                        if(b.ActivationKey != null)
+                            keys.Add(b.ActivationKey);
+                    }
+                    keys.AddRange(mainPanel.CustomHotkeys.Keys);
 
-                foreach(var key1 in keys) {
-                    foreach(var key2 in keys) {
-                        if(key1 != key2 && key1.value == key2.value) {
-                            var file1 = (string)ReflectionHelpers.GetFieldValue(key1, "m_FileName");
-                            var file2 = (string)ReflectionHelpers.GetFieldValue(key2, "m_FileName");
-                            Log.Warning($"Collision Detected: " +
-                                $"{file1}.{key1.name}:'{key1}' collides with " +
-                                $"{file2}.{key2.name}:'{key2}'");
+                    foreach(var key1 in keys) {
+                        foreach(var key2 in keys) {
+                            if(key1 != key2 && key1.value == key2.value) {
+                                var file1 = (string)ReflectionHelpers.GetFieldValue(key1, "m_FileName");
+                                var file2 = (string)ReflectionHelpers.GetFieldValue(key2, "m_FileName");
+                                Log.Warning($"Collision Detected: " +
+                                    $"{file1}.{key1.name}:'{key1}' collides with " +
+                                    $"{file2}.{key2.name}:'{key2}'");
+                            }
                         }
                     }
                 }
+            } catch(Exception ex) {
+                Log.Exception(ex);
             }
         }
 

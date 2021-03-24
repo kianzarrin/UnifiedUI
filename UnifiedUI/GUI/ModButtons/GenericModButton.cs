@@ -7,6 +7,7 @@ namespace UnifiedUI.GUI {
     using ColossalFramework.Plugins;
     using KianCommons.Plugins;
     using System.Collections.Generic;
+    using ColossalFramework;
 
     public abstract class GenericModButton : ModButtonBase {
         public virtual ToolBase Tool => null;
@@ -146,6 +147,11 @@ namespace UnifiedUI.GUI {
             else
                 Log.Debug($"FindButtons({name})->{ret.ToSTR()}");
             return ret.Select(c => c as UIComponent);
+        }
+
+        public static SavedInputKey GetInputKey(string type, string field) {
+            var t = Type.GetType(type);
+            return (SavedInputKey)ReflectionHelpers.GetFieldValue(t, field);
         }
     }
 }

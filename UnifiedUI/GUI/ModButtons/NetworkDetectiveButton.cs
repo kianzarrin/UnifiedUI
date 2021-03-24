@@ -5,5 +5,10 @@ namespace UnifiedUI.GUI.ModButtons {
         public override string SpritesFileName => "uui_network_detective.png";
         public override string Tooltip => "Network Detective";
         public override ToolBase Tool => GetTool("NetworkDetectiveTool");
+
+        public override void Awake() {
+            base.Awake();
+            //ActivationKey = GetInputKey("NetworkDetective.Tool.NetworkDetectiveTool, NetworkDetective", "ActivationShortcut");
+        }
     }
 }
