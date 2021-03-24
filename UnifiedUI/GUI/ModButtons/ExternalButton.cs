@@ -40,7 +40,9 @@ namespace UnifiedUI.GUI {
         }
 
         public override void Activate() {
-            try { 
+            try {
+                Log.Info(ThisMethod + " called for " + Name);
+                if(Tool) Tool.enabled = true;
                 base.Activate();
                 OnToggleCallBack?.Invoke(true);
             } catch(Exception ex) {

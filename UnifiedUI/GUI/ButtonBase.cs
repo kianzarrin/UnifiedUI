@@ -134,6 +134,7 @@ namespace UnifiedUI.GUI
 
         public virtual void Toggle() {
             try {
+                LogCalled();
                 if(IsActive) Deactivate();
                 else Activate();
             } catch(Exception ex) {
