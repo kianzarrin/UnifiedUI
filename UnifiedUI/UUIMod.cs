@@ -7,7 +7,7 @@ namespace UnifiedUI.API {
     using UnifiedUI.LifeCycle;
 
     public static class UUIMod {
-        private static ExternalCustomButton Register(
+        private static ExternalButton Register(
             string name, string groupName, string tooltip, string spritefile) {
             if(!MainPanel.Instance)
                 LifeCycle.Load();

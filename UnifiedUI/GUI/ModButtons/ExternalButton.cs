@@ -1,9 +1,10 @@
 namespace UnifiedUI.GUI {
     using ColossalFramework.UI;
     using KianCommons;
+    using static KianCommons.ReflectionHelpers;
     using System;
 
-    public class ExternalCustomButton : ButtonBase {
+    public class ExternalButton : ModButtonBase {
         private string spritesPath_;
         public Action<ToolBase> OnToolChangedCallBack;
         public Action<bool> OnToggleCallBack;
@@ -13,12 +14,12 @@ namespace UnifiedUI.GUI {
 
         public void Release() => Destroy(gameObject);
 
-        public static ExternalCustomButton Create(
+        public static ExternalButton Create(
             UIComponent parent,
             string name,
             string tooltip,
             string spritesFile) { 
-            var ret = parent.AddUIComponent<ExternalCustomButton>();
+            var ret = parent.AddUIComponent<ExternalButton>();
             ret.tooltip = tooltip;
             ret.name = name;
             ret.spritesPath_ = spritesFile;
@@ -48,7 +49,7 @@ namespace UnifiedUI.GUI {
         }
         public override void Deactivate() {
             try {
-                Log.Debug("ExternalCustomButton.Deactivate() called  for " + Name);
+                Log.Debug(ThisMethod +  " called  for " + Name);
                 base.Deactivate();
                 if(Tool && ToolsModifierControl.toolController?.CurrentTool == Tool)
                     ToolsModifierControl.SetTool<DefaultTool>();

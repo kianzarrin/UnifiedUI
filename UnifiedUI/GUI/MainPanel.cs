@@ -10,6 +10,8 @@ namespace UnifiedUI.GUI {
     using PluginUtil = Util.PluginUtil;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Diagnostics;
+    using static KianCommons.ReflectionHelpers;
 
     public class MainPanel : UIAutoSizePanel {
         public static readonly SavedFloat SavedX = new SavedFloat(
@@ -27,7 +29,7 @@ namespace UnifiedUI.GUI {
         private UIDragHandle dragHandle_;
         UIAutoSizePanel containerPanel_;
 
-        public List<ButtonBase> ModButtons;
+        public List<ModButtonBase> ModButtons;
 
         bool started_ = false;
         #region Instanciation
@@ -49,7 +51,7 @@ namespace UnifiedUI.GUI {
             base.Awake();
             Instance = this;
             AutoSize2 = true;
-            ModButtons = new List<ButtonBase>();
+            ModButtons = new List<ModButtonBase>();
         }
 
         public override void OnDestroy() {
@@ -115,7 +117,7 @@ namespace UnifiedUI.GUI {
             Refresh();
         }
 
-        public ExternalCustomButton Register(
+        public ExternalButton Register(
             string name, string groupName, string tooltip, string spritefile) {
             var g = Find<UIPanel>(DEFAULT_GROUP);
             if(g == null)
@@ -123,7 +125,7 @@ namespace UnifiedUI.GUI {
             else
                 this.AttachUIComponent(g.gameObject);
 
-            var c = ExternalCustomButton.Create(
+            var c = ExternalButton.Create(
                 parent: g,
                 name: name,
                 tooltip: tooltip,
@@ -179,7 +181,7 @@ namespace UnifiedUI.GUI {
         }
 
         public void Open() {
-            Log.Debug("MainPanel.Open() called started_="+started_);
+            Log.Info(ThisMethod + " called started_=" + started_);
             if (!started_)
                 return;
             Show();
@@ -187,7 +189,7 @@ namespace UnifiedUI.GUI {
         }
 
         public void Close() {
-            Log.Debug("MainPanel.Close() called");
+            Log.Info(ThisMethod + " called." + Environment.StackTrace);
             Hide();
         }
 

@@ -8,7 +8,7 @@ namespace UnifiedUI.GUI {
     using KianCommons.Plugins;
     using System.Collections.Generic;
 
-    public abstract class GenericModButton : ButtonBase {
+    public abstract class GenericModButton : ModButtonBase {
         public virtual ToolBase Tool => null;
         public virtual UIComponent Widnow => null;
         public virtual PluginManager.PluginInfo Plugin => null;

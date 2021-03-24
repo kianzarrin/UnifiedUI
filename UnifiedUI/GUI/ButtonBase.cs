@@ -9,6 +9,8 @@ namespace UnifiedUI.GUI
     using ColossalFramework;
     using System.Collections.Generic;
     using System;
+    using static KianCommons.ReflectionHelpers;
+
 
     public abstract class ButtonBase : UIButton
     {
@@ -47,7 +49,7 @@ namespace UnifiedUI.GUI
 
         public override void Start()
         {
-            Log.Debug("ButtonBase.Start() is called for " + Name, false);
+            Log.Debug(ThisMethod + " is called for " + Name, false);
             base.Start();
 
             SetupSprites();
@@ -60,7 +62,7 @@ namespace UnifiedUI.GUI
 
         public override void OnDestroy()
         {
-            Log.Debug("ButtonBase.OnDestroy() called for " + Name, false);
+            Log.Debug(ThisMethod + " called for " + Name, false);
             Hide();
             this.SetAllDeclaredFieldsToNull();
             base.OnDestroy();
@@ -138,12 +140,6 @@ namespace UnifiedUI.GUI
                 Log.Exception(ex);
             }
 
-        }
-
-        protected override void OnClick(UIMouseEventParameter p) {
-            Log.Debug("ButtonBase.OnClick() called  for " + Name, false);
-            base.OnClick(p);
-            Toggle();
         }
     }
 }
