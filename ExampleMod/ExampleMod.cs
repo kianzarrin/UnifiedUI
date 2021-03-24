@@ -9,14 +9,27 @@
     using UnityEngine;
 
     public class UserModExtension : LoadingExtensionBase, IUserMod {
-        public string Name => "Example Mod";
-        public string Description => "Show case for using UnifiedUI helpers";
-
         public static UserModExtension Instance;
+
+        const string FILE_NAME = "UUIExampleMod";
+
+        public static SavedInputKey Hotkey = new SavedInputKey(
+            "UUIExampleMod_HotKey", FILE_NAME,
+            key: KeyCode.D, control: true, shift: false, alt: false, true);
+
+        static UserModExtension() {
+            if (GameSettings.FindSettingsFileByName(FILE_NAME) == null) {
+                GameSettings.AddSettingsFile(new SettingsFile[] { new SettingsFile() { fileName = FILE_NAME } });
+            }
+        }
+
 
         internal static bool InGameOrEditor =>
             SceneManager.GetActiveScene().name != "IntroScreen" &&
             SceneManager.GetActiveScene().name != "Startup";
+
+        public string Name => "Example Mod";
+        public string Description => "Show case for using UnifiedUI helpers";
 
         public void OnEnabled() {
             Instance = this;
@@ -32,6 +45,19 @@
         public override void OnLevelLoaded(LoadMode mode) => LifeCycle.Init();
 
         public override void OnLevelUnloading() => LifeCycle.Release();
+
+
+
+        public void OnSettingsUI(UIHelper helper) {
+            try { 
+            var keymappingsPanel =  helper.AddKeymappingsPanel();
+            keymappingsPanel.AddKeymapping("Hotkey", Hotkey);
+            } catch (Exception ex) {
+                Debug.LogException(ex);
+                UIView.ForwardException(ex);
+            }
+        }
+
     }
 
     internal static class LifeCycle {
@@ -47,33 +73,64 @@
         UILabel label;
         UIComponent button;
         protected override void Awake() {
+            try { 
             base.Awake();
             string sprites = UserModExtension.Instance.GetFullPath("Resources", "B.png");
             Debug.Log("[UUIExampleMod] ExampleTool.Awake() sprites=" + sprites);
             button = UUIHelpers.RegisterToolButton(
                 name: "ExampleModButton",
                 groupName: null, // default group
-                tooltip: "Example Mod",
+                tooltip: "UUI Example Mod",
                 spritefile: sprites,
-                tool: this);
+                tool: this,
+                activationKey: UserModExtension.Hotkey);
+
+            if(button == null) {
+                button = UIView.GetAView().AddUIComponent(typeof(UIPanel));
+                new UIHelper(button).AddButton("UUI Example Mod", () => {
+                    if (enabled)
+                        ToolsModifierControl.SetTool<DefaultTool>();
+                    else
+                        enabled = true;
+                });
+            }
+            } catch (Exception ex) {
+                Debug.LogException(ex);
+                UIView.ForwardException(ex);
+            }
         }
 
         protected override void OnDestroy() {
-            button.Destroy();
-            base.OnDestroy();
+            try {
+                button.Destroy();
+                base.OnDestroy();
+            } catch (Exception ex) {
+                Debug.LogException(ex);
+                UIView.ForwardException(ex);
+            }
         }
 
 
         protected override void OnEnable() {
-            Debug.Log("[UUIExampleMod] ExampleTool.OnEnable()");
-            base.OnEnable();
-            label = UIView.GetAView().AddUIComponent(typeof(UILabel)) as UILabel;
-            label.text = "Hello world!";
+            try {
+                Debug.Log("[UUIExampleMod] ExampleTool.OnEnable()" + Environment.StackTrace);
+                base.OnEnable();
+                label = UIView.GetAView().AddUIComponent(typeof(UILabel)) as UILabel;
+                label.text = "Hello world!";
+            } catch (Exception ex) {
+                Debug.LogException(ex);
+                UIView.ForwardException(ex);
+            }
         }
 
         protected override void OnDisable() {
-            Destroy(label.gameObject);
-            base.OnDisable();
+            try {
+                label.Destroy();
+                base.OnDisable();
+            } catch(Exception ex) {
+                Debug.LogException(ex);
+                UIView.ForwardException(ex);
+            }
         }
     }
 }

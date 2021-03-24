@@ -3,7 +3,7 @@
     <TargetFramework>net35</TargetFramework>
     <Deterministic>false</Deterministic>
     <Copyright>Copyright ©  2020</Copyright>
-    <Deterministic>false</Deterministic>
+    <Deterministic>true</Deterministic>
     <AssemblyVersion>0.1.0.0</AssemblyVersion>
     <FileAlignment>512</FileAlignment>
     <LangVersion>latest</LangVersion>

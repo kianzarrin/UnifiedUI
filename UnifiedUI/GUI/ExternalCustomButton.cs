@@ -4,10 +4,12 @@ namespace UnifiedUI.GUI {
     using System;
 
     public class ExternalCustomButton : ButtonBase {
-        Action<ToolBase> OnToolChanged_;
-        Action<bool> Toggle_;
-        string SpritesFileName_;
-        public override string SpritesFileName => SpritesFileName_;
+        private string spritesPath_;
+        public Action<ToolBase> OnToolChangedCallBack;
+        public Action<bool> OnToggleCallBack;
+        public ToolBase Tool;
+
+        public override string SpritesFileName => spritesPath_;
 
         public void Release() => Destroy(gameObject);
 
@@ -15,16 +17,11 @@ namespace UnifiedUI.GUI {
             UIComponent parent,
             string name,
             string tooltip,
-            string spritesFile,
-            Action<bool> onToggle,
-            Action<ToolBase> onToolChanged = null) {
+            string spritesFile) { 
             var ret = parent.AddUIComponent<ExternalCustomButton>();
-            if(tooltip != null) ret.tooltip = tooltip;
-            if(!string.IsNullOrEmpty(name)) ret.name = name;
-            else ret.name = onToggle.Method.Name;
-            ret.Toggle_ = onToggle;
-            ret.OnToolChanged_ = onToolChanged;
-            ret.SpritesFileName_ = spritesFile;
+            ret.tooltip = tooltip;
+            ret.name = name;
+            ret.spritesPath_ = spritesFile;
             return ret;
         }
 
@@ -33,16 +30,32 @@ namespace UnifiedUI.GUI {
             base.OnDestroy();
         }
         public override void OnToolChanged(ToolBase newTool) {
-            OnToolChanged_?.Invoke(newTool);
+            try {
+                if(Tool) IsActive = newTool == Tool;
+                OnToolChangedCallBack?.Invoke(newTool);
+            } catch(Exception ex) {
+                Log.Exception(ex);
+            }
         }
-        public void Activate() {
-            IsActive = true;
-            Toggle_(true);
+
+        public override void Activate() {
+            try { 
+                base.Activate();
+                OnToggleCallBack?.Invoke(true);
+            } catch(Exception ex) {
+                Log.Exception(ex);
+            }
         }
-        public void Deactivate() {
-            Log.Debug("ExternalButton.Deactivate() called  for " + Name);
-            IsActive = false;
-            Toggle_(false);
+        public override void Deactivate() {
+            try {
+                Log.Debug("ExternalCustomButton.Deactivate() called  for " + Name);
+                base.Deactivate();
+                if(Tool && ToolsModifierControl.toolController?.CurrentTool == Tool)
+                    ToolsModifierControl.SetTool<DefaultTool>();
+                OnToggleCallBack?.Invoke(false);
+            } catch(Exception ex) {
+                Log.Exception(ex);
+            }
         }
     }
 }

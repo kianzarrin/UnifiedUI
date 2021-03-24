@@ -9,6 +9,7 @@ namespace UnifiedUI.GUI {
     using Util;
     using PluginUtil = Util.PluginUtil;
     using System.Collections.Generic;
+    using System.Linq;
 
     public class MainPanel : UIAutoSizePanel {
         public static readonly SavedFloat SavedX = new SavedFloat(
@@ -22,6 +23,13 @@ namespace UnifiedUI.GUI {
         public string AtlasName => $"{GetType().FullName}_rev" + this.VersionOf();
         string spriteFileName_ = "MainPanel.png";
 
+        private UILabel lblCaption_;
+        private UIDragHandle dragHandle_;
+        UIAutoSizePanel containerPanel_;
+
+        public List<ButtonBase> ModButtons;
+
+        bool started_ = false;
         #region Instanciation
         public static MainPanel Instance { get; private set; }
 
@@ -51,13 +59,7 @@ namespace UnifiedUI.GUI {
         }
 
 
-        private UILabel lblCaption_;
-        private UIDragHandle dragHandle_;
-        UIAutoSizePanel containerPanel_;
 
-        public List<ButtonBase> ModButtons;
-
-        bool started_ = false;
         public override void Start() {
             base.Start();
             Log.Debug("MainPanel started");
@@ -113,8 +115,8 @@ namespace UnifiedUI.GUI {
             Refresh();
         }
 
-        public UIComponent Register
-            (string name, string groupName, string tooltip, string spritefile, Action<bool> onToggle, Action<ToolBase> onToolChanged = null) {
+        public ExternalCustomButton Register(
+            string name, string groupName, string tooltip, string spritefile) {
             var g = Find<UIPanel>(DEFAULT_GROUP);
             if(g == null)
                 g = AddGroup(this, DEFAULT_GROUP);
@@ -125,25 +127,7 @@ namespace UnifiedUI.GUI {
                 parent: g,
                 name: name,
                 tooltip: tooltip,
-                spritesFile: spritefile,
-                onToggle: onToggle,
-                onToolChanged: onToolChanged);
-            ModButtons.Add(c);
-            return c;
-        }
-
-        public UIComponent Register
-            (string name, string groupName, string tooltip, string spritefile, ToolBase tool) {
-            var g = Find<UIPanel>(DEFAULT_GROUP);
-            if(g == null)
-                g = AddGroup(this, DEFAULT_GROUP);
-
-            var c = ExternalButton.Create(
-                parent: g,
-                name: name,
-                tooltip:tooltip,
-                spritesFile: spritefile,
-                tool:tool);
+                spritesFile: spritefile);
             ModButtons.Add(c);
             return c;
         }
@@ -252,6 +236,29 @@ namespace UnifiedUI.GUI {
             //if (RoundaboutBuilderButton.Instance)
             //    NetworkDetectiveButton.Instance.isVisible = PluginUtil.Instance.RoundaboutBuilder.IsActive;
 
+        }
+
+        public Dictionary<SavedInputKey, Action> CustomHotkeys = new Dictionary<SavedInputKey, Action>();
+        public Dictionary<SavedInputKey, bool> CustomActiveHotkeys = new Dictionary<SavedInputKey, bool>();
+
+        public void HandleHotkeys() {
+            if(ModButtons.Any(b => b.AvoidCollision()))
+                return;
+
+            if(CustomActiveHotkeys.Any(pair => pair.Value && pair.Key.IsKeyUp()))
+                return;
+
+            foreach(var button in ModButtons) {
+                if(button.HandleHotKey())
+                    return;
+            }
+
+            foreach(var pair in CustomHotkeys) {
+                if(pair.Key.IsKeyUp()) {
+                    pair.Value?.Invoke();
+                    return;
+                }
+            }
         }
     }
 }

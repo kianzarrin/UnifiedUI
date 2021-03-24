@@ -6,6 +6,9 @@ namespace UnifiedUI.GUI
     using UnityEngine;
     using UnifiedUI.LifeCycle;
     using ColossalFramework.Plugins;
+    using ColossalFramework;
+    using System.Collections.Generic;
+    using System;
 
     public abstract class ButtonBase : UIButton
     {
@@ -21,6 +24,11 @@ namespace UnifiedUI.GUI
         public virtual string Tooltip => null;
 
         public bool active_ = false;
+
+
+        public SavedInputKey ActivationKey;
+        public Dictionary<SavedInputKey, bool> ActiveKeys;
+
         public bool IsActive
         {
             get => active_;
@@ -54,6 +62,7 @@ namespace UnifiedUI.GUI
         {
             Log.Debug("ButtonBase.OnDestroy() called for " + Name, false);
             Hide();
+            this.SetAllDeclaredFieldsToNull();
             base.OnDestroy();
         }
 
@@ -91,6 +100,50 @@ namespace UnifiedUI.GUI
             disabledBgSprite = IconDisabled;
             Invalidate();
             active_ = false;
+        }
+
+        public bool AvoidCollision() {
+            if(!IsActive || ActiveKeys.IsNullorEmpty())
+                return false;
+            foreach(var pair in ActiveKeys) {
+                var active = pair.Value;
+                var key = pair.Key;
+                if(active && key.IsKeyUp())
+                    return true;
+            }
+            return false;
+        }
+
+        public bool HandleHotKey() {
+            if(ActivationKey != null && ActivationKey.IsKeyUp()) {
+                Toggle();
+                return true;
+            }
+            return false;
+        }
+
+        public virtual void Activate() {
+            IsActive = true;
+        }
+
+        public virtual void Deactivate() {
+            IsActive = false;
+        }
+
+        public virtual void Toggle() {
+            try {
+                if(IsActive) Deactivate();
+                else Activate();
+            } catch(Exception ex) {
+                Log.Exception(ex);
+            }
+
+        }
+
+        protected override void OnClick(UIMouseEventParameter p) {
+            Log.Debug("ButtonBase.OnClick() called  for " + Name, false);
+            base.OnClick(p);
+            Toggle();
         }
     }
 }

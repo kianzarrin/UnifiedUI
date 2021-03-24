@@ -1,6 +1,6 @@
 namespace UnifiedUI.GUI {
     using ColossalFramework.UI;
-    using KianCommons.UI;
+    using static KianCommons.ReflectionHelpers;
     using KianCommons;
     using UnityEngine;
     using ColossalFramework;
@@ -30,7 +30,7 @@ namespace UnifiedUI.GUI {
 
         bool started_ = false;
         public override void Start() {
-            Log.Debug("FloatingButton.Start() is called.");
+            LogCalled();
             base.Start();
             Instance = this;
             absolutePosition = new Vector3(SavedX, SavedY);
@@ -49,21 +49,16 @@ namespace UnifiedUI.GUI {
             drag_.enabled =  SavedDraggable;
         }
 
-        public void Open() {
-            Log.Debug("FloatingButton.Open() called");
-            IsActive = true;
+        public override void Activate() {
+            LogCalled();
+            base.Activate();
             MainPanel.Instance.Open();
         }
 
-        public void Close() {
-            Log.Debug("FloatingButton.Close() called");
-            IsActive = false;
+        public override void Deactivate() {
+            LogCalled();
+            base.Deactivate();
             MainPanel.Instance.Close();
-        }
-
-        public void Toggle() {
-            if (IsActive) Close();
-            else Open();
         }
 
         bool moving_ = false;
@@ -73,14 +68,14 @@ namespace UnifiedUI.GUI {
         }
 
         protected override void OnClick(UIMouseEventParameter p) {
-            Log.Debug("FloatingButton.OnClick() called");
+            LogCalled();
             base.OnClick(p);
             if (!moving_)
                 Toggle();
         }
 
         protected override void OnDoubleClick(UIMouseEventParameter p) {
-            Log.Debug("FloatingButton.OnDoubleClick() called");
+            LogCalled();
             base.OnDoubleClick(p);
             IsDragable = !IsDragable;
             if (!moving_)
@@ -89,7 +84,7 @@ namespace UnifiedUI.GUI {
 
         protected override void OnPositionChanged() {
             base.OnPositionChanged();
-            Log.DebugWait("OnPositionChanged called",
+            Log.DebugWait(ThisMethod + " called",
                 id: "OnPositionChanged called".GetHashCode() , seconds:0.2f,copyToGameLog:false);
             if (!started_) return;
 
@@ -105,7 +100,7 @@ namespace UnifiedUI.GUI {
 
             SavedX.value = absolutePosition.x;
             SavedY.value = absolutePosition.y;
-            Log.DebugWait("absolutePosition: " + absolutePosition,
+            Log.DebugWait(message: "absolutePosition: " + absolutePosition,
                 id: "absolutePosition: ".GetHashCode(), seconds: 0.2f, copyToGameLog: false);
         }
 

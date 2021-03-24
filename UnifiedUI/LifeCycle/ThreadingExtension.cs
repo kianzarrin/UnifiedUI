@@ -23,6 +23,7 @@ namespace UnifiedUI.LifeCycle {
             base.OnUpdate(realTimeDelta, simulationTimeDelta);
             try {
                 if (!LoadingManager.instance.m_loadingComplete) return;
+                UnifiedUI.GUI.MainPanel.Instance.HandleHotkeys();
                 CaptureToolChanged();
             } catch(Exception e) {
                 Log.Exception(e);

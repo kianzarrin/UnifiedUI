@@ -8,6 +8,8 @@
     using UnityEngine;
     using ICities;
     using System.Collections.Generic;
+    using ColossalFramework;
+    using ColossalFramework.IO;
 
     public static class UUIHelpers {
         const string UUI_NAME = "UnifiedUI.API.UUIMod";
@@ -52,10 +54,16 @@
         internal static Assembly GetUUIAssembly() => GetUUIPlugin().userModInstance.GetType().Assembly;
         internal static Type GetUUI() => GetUUIAssembly().GetType(UUI_NAME, throwOnError: true);
 
-        internal delegate UIComponent RegisterHandlerCustom
-            (string name, string groupName, string tooltip, string spritefile, Action<bool> onToggle, Action<ToolBase> onToolChanged = null);
-        internal delegate UIComponent RegisterHandlerTool
-            (string name, string groupName, string tooltip, string spritefile, ToolBase tool); 
+        internal delegate UIComponent RegisterCustomHandler
+            (string name, string groupName, string tooltip, string spritefile, 
+            Action<bool> onToggle, Action<ToolBase> onToolChanged,
+            SavedInputKey activationKey, Dictionary<SavedInputKey, bool> activeKeys);
+        internal delegate UIComponent RegisterToolHandler
+            (string name, string groupName, string tooltip, string spritefile, ToolBase tool,
+            SavedInputKey activationKey, Dictionary<SavedInputKey, bool> activeKeys);
+        internal delegate void RegisterHotkeysHandler(Action onToggle,
+            SavedInputKey activationKey, Dictionary<SavedInputKey, bool> activeKeys);
+
 
         /// <summary>
         /// register a button to tie to the given tool.
@@ -64,40 +72,68 @@
         /// <param name="groupName">the group under which button will be added. use null to addd to the default gorup.</param>
         /// <param name="spritefile">full path to the file that contains 4 40x40x button sprites(see example)</param>
         /// <param name="tool">the tool to tie the buttont to.</param>
+        /// <param name="activationKey">hot key to trigger the button</param>
+        /// <param name="activeKeys">turn off these hotkeys in other mods</param>
         /// <returns>component containing the button. you can hide this component if necessary.</returns>
         public static UIComponent RegisterToolButton(
-            string name, string groupName, string tooltip, string spritefile, ToolBase tool) {
+            string name, string groupName, string tooltip, string spritefile, ToolBase tool,
+            SavedInputKey activationKey = null, Dictionary<SavedInputKey, bool> activeKeys = null) {
             if (!IsUUIEnabled()) return null;
-            var Register = CreateDelegate<RegisterHandlerTool>(GetUUI(), "Register");
+            var Register = CreateDelegate<RegisterToolHandler>(GetUUI(), "Register");
             return Register(
                 name:name, 
                 groupName:groupName, 
                 tooltip: tooltip,
                 spritefile: spritefile,  
-                tool: tool);
+                tool: tool,
+                activationKey: activationKey,
+                activeKeys: activeKeys);
         }
 
         /// <summary>
-        /// register a button to add to UUI.
+        /// register a custom button .
         /// </summary>
         /// <param name="name">game object name for button</param>
         /// <param name="groupName">the group under which button will be added. use null to addd to the default gorup.</param>
         /// <param name="spritefile">full path to the file that contains 4 40x40x button sprites(see example)</param>
         /// <param name="onToggle">call-back for when the button is activated/deactivated</param>
         /// <param name="onToolChanged">call-back for when any active tool changes.</param>
+        /// <param name="activationKey">hot key to trigger the button</param>
+        /// <param name="activeKeys">hotkey->active dictionary. turns off these hotkeys in other mods while active</param>
         /// <returns>wrapper for the button which you can use to change the its state.</returns>
         public static UUICustomButton RegisterCustomButton(
-            string name, string groupName, string tooltip, string spritefile, Action<bool> onToggle, Action<ToolBase> onToolChanged = null) {
+            string name, string groupName, string tooltip, string spritefile,
+            Action<bool> onToggle, Action<ToolBase> onToolChanged = null,
+            SavedInputKey activationKey = null, Dictionary<SavedInputKey, bool> activeKeys = null) {
             if (!IsUUIEnabled()) return null;
-            var Register = CreateDelegate<RegisterHandlerCustom>(GetUUI(), "Register");
+            var Register = CreateDelegate<RegisterCustomHandler>(GetUUI(), "Register");
             UIComponent compoennt = Register(
                 name: name,
                 groupName: groupName,
                 tooltip: tooltip,
                 spritefile: spritefile,
-                onToggle, 
-                onToolChanged);
+                onToggle: onToggle,
+                onToolChanged: onToolChanged,
+                activationKey: activationKey,
+                activeKeys: activeKeys);
             return new UUICustomButton(compoennt);
+        }
+
+        /// <summary>
+        /// register hotkeys.
+        /// </summary>
+        /// <param name="onToggle">call back for when activationKey is pressed.</param>
+        /// <param name="onToolChanged">call-back for when any active tool changes.</param>
+        /// <param name="activationKey">hot key to toggle</param>
+        /// <param name="activeKeys">hotkey->active dictionary. turns off these hotkeys in other mods while active</param>
+        public static void RegisterHotkeys(
+            Action onToggle,  SavedInputKey activationKey = null, Dictionary<SavedInputKey, bool> activeKeys = null) {
+            if (!IsUUIEnabled()) return;
+            var Register = CreateDelegate<RegisterHotkeysHandler>(GetUUI(), "Register");
+            Register(
+                onToggle: onToggle,
+                activationKey: activationKey,
+                activeKeys: activeKeys);
         }
 
         /// <summary>

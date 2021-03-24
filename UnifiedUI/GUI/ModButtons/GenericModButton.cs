@@ -62,33 +62,22 @@ namespace UnifiedUI.GUI {
             return Tool != null || Widnow != null || PluginExtensions.IsActive(Plugin);
         }
 
-        public virtual void Activate() {
+        public override void Activate() {
             Log.Debug("GenericModButton.Open() called for " + Name);
-            IsActive = true;
+            base.Activate();
             var tool = Tool;
 
             if (tool) tool.enabled = true; // ToolsModifierControl.toolController.CurrentTool = tool;
             Widnow?.Show();
         }
 
-        public virtual void Deactivate() {
+        public override void Deactivate() {
             Log.Debug("GenericModButton.Close() called  for " + Name);
-            IsActive = false;
+            base.Deactivate();
             var tool = Tool;
             if(tool && ToolsModifierControl.toolController?.CurrentTool == tool)
                 ToolsModifierControl.SetTool<DefaultTool>();
             Widnow?.Hide();
-        }
-
-        public virtual void Toggle() {
-            if (IsActive) Deactivate();
-            else Activate();
-        }
-
-        protected override void OnClick(UIMouseEventParameter p) {
-            Log.Debug("GenericModButton.OnClick() called  for " + Name, false);
-            base.OnClick(p);
-            Toggle();
         }
 
         /// <summary>

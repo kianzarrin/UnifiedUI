@@ -4,12 +4,13 @@ namespace UnifiedUI.GUI {
     using ICities;
     using KianCommons;
     using System;
+    using System.Collections.Generic;
 
     public static class Settings {
         public const string FileName = nameof(UnifiedUI);
         static Settings() {
             // Creating setting file - from SamsamTS
-            if (GameSettings.FindSettingsFileByName(FileName) == null) {
+            if(GameSettings.FindSettingsFileByName(FileName) == null) {
                 GameSettings.AddSettingsFile(new SettingsFile[] { new SettingsFile() { fileName = FileName } });
             }
         }
@@ -20,7 +21,32 @@ namespace UnifiedUI.GUI {
         public static void DoRefreshButtons() => RefreshButtons?.Invoke();
 
 
-        public static void OnSettingsUI(UIHelperBase helper) {
+        public static void Collisions(UIHelper helper) {
+            var mainPanel = MainPanel.Instance;
+            if(mainPanel != null) {
+
+                var keys = new List<SavedInputKey>();
+                foreach(var b in mainPanel.ModButtons) {
+                    if(b.ActivationKey != null)
+                        keys.Add(b.ActivationKey);
+                }
+                keys.AddRange(mainPanel.CustomHotkeys.Keys);
+
+                foreach(var key1 in keys) {
+                    foreach(var key2 in keys) {
+                        if(key1 != key2 && key1.value == key2.value) {
+                            var file1 = (string)ReflectionHelpers.GetFieldValue(key1, "m_FileName");
+                            var file2 = (string)ReflectionHelpers.GetFieldValue(key2, "m_FileName");
+                            Log.Warning($"Collision Detected: " +
+                                $"{file1}.{key1.name}:'{key1}' collides with " +
+                                $"{file2}.{key2.name}:'{key2}'");
+                        }
+                    }
+                }
+            }
+        }
+
+        public static void OnSettingsUI(UIHelper helper) {
             try {
                 var hideCheckBox = helper.AddCheckbox(
                     "Hide original activation buttons",
@@ -42,8 +68,10 @@ namespace UnifiedUI.GUI {
 
                 //var keymappings = panel.gameObject.AddComponent<KeymappingsPanel>();
                 //keymappings.AddKeymapping("Activation Shortcut", NodeControllerTool.ActivationShortcut);
-            }
-            catch (Exception e) {
+
+                (helper.self as UIComponent).eventVisibilityChanged += (_,__) => Collisions(helper);
+                Collisions(helper);
+            } catch(Exception e) {
                 Log.Exception(e);
             }
         }
