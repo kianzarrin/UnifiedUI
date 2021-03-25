@@ -1,3 +1,5 @@
+using ColossalFramework;
+
 namespace UnifiedUI.GUI.ModButtons {
     public class NetworkDetectiveButton : GenericModButton {
         public static NetworkDetectiveButton Instance;
@@ -6,9 +8,7 @@ namespace UnifiedUI.GUI.ModButtons {
         public override string Tooltip => "Network Detective";
         public override ToolBase Tool => GetTool("NetworkDetectiveTool");
 
-        public override void Awake() {
-            base.Awake();
-            //ActivationKey = GetInputKey("NetworkDetective.Tool.NetworkDetectiveTool, NetworkDetective", "ActivationShortcut");
-        }
+        public override SavedInputKey GetHotkey() =>
+            ReplaceHotkey("ActivationShortcut", "NetworkDetective");
     }
 }

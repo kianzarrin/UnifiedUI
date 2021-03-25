@@ -1,9 +1,10 @@
-using ColossalFramework.Plugins;
-using ColossalFramework.UI;
-using KianCommons.Plugins;
-using System.Collections.Generic;
-
 namespace UnifiedUI.GUI.ModButtons {
+    using ColossalFramework;
+    using ColossalFramework.Plugins;
+    using ColossalFramework.UI;
+    using KianCommons.Plugins;
+    using System.Collections.Generic;
+
     public class NodeControllerButton : GenericModButton {
         public static NodeControllerButton Instance;
         public NodeControllerButton() : base() => Instance = this;
@@ -14,5 +15,7 @@ namespace UnifiedUI.GUI.ModButtons {
             PluginUtil.GetPlugin("Node Controller");
         public override IEnumerable<UIComponent> GetOriginalButtons() =>
             GetButtons("NodeControllerButton");
+        public override SavedInputKey GetHotkey() =>
+            ReplaceHotkey(name: "ActivationShortcut", fileName: "NodeController");
     }
 }

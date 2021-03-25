@@ -1,10 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net35</TargetFramework>
-    <Deterministic>false</Deterministic>
+    <LangVersion>latest</LangVersion>
     <Deterministic>false</Deterministic>
     <AssemblyVersion>0.1.8.*</AssemblyVersion>
-    <LangVersion>latest</LangVersion>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
     <PathMap>$(MSBuildProjectDirectory)/=$(ProjectName)/</PathMap>
@@ -39,6 +38,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Mono.Unofficial.pdb2mdb" Version="4.2.3.4" />
+    <PackageReference Include="ValueTupleBridge" Version="0.1.5" />
   </ItemGroup>
   <ItemDefinitionGroup>
     <Reference>
@@ -158,7 +158,7 @@
     </ItemGroup>
 
     <Delete Files="$(TargetPath).mdb" />
-    <Exec Command='"$(pdb2mdb)" "$(TargetPath)"' />
+    <Exec Command="&quot;$(pdb2mdb)&quot; &quot;$(TargetPath)&quot;" />
     <Copy SourceFiles="$(TargetPath).mdb" DestinationFolder="$(DeployDir)" />
     <Copy SourceFiles="@(AuxiliaryFiles)" DestinationFolder="$(DeployDir)" />
     <Delete Files="$(DeployDir)$(TargetFileName)" />

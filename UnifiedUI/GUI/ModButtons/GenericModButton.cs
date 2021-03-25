@@ -30,6 +30,7 @@ namespace UnifiedUI.GUI {
             base.Start();
             HandleOriginalButtons();
             Settings.RefreshButtons += HandleOriginalButtons;
+            ActivationKey ??= GetHotkey();
         }
 
         void CollectOriginalButtons() {
@@ -41,6 +42,8 @@ namespace UnifiedUI.GUI {
             if(!b.IsNullorEmpty())
                 originalButtons_.AddRange(b);
         }
+
+        public virtual SavedInputKey GetHotkey() => null;
 
         public void HandleOriginalButtons() {
             CollectOriginalButtons();
@@ -148,6 +151,31 @@ namespace UnifiedUI.GUI {
                 Log.Debug($"FindButtons({name})->{ret.ToSTR()}");
             return ret.Select(c => c as UIComponent);
         }
+
+        public static SavedInputKey ReplaceHotkey(string name, string fileName) {
+            var options = Singleton<OptionsMainPanel>.instance.Find<UITabContainer>("OptionsContainer");
+            var newKey = new SavedInputKey(name, fileName);
+            foreach(var button in options.GetComponentsInChildren<UIButton>()) {
+                if(button.objectUserData is SavedInputKey oldKey && oldKey == newKey) {
+                    button.objectUserData = newKey;
+                    button.eventVisibilityChanged -= RefreshBindingButton;
+                    button.eventVisibilityChanged += RefreshBindingButton;
+
+                    // hack to nuteralize original hotkey wihtout changing the value in config file.
+                    // set value manually to prevent auto-sync.
+                    ReflectionHelpers.SetFieldValue(oldKey, "m_Value", (InputKey)0); 
+                    return newKey;
+                }
+            }
+            return null;
+        }
+
+        public static void RefreshBindingButton(UIComponent c, bool visible) {
+            if(visible && c is UIButton button && button.objectUserData is SavedInputKey savedInputKey) {
+                button.text = savedInputKey.ToLocalizedString("KEYNAME");
+            }
+        }
+
 
         public static SavedInputKey GetInputKey(string type, string field) {
             var t = Type.GetType(type);
