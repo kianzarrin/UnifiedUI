@@ -1,5 +1,6 @@
 using ColossalFramework.UI;
 using System.Collections.Generic;
+using ColossalFramework;
 
 namespace UnifiedUI.GUI.ModButtons {
     public class IntersectionMarkingButton : GenericModButton {
@@ -8,7 +9,31 @@ namespace UnifiedUI.GUI.ModButtons {
         public override string SpritesFileName => "uui_imt.png";
         public override string Tooltip => "Intersection marking tool";
         public override ToolBase Tool => GetTool("NodeMarkupTool");
-        public override  IEnumerable<UIComponent> GetOriginalButtons() =>
+        public override IEnumerable<UIComponent> GetOriginalButtons() =>
             GetButtons("NodeMarkupButton");
+
+        public override SavedInputKey GetHotkey() {
+            var file = "NodeMarkupSettingsFile";
+            var keys = new[] {
+                "DeleteAllShortcut",
+                "ResetOffsetsShortcut",
+                "AddFillerShortcut",
+                "CopyMarkingShortcut",
+                "PasteMarkingShortcut",
+                "EditMarkingShortcut",
+                "CreateEdgeLinesShortcut",
+                "AddRuleShortcut",
+                "SaveAsIntersectionTemplateShortcut",
+                "CutLinesByCrosswalks"};
+
+            var ActiveKeys = new Dictionary<SavedInputKey, bool>();
+            foreach(var key in keys) {
+                var savedInputKey = GetHotkey(key, file);
+                if(savedInputKey != null)
+                    ActiveKeys[savedInputKey] = true;
+            }
+
+            return ReplaceHotkey("ActivationShortcut", file);
+        }
     }
 }

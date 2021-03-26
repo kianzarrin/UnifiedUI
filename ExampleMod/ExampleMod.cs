@@ -15,14 +15,13 @@
 
         public static SavedInputKey Hotkey = new SavedInputKey(
             "UUIExampleMod_HotKey", FILE_NAME,
-            key: KeyCode.D, control: true, shift: false, alt: false, true);
+            key: KeyCode.A, control: true, shift: true, alt: false, true);
 
         static UserModExtension() {
             if (GameSettings.FindSettingsFileByName(FILE_NAME) == null) {
                 GameSettings.AddSettingsFile(new SettingsFile[] { new SettingsFile() { fileName = FILE_NAME } });
             }
         }
-
 
         internal static bool InGameOrEditor =>
             SceneManager.GetActiveScene().name != "IntroScreen" &&

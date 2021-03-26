@@ -152,6 +152,23 @@ namespace UnifiedUI.GUI {
             return ret.Select(c => c as UIComponent);
         }
 
+        public static SavedInputKey GetInputKey(string type, string field) {
+            var t = Type.GetType(type);
+            return (SavedInputKey)ReflectionHelpers.GetFieldValue(t, field);
+        }
+
+        public static SavedInputKey GetHotkey(string name, string fileName) {
+            var options = Singleton<OptionsMainPanel>.instance.Find<UITabContainer>("OptionsContainer");
+            var templateKey = new SavedInputKey(name, fileName);
+            foreach(var button in options.GetComponentsInChildren<UIButton>()) {
+                if(button.objectUserData is SavedInputKey key && key == templateKey) {
+                    return key;
+                }
+            }
+            return null;
+        }
+
+
         public static SavedInputKey ReplaceHotkey(string name, string fileName) {
             var options = Singleton<OptionsMainPanel>.instance.Find<UITabContainer>("OptionsContainer");
             var newKey = new SavedInputKey(name, fileName);
@@ -170,6 +187,7 @@ namespace UnifiedUI.GUI {
             return null;
         }
 
+
         public static void RefreshBindingButton(UIComponent c, bool visible) {
             if(visible && c is UIButton button && button.objectUserData is SavedInputKey savedInputKey) {
                 button.text = savedInputKey.ToLocalizedString("KEYNAME");
@@ -177,9 +195,5 @@ namespace UnifiedUI.GUI {
         }
 
 
-        public static SavedInputKey GetInputKey(string type, string field) {
-            var t = Type.GetType(type);
-            return (SavedInputKey)ReflectionHelpers.GetFieldValue(t, field);
-        }
     }
 }
