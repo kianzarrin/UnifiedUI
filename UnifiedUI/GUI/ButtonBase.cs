@@ -39,23 +39,27 @@ namespace UnifiedUI.GUI
 
         public override void Awake()
         {
-            base.Awake();
-            isVisible = true;
-            size = new Vector2(SIZE, SIZE);
-            canFocus = false;
-            name = Name;
-            if (Tooltip != null) tooltip = Tooltip;
+            try {
+                base.Awake();
+                isVisible = true;
+                size = new Vector2(SIZE, SIZE);
+                canFocus = false;
+                name = Name;
+                if(Tooltip != null) tooltip = Tooltip;
+            } catch(Exception ex) { Log.Exception(ex); }
         }
 
         public override void Start()
         {
-            Log.Debug(ThisMethod + " is called for " + Name, false);
-            base.Start();
+            try {
+                Log.Debug(ThisMethod + " is called for " + Name, false);
+                base.Start();
 
-            SetupSprites();
-            // m_TooltipBox = GetUIView()?.defaultTooltipBox; // Set up the tooltip
+                SetupSprites();
+                // m_TooltipBox = GetUIView()?.defaultTooltipBox; // Set up the tooltip
 
-            ThreadingExtension.EventToolChanged += OnToolChanged;
+                ThreadingExtension.EventToolChanged += OnToolChanged;
+            } catch(Exception ex) { Log.Exception(ex); }
         }
 
         public virtual void OnToolChanged(ToolBase newTool) { }

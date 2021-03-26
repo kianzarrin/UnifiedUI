@@ -51,6 +51,7 @@ namespace UnifiedUI.GUI {
 
         public static void OnSettingsUI(UIHelper helper) {
             try {
+                Log.Debug(Environment.StackTrace);
                 var hideCheckBox = helper.AddCheckbox(
                     "Hide original activation buttons",
                     HideOriginalButtons,

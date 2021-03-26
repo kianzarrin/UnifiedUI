@@ -1,6 +1,8 @@
 using ColossalFramework.UI;
 using System.Collections.Generic;
 using ColossalFramework;
+using static KianCommons.ReflectionHelpers;
+using KianCommons;
 
 namespace UnifiedUI.GUI.ModButtons {
     public class IntersectionMarkingButton : GenericModButton {
@@ -13,6 +15,7 @@ namespace UnifiedUI.GUI.ModButtons {
             GetButtons("NodeMarkupButton");
 
         public override SavedInputKey GetHotkey() {
+            Log.Debug(ThisMethod + " called for " + Name);
             var file = "NodeMarkupSettingsFile";
             var keys = new[] {
                 "DeleteAllShortcut",
@@ -26,7 +29,7 @@ namespace UnifiedUI.GUI.ModButtons {
                 "SaveAsIntersectionTemplateShortcut",
                 "CutLinesByCrosswalks"};
 
-            var ActiveKeys = new Dictionary<SavedInputKey, bool>();
+            ActiveKeys = new Dictionary<SavedInputKey, bool>();
             foreach(var key in keys) {
                 var savedInputKey = GetHotkey(key, file);
                 if(savedInputKey != null)

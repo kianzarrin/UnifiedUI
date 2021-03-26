@@ -225,30 +225,21 @@ namespace UnifiedUI.GUI {
                 if(btn is GenericModButton btn2)
                     btn2.HandleOriginalButtons();
             }
-
-            // uncomment code bellow to support hot reload. start code also needs change.
-            //if(NetworkDetectiveButton.Instance)
-            //    NetworkDetectiveButton.Instance.isVisible = PluginUtil.Instance.NetworkDetective.IsActive;
-            //if(NodeControllerButton.Instance)
-            //    NodeControllerButton.Instance.isVisible = PluginUtil.Instance.NodeController.IsActive;
-            //if (PedestrianBridgeButton.Instance)
-            //    NetworkDetectiveButton.Instance.isVisible = PluginUtil.Instance.PedestrianBridge.IsActive;
-            //if (IntersectionMarkingButton.Instance)
-            //    NetworkDetectiveButton.Instance.isVisible = PluginUtil.Instance.IntersectionMarkup.IsActive;
-            //if (RoundaboutBuilderButton.Instance)
-            //    NetworkDetectiveButton.Instance.isVisible = PluginUtil.Instance.RoundaboutBuilder.IsActive;
-
         }
 
         public Dictionary<SavedInputKey, Action> CustomHotkeys = new Dictionary<SavedInputKey, Action>();
         public Dictionary<SavedInputKey, bool> CustomActiveHotkeys = new Dictionary<SavedInputKey, bool>();
 
         public void HandleHotkeys() {
-            if(ModButtons.Any(b => b.AvoidCollision()))
+            if(ModButtons.Any(b => b.AvoidCollision())) {
+                Log.Info("Active Key pressed");
                 return;
+            }
 
-            if(CustomActiveHotkeys.Any(pair => pair.Value && pair.Key.IsKeyUp()))
+            if(CustomActiveHotkeys.Any(pair => pair.Value && pair.Key.IsKeyUp())) {
+                Log.Info("Active Key pressed");
                 return;
+            }
 
             foreach(var button in ModButtons) {
                 if(button.HandleHotKey())

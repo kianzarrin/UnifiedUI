@@ -8,6 +8,7 @@ namespace UnifiedUI.GUI {
     using KianCommons.Plugins;
     using System.Collections.Generic;
     using ColossalFramework;
+    using static KianCommons.ReflectionHelpers;
 
     public abstract class GenericModButton : ModButtonBase {
         public virtual ToolBase Tool => null;
@@ -21,16 +22,23 @@ namespace UnifiedUI.GUI {
         public virtual IEnumerable<UIComponent> GetOriginalButtons() => null;
 
         public override void Awake() {
-            base.Awake();
-            plugin_ = Plugin;
+            try {
+                base.Awake();
+                plugin_ = Plugin;
+            } catch(Exception ex) { Log.Exception(ex); }
         }
 
         public override void Start() {
-            Log.Debug("GenericModButton.Start() is called for " + Name);
-            base.Start();
-            HandleOriginalButtons();
-            Settings.RefreshButtons += HandleOriginalButtons;
-            ActivationKey ??= GetHotkey();
+            try {
+                Log.Debug("GenericModButton.Start() is called for " + Name);
+                base.Start();
+                HandleOriginalButtons();
+                Settings.RefreshButtons += HandleOriginalButtons;
+                ActivationKey ??= GetHotkey();
+                Log.Info($"activation key for {Name} is {ActivationKey?.name}:{ActivationKey?.value}");
+                Log.Info($"active keys for {Name} are {ActiveKeys.ToSTR()}");
+            } catch(Exception ex) { Log.Exception(ex); }
+
         }
 
         void CollectOriginalButtons() {
@@ -158,7 +166,7 @@ namespace UnifiedUI.GUI {
         }
 
         public static SavedInputKey GetHotkey(string name, string fileName) {
-            var options = Singleton<OptionsMainPanel>.instance.Find<UITabContainer>("OptionsContainer");
+            var options = UIView.Find<UITabContainer>("OptionsContainer");
             var templateKey = new SavedInputKey(name, fileName);
             foreach(var button in options.GetComponentsInChildren<UIButton>()) {
                 if(button.objectUserData is SavedInputKey key && key == templateKey) {
@@ -170,17 +178,24 @@ namespace UnifiedUI.GUI {
 
 
         public static SavedInputKey ReplaceHotkey(string name, string fileName) {
-            var options = Singleton<OptionsMainPanel>.instance.Find<UITabContainer>("OptionsContainer");
-            var newKey = new SavedInputKey(name, fileName);
+            var options = UIView.Find<UITabContainer>("OptionsContainer");
+            var newKey = new SavedInputKey(name, fileName, default, true);
             foreach(var button in options.GetComponentsInChildren<UIButton>()) {
                 if(button.objectUserData is SavedInputKey oldKey && oldKey == newKey) {
+                    newKey.value = oldKey.value;
+                    //Log.Debug("ReplaceHotkey: original old key value =  " + oldKey.value);
+                    //Log.Debug("ReplaceHotkey:: original new key value =  " + newKey.value);
+
+                    // hack to nuteralize original hotkey wihtout changing the value in config file.
+                    SetFieldValue(oldKey, "m_AutoUpdate", false);
+                    SetFieldValue(oldKey, "m_Value", (InputKey)0);
+
+                    //Log.Debug("ReplaceHotkey: final old key value =  " + oldKey.value);
+                    //Log.Debug("ReplaceHotkey: final new key value =  " + newKey.value);
+
                     button.objectUserData = newKey;
                     button.eventVisibilityChanged -= RefreshBindingButton;
                     button.eventVisibilityChanged += RefreshBindingButton;
-
-                    // hack to nuteralize original hotkey wihtout changing the value in config file.
-                    // set value manually to prevent auto-sync.
-                    ReflectionHelpers.SetFieldValue(oldKey, "m_Value", (InputKey)0); 
                     return newKey;
                 }
             }
