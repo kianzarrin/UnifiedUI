@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using ColossalFramework;
 using static KianCommons.ReflectionHelpers;
 using KianCommons;
+using System;
 
 namespace UnifiedUI.GUI.ModButtons {
     public class IntersectionMarkingButton : GenericModButton {
@@ -29,11 +30,11 @@ namespace UnifiedUI.GUI.ModButtons {
                 "SaveAsIntersectionTemplateShortcut",
                 "CutLinesByCrosswalks"};
 
-            ActiveKeys = new Dictionary<SavedInputKey, bool>();
+            ActiveKeys = new Dictionary<SavedInputKey, Func<bool>>();
             foreach(var key in keys) {
                 var savedInputKey = GetHotkey(key, file);
                 if(savedInputKey != null)
-                    ActiveKeys[savedInputKey] = true;
+                    ActiveKeys[savedInputKey] = null;
             }
 
             return ReplaceHotkey("ActivationShortcut", file);

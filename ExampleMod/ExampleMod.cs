@@ -56,7 +56,6 @@
                 UIView.ForwardException(ex);
             }
         }
-
     }
 
     internal static class LifeCycle {
@@ -66,6 +65,14 @@
         }
         internal static void Release() =>
             ToolsModifierControl.toolController.GetComponent<ExampleTool>()?.Destroy();
+    }
+
+    public class ThreadingExtension : ThreadingExtensionBase {
+        public override void OnUpdate(float realTimeDelta, float simulationTimeDelta) {
+            if(UserModExtension.Hotkey?.IsKeyUp() ?? false) {
+                ToolsModifierControl.SetTool<DefaultTool>();
+            }
+        }
     }
 
     public class ExampleTool : ToolBase {
@@ -84,15 +91,17 @@
                 tool: this,
                 activationKey: UserModExtension.Hotkey);
 
-            if(button == null) {
-                button = UIView.GetAView().AddUIComponent(typeof(UIPanel));
-                new UIHelper(button).AddButton("UUI Example Mod", () => {
-                    if (enabled)
-                        ToolsModifierControl.SetTool<DefaultTool>();
-                    else
-                        enabled = true;
-                });
-            }
+                if (button != null) {
+                    UserModExtension.Hotkey = null;
+                } else {
+                    button = UIView.GetAView().AddUIComponent(typeof(UIPanel));
+                    new UIHelper(button).AddButton("UUI Example Mod", () => {
+                        if (enabled)
+                            ToolsModifierControl.SetTool<DefaultTool>();
+                        else
+                            enabled = true;
+                    });
+                }
             } catch (Exception ex) {
                 Debug.LogException(ex);
                 UIView.ForwardException(ex);

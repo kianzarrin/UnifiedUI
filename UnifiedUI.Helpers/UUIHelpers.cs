@@ -57,12 +57,12 @@
         internal delegate UIComponent RegisterCustomHandler
             (string name, string groupName, string tooltip, string spritefile, 
             Action<bool> onToggle, Action<ToolBase> onToolChanged,
-            SavedInputKey activationKey, Dictionary<SavedInputKey, bool> activeKeys);
+            SavedInputKey activationKey, Dictionary<SavedInputKey, Func<bool>> activeKeys);
         internal delegate UIComponent RegisterToolHandler
             (string name, string groupName, string tooltip, string spritefile, ToolBase tool,
-            SavedInputKey activationKey, Dictionary<SavedInputKey, bool> activeKeys);
+            SavedInputKey activationKey, Dictionary<SavedInputKey, Func<bool>> activeKeys);
         internal delegate void RegisterHotkeysHandler(Action onToggle,
-            SavedInputKey activationKey, Dictionary<SavedInputKey, bool> activeKeys);
+            SavedInputKey activationKey, Dictionary<SavedInputKey, Func<bool>> activeKeys);
 
 
         /// <summary>
@@ -77,7 +77,7 @@
         /// <returns>component containing the button. you can hide this component if necessary.</returns>
         public static UIComponent RegisterToolButton(
             string name, string groupName, string tooltip, string spritefile, ToolBase tool,
-            SavedInputKey activationKey = null, Dictionary<SavedInputKey, bool> activeKeys = null) {
+            SavedInputKey activationKey = null, Dictionary<SavedInputKey, Func<bool>> activeKeys = null) {
             if (!IsUUIEnabled()) return null;
             var Register = CreateDelegate<RegisterToolHandler>(GetUUI(), "Register");
             return Register(
@@ -89,6 +89,34 @@
                 activationKey: activationKey,
                 activeKeys: activeKeys);
         }
+
+        /// <summary>
+        /// register a button to tie to the given tool.
+        /// </summary>
+        /// <param name="name">game object name for button</param>
+        /// <param name="groupName">the group under which button will be added. use null to addd to the default gorup.</param>
+        /// <param name="spritefile">full path to the file that contains 4 40x40x button sprites(see example)</param>
+        /// <param name="tool">the tool to tie the buttont to.</param>
+        /// <param name="activationKey">hot key to trigger the button</param>
+        /// <param name="activeKeys">turn off these hotkeys in other mods</param>
+        /// <returns>component containing the button. you can hide this component if necessary.</returns>
+        public static UIComponent RegisterToolButton(
+            string name, string groupName, string tooltip, string spritefile, ToolBase tool,
+            SavedInputKey activationKey, IEnumerable<SavedInputKey> activeKeys) {
+            var activeKeys2 = new Dictionary<SavedInputKey, Func<bool>>();
+            foreach (var key in activeKeys)
+                activeKeys2[key] = null;
+
+            return RegisterToolButton(
+                name: name,
+                groupName: groupName,
+                tooltip: tooltip,
+                spritefile: spritefile,
+                tool: tool,
+                activationKey: activationKey,
+                activeKeys: activeKeys2);
+        }
+
 
         /// <summary>
         /// register a custom button .
@@ -104,10 +132,10 @@
         public static UUICustomButton RegisterCustomButton(
             string name, string groupName, string tooltip, string spritefile,
             Action<bool> onToggle, Action<ToolBase> onToolChanged = null,
-            SavedInputKey activationKey = null, Dictionary<SavedInputKey, bool> activeKeys = null) {
+            SavedInputKey activationKey = null, Dictionary<SavedInputKey, Func<bool>> activeKeys = null) {
             if (!IsUUIEnabled()) return null;
             var Register = CreateDelegate<RegisterCustomHandler>(GetUUI(), "Register");
-            UIComponent compoennt = Register(
+            UIComponent component = Register(
                 name: name,
                 groupName: groupName,
                 tooltip: tooltip,
@@ -116,7 +144,37 @@
                 onToolChanged: onToolChanged,
                 activationKey: activationKey,
                 activeKeys: activeKeys);
-            return new UUICustomButton(compoennt);
+            return new UUICustomButton(component);
+        }
+
+        /// <summary>
+        /// register a custom button .
+        /// </summary>
+        /// <param name="name">game object name for button</param>
+        /// <param name="groupName">the group under which button will be added. use null to addd to the default gorup.</param>
+        /// <param name="spritefile">full path to the file that contains 4 40x40x button sprites(see example)</param>
+        /// <param name="onToggle">call-back for when the button is activated/deactivated</param>
+        /// <param name="onToolChanged">call-back for when any active tool changes.</param>
+        /// <param name="activationKey">hot key to trigger the button</param>
+        /// <param name="activeKeys">hotkey->active dictionary. turns off these hotkeys in other mods while active</param>
+        /// <returns>wrapper for the button which you can use to change the its state.</returns>
+        public static UUICustomButton RegisterCustomButton(
+            string name, string groupName, string tooltip, string spritefile,
+            Action<bool> onToggle, Action<ToolBase> onToolChanged,
+            SavedInputKey activationKey, IEnumerable<SavedInputKey> activeKeys) {
+            var activeKeys2 = new Dictionary<SavedInputKey, Func<bool>>();
+            foreach (var key in activeKeys)
+                activeKeys2[key] = null;
+
+            return  RegisterCustomButton(
+                name: name,
+                groupName: groupName,
+                tooltip: tooltip,
+                spritefile: spritefile,
+                onToggle: onToggle,
+                onToolChanged: onToolChanged,
+                activationKey: activationKey,
+                activeKeys: activeKeys2);
         }
 
         /// <summary>
@@ -127,7 +185,7 @@
         /// <param name="activationKey">hot key to toggle</param>
         /// <param name="activeKeys">hotkey->active dictionary. turns off these hotkeys in other mods while active</param>
         public static void RegisterHotkeys(
-            Action onToggle,  SavedInputKey activationKey = null, Dictionary<SavedInputKey, bool> activeKeys = null) {
+            Action onToggle,  SavedInputKey activationKey = null, Dictionary<SavedInputKey, Func<bool>> activeKeys = null) {
             if (!IsUUIEnabled()) return;
             var Register = CreateDelegate<RegisterHotkeysHandler>(GetUUI(), "Register");
             Register(

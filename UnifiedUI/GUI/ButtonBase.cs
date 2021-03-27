@@ -29,7 +29,7 @@ namespace UnifiedUI.GUI
 
 
         public SavedInputKey ActivationKey;
-        public Dictionary<SavedInputKey, bool> ActiveKeys;
+        public Dictionary<SavedInputKey, Func<bool>> ActiveKeys;
 
         public bool IsActive
         {
@@ -112,7 +112,7 @@ namespace UnifiedUI.GUI
             if(!IsActive || ActiveKeys.IsNullorEmpty())
                 return false;
             foreach(var pair in ActiveKeys) {
-                var active = pair.Value;
+                var active = pair.Value?.Invoke() ?? true;
                 var key = pair.Key;
                 if(active && key.IsKeyUp())
                     return true;

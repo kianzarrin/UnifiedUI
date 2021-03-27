@@ -26,7 +26,7 @@
             <param name="type">the class/type where the method is delcared</param>
             <param name="name">the name of the method</param>
         </member>
-        <member name="M:UnifiedUI.Helpers.UUIHelpers.RegisterToolButton(System.String,System.String,System.String,System.String,ToolBase,ColossalFramework.SavedInputKey,System.Collections.Generic.Dictionary{ColossalFramework.SavedInputKey,System.Boolean})">
+        <member name="M:UnifiedUI.Helpers.UUIHelpers.RegisterToolButton(System.String,System.String,System.String,System.String,ToolBase,ColossalFramework.SavedInputKey,System.Collections.Generic.Dictionary{ColossalFramework.SavedInputKey,System.Func{System.Boolean}})">
             <summary>
             register a button to tie to the given tool.
             </summary>
@@ -38,7 +38,19 @@
             <param name="activeKeys">turn off these hotkeys in other mods</param>
             <returns>component containing the button. you can hide this component if necessary.</returns>
         </member>
-        <member name="M:UnifiedUI.Helpers.UUIHelpers.RegisterCustomButton(System.String,System.String,System.String,System.String,System.Action{System.Boolean},System.Action{ToolBase},ColossalFramework.SavedInputKey,System.Collections.Generic.Dictionary{ColossalFramework.SavedInputKey,System.Boolean})">
+        <member name="M:UnifiedUI.Helpers.UUIHelpers.RegisterToolButton(System.String,System.String,System.String,System.String,ToolBase,ColossalFramework.SavedInputKey,System.Collections.Generic.IEnumerable{ColossalFramework.SavedInputKey})">
+            <summary>
+            register a button to tie to the given tool.
+            </summary>
+            <param name="name">game object name for button</param>
+            <param name="groupName">the group under which button will be added. use null to addd to the default gorup.</param>
+            <param name="spritefile">full path to the file that contains 4 40x40x button sprites(see example)</param>
+            <param name="tool">the tool to tie the buttont to.</param>
+            <param name="activationKey">hot key to trigger the button</param>
+            <param name="activeKeys">turn off these hotkeys in other mods</param>
+            <returns>component containing the button. you can hide this component if necessary.</returns>
+        </member>
+        <member name="M:UnifiedUI.Helpers.UUIHelpers.RegisterCustomButton(System.String,System.String,System.String,System.String,System.Action{System.Boolean},System.Action{ToolBase},ColossalFramework.SavedInputKey,System.Collections.Generic.Dictionary{ColossalFramework.SavedInputKey,System.Func{System.Boolean}})">
             <summary>
             register a custom button .
             </summary>
@@ -51,7 +63,20 @@
             <param name="activeKeys">hotkey->active dictionary. turns off these hotkeys in other mods while active</param>
             <returns>wrapper for the button which you can use to change the its state.</returns>
         </member>
-        <member name="M:UnifiedUI.Helpers.UUIHelpers.RegisterHotkeys(System.Action,ColossalFramework.SavedInputKey,System.Collections.Generic.Dictionary{ColossalFramework.SavedInputKey,System.Boolean})">
+        <member name="M:UnifiedUI.Helpers.UUIHelpers.RegisterCustomButton(System.String,System.String,System.String,System.String,System.Action{System.Boolean},System.Action{ToolBase},ColossalFramework.SavedInputKey,System.Collections.Generic.IEnumerable{ColossalFramework.SavedInputKey})">
+            <summary>
+            register a custom button .
+            </summary>
+            <param name="name">game object name for button</param>
+            <param name="groupName">the group under which button will be added. use null to addd to the default gorup.</param>
+            <param name="spritefile">full path to the file that contains 4 40x40x button sprites(see example)</param>
+            <param name="onToggle">call-back for when the button is activated/deactivated</param>
+            <param name="onToolChanged">call-back for when any active tool changes.</param>
+            <param name="activationKey">hot key to trigger the button</param>
+            <param name="activeKeys">hotkey->active dictionary. turns off these hotkeys in other mods while active</param>
+            <returns>wrapper for the button which you can use to change the its state.</returns>
+        </member>
+        <member name="M:UnifiedUI.Helpers.UUIHelpers.RegisterHotkeys(System.Action,ColossalFramework.SavedInputKey,System.Collections.Generic.Dictionary{ColossalFramework.SavedInputKey,System.Func{System.Boolean}})">
             <summary>
             register hotkeys.
             </summary>

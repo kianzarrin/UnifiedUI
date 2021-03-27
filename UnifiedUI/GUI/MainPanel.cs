@@ -228,7 +228,7 @@ namespace UnifiedUI.GUI {
         }
 
         public Dictionary<SavedInputKey, Action> CustomHotkeys = new Dictionary<SavedInputKey, Action>();
-        public Dictionary<SavedInputKey, bool> CustomActiveHotkeys = new Dictionary<SavedInputKey, bool>();
+        public Dictionary<SavedInputKey, Func<bool>> CustomActiveHotkeys = new Dictionary<SavedInputKey, Func<bool>>();
 
         public void HandleHotkeys() {
             if(ModButtons.Any(b => b.AvoidCollision())) {
@@ -236,7 +236,7 @@ namespace UnifiedUI.GUI {
                 return;
             }
 
-            if(CustomActiveHotkeys.Any(pair => pair.Value && pair.Key.IsKeyUp())) {
+            if(CustomActiveHotkeys.Any(pair => pair.Value != null && pair.Value.Invoke() && pair.Key.IsKeyUp())) {
                 Log.Info("Active Key pressed");
                 return;
             }

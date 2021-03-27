@@ -1,6 +1,7 @@
 namespace UnifiedUI.API {
     using ColossalFramework;
     using ColossalFramework.UI;
+    using KianCommons;
     using System;
     using System.Collections.Generic;
     using UnifiedUI.GUI;
@@ -20,7 +21,7 @@ namespace UnifiedUI.API {
         public static UIComponent Register
             (string name, string groupName, string tooltip, string spritefile,
             Action<bool> onToggle, Action<ToolBase> onToolChanged,
-            SavedInputKey activationKey, Dictionary<SavedInputKey, bool> activeKeys) {
+            SavedInputKey activationKey, Dictionary<SavedInputKey, Func<bool>> activeKeys) {
             if(!MainPanel.Instance)
                 LifeCycle.Load();
             var ret = Register(name: name, groupName: groupName, tooltip: tooltip, spritefile: spritefile);
@@ -34,7 +35,7 @@ namespace UnifiedUI.API {
 
         public static UIComponent Register
             (string name, string groupName, string tooltip, string spritefile, ToolBase tool,
-            SavedInputKey activationKey, Dictionary<SavedInputKey, bool> activeKeys){
+            SavedInputKey activationKey, Dictionary<SavedInputKey, Func<bool>> activeKeys) {
             var ret = Register(name: name, groupName: groupName, tooltip: tooltip, spritefile: spritefile);
             ret.ActivationKey = activationKey;
             ret.ActiveKeys = activeKeys;
@@ -46,19 +47,24 @@ namespace UnifiedUI.API {
         public static void Register(
             Action onToggle,
             SavedInputKey activationKey,
-            Dictionary<SavedInputKey, bool> activeKeys) {
-            if(!MainPanel.Instance)
-                LifeCycle.Load();
+            Dictionary<SavedInputKey, Func<bool>> activeKeys) {
+            try {
+                if(!MainPanel.Instance)
+                    LifeCycle.Load();
 
-            if(activationKey != null && onToggle != null)
-                MainPanel.Instance.CustomHotkeys[activationKey] = onToggle;
+                if(activationKey != null && onToggle != null)
+                    MainPanel.Instance.CustomHotkeys[activationKey] = onToggle;
 
-            if(activeKeys != null) {
-                foreach(var pair in activeKeys) {
-                    MainPanel.Instance.CustomActiveHotkeys[pair.Key] = pair.Value;
+                if(activeKeys != null) {
+                    foreach(var pair in activeKeys) {
+                        Assertion.AssertNotNull(pair.Key, "hotkey cannot be null in 'activeKeys'");
+                        Assertion.AssertNotNull(pair.Value, "IsActive cannot be null in 'activeKeys'");
+                        MainPanel.Instance.CustomActiveHotkeys[pair.Key] = pair.Value;
+                    }
                 }
+            } catch(Exception ex) {
+                Log.Exception(ex);
             }
         }
-
     }
 }
