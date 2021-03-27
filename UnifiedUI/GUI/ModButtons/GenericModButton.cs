@@ -182,16 +182,13 @@ namespace UnifiedUI.GUI {
             var newKey = new SavedInputKey(name, fileName, default, true);
             foreach(var button in options.GetComponentsInChildren<UIButton>()) {
                 if(button.objectUserData is SavedInputKey oldKey && oldKey == newKey) {
-                    newKey.value = oldKey.value;
-                    //Log.Debug("ReplaceHotkey: original old key value =  " + oldKey.value);
-                    //Log.Debug("ReplaceHotkey:: original new key value =  " + newKey.value);
+                    // copy value across in case it does not exists.
+                    var value = GetFieldValue(oldKey, "m_Value");
+                    SetFieldValue(newKey, "m_Value", value); 
 
                     // hack to nuteralize original hotkey wihtout changing the value in config file.
                     SetFieldValue(oldKey, "m_AutoUpdate", false);
                     SetFieldValue(oldKey, "m_Value", (InputKey)0);
-
-                    //Log.Debug("ReplaceHotkey: final old key value =  " + oldKey.value);
-                    //Log.Debug("ReplaceHotkey: final new key value =  " + newKey.value);
 
                     button.objectUserData = newKey;
                     button.eventVisibilityChanged -= RefreshBindingButton;
