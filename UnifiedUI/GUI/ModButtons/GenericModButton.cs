@@ -183,6 +183,8 @@ namespace UnifiedUI.GUI {
             foreach(var button in options.GetComponentsInChildren<UIButton>()) {
                 if(button.objectUserData is SavedInputKey oldKey && oldKey == newKey) {
                     // copy value across in case it does not exists.
+                    // if I use newKey.value = oldKey.value that would also work
+                    // but I don't want to save the value based on a whim.
                     var value = GetFieldValue(oldKey, "m_Value");
                     SetFieldValue(newKey, "m_Value", value); 
 
