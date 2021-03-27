@@ -1,3 +1,4 @@
+using ColossalFramework;
 using ColossalFramework.UI;
 using System.Collections.Generic;
 
@@ -10,5 +11,7 @@ namespace UnifiedUI.GUI.ModButtons {
         public override ToolBase Tool => GetTool("PedBridgeTool");
         public override IEnumerable<UIComponent> GetOriginalButtons() =>
             GetButtons("PedestrianBridgeButton");
+        public override SavedInputKey GetHotkey() =>
+            ReplaceHotkey(name: "ActivationShortcut", fileName: "PedestrianBridge");
     }
 }

@@ -3,6 +3,7 @@ using KianCommons;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using ColossalFramework;
 
 namespace UnifiedUI.GUI.ModButtons {
     public class RoundaboutBuilderButton : GenericModButton {
@@ -19,9 +20,15 @@ namespace UnifiedUI.GUI.ModButtons {
         public override IEnumerable<UIComponent> GetOriginalButtons() =>
             FindButtons("RoundaboutButton");
 
-        protected override void OnClick(UIMouseEventParameter p) {
-            // Commented out to ignore base behaviour
-            // base.OnClick(p);
+        public override SavedInputKey GetHotkey() {
+            return ReplaceHotkey("modShortcut", "RoundaboutBuilder");
+        }
+
+
+        public override void Toggle() {
+            // commented out to hide base implementiation:
+            // base.Toggle()
+
             var type = UIWindow.GetType();
             var methodInfo = type.GetMethod("Toggle");
             methodInfo.Invoke(UIWindow, null);
@@ -33,5 +40,6 @@ namespace UnifiedUI.GUI.ModButtons {
             Log.Debug("RoundaboutBuilderButton.OnToolChanged(): newTool.namespace = " + newTool?.GetType()?.Namespace ?? "null");
             IsActive = newTool?.GetType()?.Namespace?.StartsWith("RoundaboutBuilder") ?? false;
         }
+
     }
 }
