@@ -230,7 +230,17 @@ namespace UnifiedUI.GUI {
         public Dictionary<SavedInputKey, Action> CustomHotkeys = new Dictionary<SavedInputKey, Action>();
         public Dictionary<SavedInputKey, Func<bool>> CustomActiveHotkeys = new Dictionary<SavedInputKey, Func<bool>>();
 
+        UIComponent pauseMenu_;
+        UIComponent optionsContainer_;
+        UIComponent PauseMenu =>
+            pauseMenu_ = pauseMenu_ ? pauseMenu_ : UIView.library.Get("PauseMenu");
+        UIComponent OptionsContainer =>
+            optionsContainer_ = optionsContainer_ ? optionsContainer_ : UIView.Find<UITabContainer>("OptionsContainer");
+
         public void HandleHotkeys() {
+            if(PauseMenu.isVisible || OptionsContainer.isVisible)
+                return;
+
             if(ModButtons.Any(b => b.AvoidCollision())) {
                 Log.Info("Active Key pressed");
                 return;
