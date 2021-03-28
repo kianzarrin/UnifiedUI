@@ -1,5 +1,5 @@
 namespace UnifiedUI.LifeCycle {
-    using CitiesHarmony.API;
+    //using CitiesHarmony.API;
     using ColossalFramework.UI;
     using ICities;
     using KianCommons;
@@ -21,7 +21,7 @@ namespace UnifiedUI.LifeCycle {
             KianCommons.UI.TextureUtil.EmbededResources = false;
             HelpersExtensions.VERBOSE = false;
 
-            HarmonyHelper.EnsureHarmonyInstalled();
+            //HarmonyHelper.EnsureHarmonyInstalled();
             if(HelpersExtensions.InGameOrEditor)
                 HotReload();
         }
@@ -41,7 +41,7 @@ namespace UnifiedUI.LifeCycle {
         public static void Load() {
             Log.Info("LifeCycle.Load() called");
             PluginUtil.Init();
-            HarmonyUtil.InstallHarmony(HARMONY_ID);
+            //HarmonyUtil.InstallHarmony(HARMONY_ID);
             var uiView = UIView.GetAView();
             if(!uiView.GetComponentInChildren<MainPanel>())
                 uiView.AddUIComponent(typeof(MainPanel));
@@ -61,7 +61,7 @@ namespace UnifiedUI.LifeCycle {
             MainPanel.Instance?.Hide();
             Object.DestroyImmediate(MainPanel.Instance);
 
-            HarmonyUtil.UninstallHarmony(HARMONY_ID);
+            //HarmonyUtil.UninstallHarmony(HARMONY_ID);
         }
     }
 }

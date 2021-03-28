@@ -71,6 +71,7 @@
     <None Remove="KianCommons\KianCommons\Properties\**" />
     <None Remove="KianCommons\KianCommons\Serialization\**" />
     <None Remove="KianCommons\libs\**" />
+    <Compile Remove="KianCommons\KianCommons\Patches\HarmonyUtil.cs" />
     <Compile Remove="KianCommons\KianCommons\Patches\PrefixUtils.cs" />
     <Compile Remove="KianCommons\KianCommons\Plugins\AdaptiveRoadsUtil.cs" />
     <Compile Remove="KianCommons\KianCommons\UI\RenderUtil.cs" />
@@ -136,6 +137,10 @@
     <None Update="Resources\uui_roundabout_builder.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+ 
+  <ItemGroup>
+    <Folder Include="Patches\" />
   </ItemGroup>
   <Target Name="DeployToModDirectory" AfterTargets="Build">
     <Message Importance="high" Text="DeployToModDirectory ..." />

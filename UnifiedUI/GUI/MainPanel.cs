@@ -6,11 +6,9 @@ namespace UnifiedUI.GUI {
     using System;
     using UnityEngine;
     using GUI.ModButtons;
-    using Util;
     using PluginUtil = Util.PluginUtil;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Diagnostics;
     using static KianCommons.ReflectionHelpers;
 
     public class MainPanel : UIAutoSizePanel {
@@ -227,15 +225,39 @@ namespace UnifiedUI.GUI {
             }
         }
 
+        #region Hotkeys
+
         public Dictionary<SavedInputKey, Action> CustomHotkeys = new Dictionary<SavedInputKey, Action>();
         public Dictionary<SavedInputKey, Func<bool>> CustomActiveHotkeys = new Dictionary<SavedInputKey, Func<bool>>();
 
-        UIComponent pauseMenu_;
-        UIComponent optionsContainer_;
-        UIComponent PauseMenu =>
+        static UIComponent pauseMenu_;
+        static UIComponent optionsContainer_;
+
+        static UIComponent PauseMenu =>
             pauseMenu_ = pauseMenu_ ? pauseMenu_ : UIView.library.Get("PauseMenu");
-        UIComponent OptionsContainer =>
+        static UIComponent OptionsContainer =>
             optionsContainer_ = optionsContainer_ ? optionsContainer_ : UIView.Find<UITabContainer>("OptionsContainer");
+
+        static ToolBase Tool => ToolsModifierControl.toolController.CurrentTool;
+
+        static bool EscLastFrame = false;
+
+        protected override void OnKeyUp(UIKeyEventParameter p) {
+            base.OnKeyUp(p);
+            HandleHotkeys();
+            EscLastFrame = Input.GetKeyUp(KeyCode.Escape);
+        }
+
+        public override void Update() {
+            base.Update();
+            isVisible = isVisible;
+            if(EscLastFrame && Tool != Singleton<DefaultTool>.instance && PauseMenu.isVisible) {
+                // esc was not handled.
+                ToolsModifierControl.SetTool<DefaultTool>();
+                PauseMenu.isVisible = false;
+            }
+            EscLastFrame = false; // consume
+        }
 
         public void HandleHotkeys() {
             if(PauseMenu.isVisible || OptionsContainer.isVisible)
@@ -263,6 +285,7 @@ namespace UnifiedUI.GUI {
                 }
             }
         }
+        #endregion
     }
 }
 

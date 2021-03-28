@@ -23,7 +23,7 @@ namespace UnifiedUI.LifeCycle {
             base.OnUpdate(realTimeDelta, simulationTimeDelta);
             try {
                 if (!LoadingManager.instance.m_loadingComplete) return;
-                UnifiedUI.GUI.MainPanel.Instance.HandleHotkeys();
+                //UnifiedUI.GUI.MainPanel.Instance.HandleHotkeys();
                 CaptureToolChanged();
             } catch(Exception e) {
                 Log.Exception(e);
@@ -44,7 +44,6 @@ namespace UnifiedUI.LifeCycle {
                 //Log.Debug($"ThreadingExtension.OnUpdate(): invoking EventToolChanged. currentTool={currentTool} prevTool={prevTool}");
                 prevTool = currentTool;
                 EventToolChanged?.Invoke(currentTool);
-                Patches.HandleESC.Refresh();
             }
         }
     }
