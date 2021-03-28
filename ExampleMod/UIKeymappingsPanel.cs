@@ -9,7 +9,6 @@ namespace ExampleMod {
         }
     }
 
-
     public class UIKeymappingsPanel : UICustomControl {
         internal UIComponent AddKeymapping(string label, SavedInputKey savedInputKey) {
             UIPanel uipanel = base.component.AttachUIComponent(UITemplateManager.GetAsGameObject(kKeyBindingTemplate)) as UIPanel;
@@ -25,7 +24,7 @@ namespace ExampleMod {
             uilabel.text = label;
             uibutton.text = savedInputKey.ToLocalizedString("KEYNAME");
             uibutton.objectUserData = savedInputKey;
-            uipanel.eventVisibilityChanged += (_,__) => RefreshBindableInputs();
+            uibutton.eventVisibilityChanged += ButtonVisibilityChanged;
             return uibutton;
         }
 
@@ -75,12 +74,9 @@ namespace ExampleMod {
             return KeyCode.None;
         }
 
-        private void RefreshBindableInputs() {
-            foreach(UIButton c in GetComponentsInChildren<UIButton>()) {
-                if (c.name == "Binding" &&
-                    c.objectUserData is SavedInputKey savedInputKey) { 
-                        c.text = savedInputKey.ToLocalizedString("KEYNAME");
-                }
+        private static void ButtonVisibilityChanged(UIComponent component, bool isVisible) {
+            if (isVisible && component.objectUserData is SavedInputKey savedInputKey) {
+                (component as UIButton).text = savedInputKey.ToLocalizedString("KEYNAME");
             }
         }
 

@@ -22,7 +22,7 @@ namespace UnifiedUI.GUI {
 
         public static void Collisions(UIHelper helper) {
             try {
-                LogCalled();
+                Log.Debug(ThisMethod + " called " + Environment.StackTrace);
                 if(MainPanel.Instance is MainPanel mainPanel) {
 
                     var keys = new List<SavedInputKey>();
@@ -72,9 +72,13 @@ namespace UnifiedUI.GUI {
 
                 //var keymappings = panel.gameObject.AddComponent<KeymappingsPanel>();
                 //keymappings.AddKeymapping("Activation Shortcut", NodeControllerTool.ActivationShortcut);
-
-                (helper.self as UIComponent).eventVisibilityChanged += (_,__) => Collisions(helper);
-                Collisions(helper);
+                if(!Helpers.InStartupMenu) {
+                    (helper.self as UIComponent).eventVisibilityChanged += (c, __) => {
+                        if(c.isVisible)
+                            Collisions(helper);
+                    };
+                    Collisions(helper);
+                }
             } catch(Exception e) {
                 Log.Exception(e);
             }
