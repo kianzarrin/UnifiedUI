@@ -27,7 +27,7 @@ namespace UnifiedUI.LifeCycle {
 
         public readonly static SavedBool HideOriginalButtons  = new SavedBool("HideOriginalButtons", FileName, true, true);
         public readonly static SavedBool HandleESC = new SavedBool("HandleESC", FileName, true, true);
-        public static SavedBool SwitchToPrevTool = new SavedBool("SwitchToPrevTool", FileName, false, true);
+        public static SavedBool SwitchToPrevTool = new SavedBool("SwitchToPrevTool", FileName, true, true);
         public static SavedBool ClearInfoPanelsOnToolChanged = new SavedBool("ClearInfoPanelsOnToolChanged", FileName, false, true);
         public static event Action RefreshButtons;
 

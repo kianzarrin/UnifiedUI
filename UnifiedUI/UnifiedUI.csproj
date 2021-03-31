@@ -3,7 +3,7 @@
     <TargetFramework>net35</TargetFramework>
     <LangVersion>latest</LangVersion>
     <Deterministic>false</Deterministic>
-    <AssemblyVersion>0.2.0.*</AssemblyVersion>
+    <AssemblyVersion>0.2.1.*</AssemblyVersion>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
     <PathMap>$(MSBuildProjectDirectory)/=$(ProjectName)/</PathMap>

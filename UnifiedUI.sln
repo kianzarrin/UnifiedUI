@@ -4,10 +4,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.29926.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnifiedUI", "UnifiedUI\UnifiedUI.csproj", "{4E0BB9B3-EFB1-4D63-99D8-A3B82D33E4FE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C04FC54E-384D-4ED2-9001-5BAD94306970} = {C04FC54E-384D-4ED2-9001-5BAD94306970}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnifiedUI.Helpers", "UnifiedUI.Helpers\UnifiedUI.Helpers.csproj", "{C04FC54E-384D-4ED2-9001-5BAD94306970}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UUIExampleMod", "ExampleMod\UUIExampleMod.csproj", "{3C8DEE8D-BDA9-4932-92B0-AF00FF217259}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UUIExampleMod", "ExampleMod\UUIExampleMod.csproj", "{3C8DEE8D-BDA9-4932-92B0-AF00FF217259}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{87C3BB21-72F2-414C-9D2A-EDDC2BF23D97}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\Main.yml = .github\workflows\Main.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
