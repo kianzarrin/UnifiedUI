@@ -8,11 +8,11 @@ namespace UnifiedUI.GUI {
     public class FloatingButton : ButtonBase {
         public static FloatingButton Instance { get; private set; }
         public static readonly SavedFloat SavedX = new SavedFloat(
-            "ButtonX", Settings.FileName, 0, true);
+            "ButtonX", UUISettings.FileName, 0, true);
         public static readonly SavedFloat SavedY = new SavedFloat(
-            "ButtonY", Settings.FileName, 100, true);
+            "ButtonY", UUISettings.FileName, 100, true);
         public static readonly SavedBool SavedDraggable = new SavedBool(
-            "ButtonDraggable", Settings.FileName, def:false, true);
+            "ButtonDraggable", UUISettings.FileName, def:false, true);
 
         public override string SpritesFileName => "uui.png";
 

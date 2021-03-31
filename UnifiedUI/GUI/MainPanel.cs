@@ -13,11 +13,11 @@ namespace UnifiedUI.GUI {
 
     public class MainPanel : UIAutoSizePanel {
         public static readonly SavedFloat SavedX = new SavedFloat(
-            "PanelX", Settings.FileName, 0, true);
+            "PanelX", UUISettings.FileName, 0, true);
         public static readonly SavedFloat SavedY = new SavedFloat(
-            "PanelY", Settings.FileName, 150, true);
+            "PanelY", UUISettings.FileName, 150, true);
         public static readonly SavedBool SavedDraggable = new SavedBool(
-            "PanelDraggable", Settings.FileName, def: false, true);
+            "PanelDraggable", UUISettings.FileName, def: false, true);
         const string DEFAULT_GROUP = "group1";
 
         public string AtlasName => $"{GetType().FullName}_rev" + this.VersionOf();
@@ -232,8 +232,9 @@ namespace UnifiedUI.GUI {
         static bool ToolIsDefault => ToolsModifierControl.toolController.CurrentTool == ToolsModifierControl.GetTool<DefaultTool>();
 
         public void HandleHotkeys() {
-            if(UIView.HasModalInput())
+            if(UIView.HasModalInput() || UIView.HasInputFocus())
                 return;
+
             if(ModButtons.Any(b => b.AvoidCollision())) {
                 Log.Info("Active Key pressed");
                 return;

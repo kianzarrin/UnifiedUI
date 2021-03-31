@@ -9,7 +9,7 @@ namespace UnifiedUI.GUI {
     using System.Reflection;
 
 
-    public static class Settings {
+    public static class UUISettings {
         public const string FileName = nameof(UnifiedUI);
 
         public const string CONFLICTS_PANEL_NAME = "Conflicts_keymapping";
@@ -18,7 +18,7 @@ namespace UnifiedUI.GUI {
             return c.GetComponentInParent<UIKeymappingsPanel>()?.name == CONFLICTS_PANEL_NAME;
         }
 
-        static Settings() {
+        static UUISettings() {
             // Creating setting file - from SamsamTS
             if(GameSettings.FindSettingsFileByName(FileName) == null) {
                 GameSettings.AddSettingsFile(new SettingsFile[] { new SettingsFile() { fileName = FileName } });

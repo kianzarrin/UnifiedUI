@@ -33,7 +33,7 @@ namespace UnifiedUI.GUI {
                 Log.Debug("GenericModButton.Start() is called for " + Name);
                 base.Start();
                 HandleOriginalButtons();
-                Settings.RefreshButtons += HandleOriginalButtons;
+                UUISettings.RefreshButtons += HandleOriginalButtons;
                 ActivationKey ??= GetHotkey();
                 Log.Info($"activation key for {Name} is {ActivationKey?.name}:{ActivationKey?.value}");
                 Log.Info($"active keys for {Name} are {ActiveKeys.ToSTR()}");
@@ -56,7 +56,7 @@ namespace UnifiedUI.GUI {
         public void HandleOriginalButtons() {
             CollectOriginalButtons();
             foreach (var c in originalButtons_)
-                c.gameObject.SetActive(!Settings.HideOriginalButtons);
+                c.gameObject.SetActive(!UUISettings.HideOriginalButtons);
         }
 
         public override void OnToolChanged(ToolBase newTool) {
@@ -193,7 +193,7 @@ namespace UnifiedUI.GUI {
                     // hack to nuteralize original hotkey wihtout changing the value in config file.
                     SetFieldValue(oldKey, "m_AutoUpdate", false);
                     SetFieldValue(oldKey, "m_Value", (InputKey)0);
-                    Settings.DisabledKeys.Add(oldKey);
+                    UUISettings.DisabledKeys.Add(oldKey);
 
                     button.objectUserData = newKey;
                     button.eventVisibilityChanged -= RefreshBindingButton;
