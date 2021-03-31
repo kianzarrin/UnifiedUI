@@ -4,6 +4,7 @@ namespace UnifiedUI.GUI {
     using KianCommons;
     using UnityEngine;
     using ColossalFramework;
+    using UnifiedUI.LifeCycle;
 
     public class FloatingButton : ButtonBase {
         public static FloatingButton Instance { get; private set; }

@@ -10,6 +10,7 @@ namespace UnifiedUI.GUI {
     using System.Collections.Generic;
     using System.Linq;
     using static KianCommons.ReflectionHelpers;
+    using UnifiedUI.LifeCycle;
 
     public class MainPanel : UIAutoSizePanel {
         public static readonly SavedFloat SavedX = new SavedFloat(

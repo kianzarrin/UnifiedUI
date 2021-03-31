@@ -9,6 +9,7 @@ namespace UnifiedUI.GUI {
     using System.Collections.Generic;
     using ColossalFramework;
     using static KianCommons.ReflectionHelpers;
+    using UnifiedUI.LifeCycle;
 
     public abstract class GenericModButton : ModButtonBase {
         public virtual ToolBase Tool => null;
@@ -77,18 +78,14 @@ namespace UnifiedUI.GUI {
         public override void Activate() {
             Log.Debug("GenericModButton.Open() called for " + Name);
             base.Activate();
-            var tool = Tool;
-
-            if (tool) tool.enabled = true; // ToolsModifierControl.toolController.CurrentTool = tool;
+            SetTool(Tool);
             Widnow?.Show();
         }
 
         public override void Deactivate() {
             Log.Debug("GenericModButton.Close() called  for " + Name);
             base.Deactivate();
-            var tool = Tool;
-            if(tool && ToolsModifierControl.toolController?.CurrentTool == tool)
-                ToolsModifierControl.SetTool<DefaultTool>();
+            UnsetTool(Tool);
             Widnow?.Hide();
         }
 

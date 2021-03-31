@@ -20,6 +20,6 @@ namespace UnifiedUI.LifeCycle
         public void OnDisabled() => LifeCycle.Disable();
 
         [UsedImplicitly]
-        public void OnSettingsUI(UIHelper helper) => GUI.UUISettings.OnSettingsUI(helper);
+        public void OnSettingsUI(UIHelper helper) => UUISettings.OnSettingsUI(helper);
     }
 }

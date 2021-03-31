@@ -1,4 +1,4 @@
-namespace UnifiedUI.GUI {
+namespace UnifiedUI.LifeCycle {
     using ColossalFramework;
     using ColossalFramework.UI;
     using KianCommons;
@@ -6,7 +6,7 @@ namespace UnifiedUI.GUI {
     using System;
     using System.Collections.Generic;
     using UnityEngine;
-    using System.Reflection;
+    using UnifiedUI.GUI;
 
 
     public static class UUISettings {
@@ -25,9 +25,12 @@ namespace UnifiedUI.GUI {
             }
         }
 
-        public static SavedBool HideOriginalButtons { get; } = new SavedBool("HideOriginalButtons", FileName, true, true);
-        public static SavedBool HandleESC { get; } = new SavedBool("HandleESC", FileName, true, true);
+        public readonly static SavedBool HideOriginalButtons  = new SavedBool("HideOriginalButtons", FileName, true, true);
+        public readonly static SavedBool HandleESC = new SavedBool("HandleESC", FileName, true, true);
+        public static SavedBool SwitchToPrevTool = new SavedBool("SwitchToPrevTool", FileName, false, true);
+        public static SavedBool ClearInfoPanelsOnToolChanged = new SavedBool("ClearInfoPanelsOnToolChanged", FileName, false, true);
         public static event Action RefreshButtons;
+
         public static void DoRefreshButtons() => RefreshButtons?.Invoke();
 
         public static List<SavedInputKey> DisabledKeys = new List<SavedInputKey>();
@@ -36,6 +39,50 @@ namespace UnifiedUI.GUI {
             foreach(var key in DisabledKeys)
                 ReflectionHelpers.SetFieldValue(key, "m_AutoUpdate", true);
             DisabledKeys.Clear();
+        }
+
+
+
+        public static void OnSettingsUI(UIHelper helper) {
+            try {
+                Log.Debug(Environment.StackTrace);
+                //var showCheckBox2 = helper.AddCheckbox(
+                //    "Handle ESC key (esc key exits current tool if any).",
+                //    HandleESC,
+                //    val => {
+                //        HandleESC.value = val;
+                //        Log.Info("HandleESC set to " + val);
+                //    }) as UICheckBox;
+
+                var g1 = helper.AddGroup("Conflicts") as UIHelper;
+                if(!Helpers.InStartupMenu) {
+                    (g1.self as UIComponent).eventVisibilityChanged += (c, __) => {
+                        if(c.isVisible)
+                            Collisions(g1);
+                    };
+                    Collisions(g1);
+                }
+
+                helper.AddCheckbox("Switch to previous tool on disable",
+                    SwitchToPrevTool.value, val => SwitchToPrevTool.value = val);
+
+                helper.AddCheckbox("Clear info panels when tool changes",
+                    ClearInfoPanelsOnToolChanged.value, val => ClearInfoPanelsOnToolChanged.value = val);
+
+
+                var hideCheckBox = helper.AddCheckbox(
+                    "Hide original activation buttons",
+                    HideOriginalButtons,
+                    val => {
+                        HideOriginalButtons.value = val;
+                        Log.Info("HideOriginalButtons set to " + val);
+                        RefreshButtons?.Invoke();
+                    }) as UICheckBox;
+
+
+            } catch(Exception e) {
+                Log.Exception(e);
+            }
         }
 
         public static void Collisions(UIHelper helper) {
@@ -49,8 +96,6 @@ namespace UnifiedUI.GUI {
                             keys.Add(b.ActivationKey);
                     }
                     keys.AddRange(mainPanel.CustomHotkeys.Keys);
-
-
 
                     // clear group.
                     foreach(var c in (helper.self as UIPanel).components)
@@ -84,39 +129,6 @@ namespace UnifiedUI.GUI {
                 }
             } catch(Exception ex) {
                 Log.Exception(ex);
-            }
-        }
-
-        public static void OnSettingsUI(UIHelper helper) {
-            try {
-                Log.Debug(Environment.StackTrace);
-                var hideCheckBox = helper.AddCheckbox(
-                    "Hide original activation buttons",
-                    HideOriginalButtons,
-                    val => {
-                        HideOriginalButtons.value = val;
-                        Log.Info("HideOriginalButtons set to " + val);
-                        RefreshButtons?.Invoke();
-                    }) as UICheckBox;
-
-                //var showCheckBox2 = helper.AddCheckbox(
-                //    "Handle ESC key (esc key exits current tool if any).",
-                //    HandleESC,
-                //    val => {
-                //        HandleESC.value = val;
-                //        Log.Info("HandleESC set to " + val);
-                //    }) as UICheckBox;
-
-                var g1 = helper.AddGroup("Conflicts") as UIHelper;
-                if(!Helpers.InStartupMenu) {
-                    (g1.self as UIComponent).eventVisibilityChanged += (c, __) => {
-                        if(c.isVisible)
-                            Collisions(g1);
-                    };
-                    Collisions(g1);
-                }
-            } catch(Exception e) {
-                Log.Exception(e);
             }
         }
     }

@@ -1,19 +1,15 @@
-namespace UnifiedUI.GUI
-{
-    using ColossalFramework.UI;
-    using KianCommons.UI;
-    using KianCommons;
-    using UnityEngine;
-    using UnifiedUI.LifeCycle;
-    using ColossalFramework.Plugins;
+namespace UnifiedUI.GUI {
     using ColossalFramework;
-    using System.Collections.Generic;
+    using ColossalFramework.UI;
+    using KianCommons;
+    using KianCommons.UI;
     using System;
+    using System.Collections.Generic;
+    using UnifiedUI.LifeCycle;
+    using UnityEngine;
     using static KianCommons.ReflectionHelpers;
 
-
-    public abstract class ButtonBase : UIButton
-    {
+    public abstract class ButtonBase : UIButton {
         const string IconNormal = "IconNormal";
         const string IconHovered = "IconHovered";
         const string IconPressed = "IconPressed";
@@ -27,18 +23,15 @@ namespace UnifiedUI.GUI
 
         public bool active_ = false;
 
-
         public SavedInputKey ActivationKey;
         public Dictionary<SavedInputKey, Func<bool>> ActiveKeys;
 
-        public bool IsActive
-        {
+        public bool IsActive {
             get => active_;
-            set { if (value) UseActiveSprites(); else UseDeactiveSprites(); }
+            set { if(value) UseActiveSprites(); else UseDeactiveSprites(); }
         }
 
-        public override void Awake()
-        {
+        public override void Awake() {
             try {
                 base.Awake();
                 isVisible = true;
@@ -49,8 +42,7 @@ namespace UnifiedUI.GUI
             } catch(Exception ex) { Log.Exception(ex); }
         }
 
-        public override void Start()
-        {
+        public override void Start() {
             try {
                 Log.Debug(ThisMethod + " is called for " + Name, false);
                 base.Start();
@@ -64,20 +56,17 @@ namespace UnifiedUI.GUI
 
         public virtual void OnToolChanged(ToolBase newTool) { }
 
-        public override void OnDestroy()
-        {
+        public override void OnDestroy() {
             Log.Debug(ThisMethod + " called for " + Name, false);
             Hide();
             this.SetAllDeclaredFieldsToNull();
             base.OnDestroy();
         }
 
-        public UITextureAtlas SetupSprites()
-        {
+        public UITextureAtlas SetupSprites() {
             string[] spriteNames = new string[] { IconNormal, IconHovered, IconPressed, IconDisabled };
             var atlas = TextureUtil.GetAtlas(AtlasName);
-            if (atlas == UIView.GetAView().defaultAtlas)
-            {
+            if(atlas == UIView.GetAView().defaultAtlas) {
                 atlas = TextureUtil.CreateTextureAtlas(SpritesFileName, AtlasName, SIZE, SIZE, spriteNames);
             }
             Log.Debug("atlas name is: " + atlas.name, false);
@@ -86,8 +75,7 @@ namespace UnifiedUI.GUI
             return atlas;
         }
 
-        public void UseActiveSprites()
-        {
+        public void UseActiveSprites() {
             // focusedBgSprite = can focus is set to false.
             normalBgSprite = IconPressed;
             hoveredBgSprite = IconPressed;
@@ -97,8 +85,7 @@ namespace UnifiedUI.GUI
             active_ = true;
         }
 
-        public void UseDeactiveSprites()
-        {
+        public void UseDeactiveSprites() {
             // focusedBgSprite = can focus is set to false.
             normalBgSprite = IconNormal;
             hoveredBgSprite = IconHovered;
@@ -146,5 +133,44 @@ namespace UnifiedUI.GUI
             }
 
         }
+
+        static ToolBase prevtool_;
+        public static ToolBase Prevtool {
+            get {
+                if(!prevtool_) prevtool_ = null;
+                return prevtool_;
+            }
+            set => prevtool_ = value;
+        }
+
+        public static void SetTool(ToolBase tool) {
+            if(!tool || !ToolsModifierControl.toolController) return;
+            if(ToolsModifierControl.toolController.CurrentTool == tool) return;
+
+            Prevtool = ToolsModifierControl.toolController.CurrentTool;
+            if(UUISettings.ClearInfoPanelsOnToolChanged) {
+                if(!ToolsModifierControl.keepThisWorldInfoPanel)
+                    WorldInfoPanel.HideAllWorldInfoPanels();
+                GameAreaInfoPanel.Hide();
+                ToolsModifierControl.keepThisWorldInfoPanel = false;
+            }
+            ToolsModifierControl.toolController.CurrentTool = tool;
+        }
+
+        public static void UnsetTool(ToolBase tool) {
+            if(!tool || ToolsModifierControl.toolController?.CurrentTool != tool) return;
+
+            if (!UUISettings.SwitchToPrevTool ||
+                !prevtool_ ||
+                prevtool_ == Singleton<BulldozeTool>.instance ||
+                prevtool_ == Singleton<DefaultTool>.instance) {
+                SetTool(Singleton<DefaultTool>.instance);
+                Prevtool = null;
+            } else {
+                SetTool(Prevtool);
+                Prevtool = null; // prevent exit loop.
+            }
+        }
+
     }
 }

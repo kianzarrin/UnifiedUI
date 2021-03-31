@@ -7,9 +7,10 @@ namespace UnifiedUI.API {
     using UnifiedUI.GUI;
     using UnifiedUI.LifeCycle;
 
-
-
     public static class UUIMod {
+        /// <summary>
+        /// common code for registering buttons
+        /// </summary>
         private static ExternalButton Register(
             string name, string groupName, string tooltip, string spritefile) {
             if(!MainPanel.Instance)
@@ -18,6 +19,9 @@ namespace UnifiedUI.API {
                 name: name, groupName: groupName, tooltip: tooltip, spritefile: spritefile);
         }
 
+        /// <summary>
+        /// Register custom button
+        /// </summary>
         public static UIComponent Register
             (string name, string groupName, string tooltip, string spritefile,
             Action<bool> onToggle, Action<ToolBase> onToolChanged,
@@ -33,6 +37,7 @@ namespace UnifiedUI.API {
         }
 
 
+        // register tool button.
         public static UIComponent Register
             (string name, string groupName, string tooltip, string spritefile, ToolBase tool,
             SavedInputKey activationKey, Dictionary<SavedInputKey, Func<bool>> activeKeys) {
@@ -44,6 +49,7 @@ namespace UnifiedUI.API {
 
         }
 
+        // register hotkeys
         public static void Register(
             Action onToggle,
             SavedInputKey activationKey,

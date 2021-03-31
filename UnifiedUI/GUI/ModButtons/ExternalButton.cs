@@ -42,7 +42,7 @@ namespace UnifiedUI.GUI {
         public override void Activate() {
             try {
                 Log.Info(ThisMethod + " called for " + Name);
-                if(Tool) Tool.enabled = true;
+                SetTool(Tool);
                 base.Activate();
                 OnToggleCallBack?.Invoke(true);
             } catch(Exception ex) {
@@ -53,8 +53,7 @@ namespace UnifiedUI.GUI {
             try {
                 Log.Debug(ThisMethod +  " called  for " + Name);
                 base.Deactivate();
-                if(Tool && ToolsModifierControl.toolController?.CurrentTool == Tool)
-                    ToolsModifierControl.SetTool<DefaultTool>();
+                UnsetTool(Tool);
                 OnToggleCallBack?.Invoke(false);
             } catch(Exception ex) {
                 Log.Exception(ex);
