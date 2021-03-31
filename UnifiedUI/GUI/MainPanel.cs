@@ -50,6 +50,7 @@ namespace UnifiedUI.GUI {
             Instance = this;
             AutoSize2 = true;
             ModButtons = new List<ModButtonBase>();
+            builtinKeyNavigation = true;
         }
 
         public override void OnDestroy() {
@@ -58,15 +59,12 @@ namespace UnifiedUI.GUI {
             base.OnDestroy();
         }
 
-
-
         public override void Start() {
             base.Start();
             Log.Debug("MainPanel started");
             name = "MainPanel";
 
             SetupSprites();
-            //backgroundSprite = "MenuPanel2";
 
             absolutePosition = new Vector3(SavedX, SavedY);
 
@@ -230,39 +228,12 @@ namespace UnifiedUI.GUI {
         public Dictionary<SavedInputKey, Action> CustomHotkeys = new Dictionary<SavedInputKey, Action>();
         public Dictionary<SavedInputKey, Func<bool>> CustomActiveHotkeys = new Dictionary<SavedInputKey, Func<bool>>();
 
-        static UIComponent pauseMenu_;
-        static UIComponent optionsContainer_;
-
-        static UIComponent PauseMenu =>
-            pauseMenu_ = pauseMenu_ ? pauseMenu_ : UIView.library.Get("PauseMenu");
-        static UIComponent OptionsContainer =>
-            optionsContainer_ = optionsContainer_ ? optionsContainer_ : UIView.Find<UITabContainer>("OptionsContainer");
-
-        static ToolBase Tool => ToolsModifierControl.toolController.CurrentTool;
-
-        static bool EscLastFrame = false;
-
-        protected override void OnKeyUp(UIKeyEventParameter p) {
-            base.OnKeyUp(p);
-            HandleHotkeys();
-            EscLastFrame = Input.GetKeyUp(KeyCode.Escape);
-        }
-
-        public override void Update() {
-            base.Update();
-            isVisible = isVisible;
-            if(EscLastFrame && Tool != Singleton<DefaultTool>.instance && PauseMenu.isVisible) {
-                // esc was not handled.
-                ToolsModifierControl.SetTool<DefaultTool>();
-                PauseMenu.isVisible = false;
-            }
-            EscLastFrame = false; // consume
-        }
+        static UIComponent PauseMenu => UIView.library.Get("PauseMenu");
+        static bool ToolIsDefault => ToolsModifierControl.toolController.CurrentTool == ToolsModifierControl.GetTool<DefaultTool>();
 
         public void HandleHotkeys() {
-            if(PauseMenu.isVisible || OptionsContainer.isVisible)
+            if(UIView.HasModalInput())
                 return;
-
             if(ModButtons.Any(b => b.AvoidCollision())) {
                 Log.Info("Active Key pressed");
                 return;

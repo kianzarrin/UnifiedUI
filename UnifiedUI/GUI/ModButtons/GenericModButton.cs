@@ -170,6 +170,7 @@ namespace UnifiedUI.GUI {
             var templateKey = new SavedInputKey(name, fileName);
             foreach(var button in options.GetComponentsInChildren<UIButton>()) {
                 if(button.objectUserData is SavedInputKey key && key == templateKey) {
+                    if(button.InUUIConflictPanel()) continue;
                     return key;
                 }
             }
@@ -182,6 +183,7 @@ namespace UnifiedUI.GUI {
             var newKey = new SavedInputKey(name, fileName, default, true);
             foreach(var button in options.GetComponentsInChildren<UIButton>()) {
                 if(button.objectUserData is SavedInputKey oldKey && oldKey == newKey) {
+                    if(button.InUUIConflictPanel()) continue;
                     // copy value across in case it does not exists.
                     // if I use newKey.value = oldKey.value that would also work
                     // but I don't want to save the value based on a whim.
@@ -191,6 +193,7 @@ namespace UnifiedUI.GUI {
                     // hack to nuteralize original hotkey wihtout changing the value in config file.
                     SetFieldValue(oldKey, "m_AutoUpdate", false);
                     SetFieldValue(oldKey, "m_Value", (InputKey)0);
+                    Settings.DisabledKeys.Add(oldKey);
 
                     button.objectUserData = newKey;
                     button.eventVisibilityChanged -= RefreshBindingButton;

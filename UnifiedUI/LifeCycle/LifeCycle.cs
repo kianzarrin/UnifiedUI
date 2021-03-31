@@ -61,6 +61,8 @@ namespace UnifiedUI.LifeCycle {
             MainPanel.Instance?.Hide();
             Object.DestroyImmediate(MainPanel.Instance);
 
+            Settings.ReviveDisabledKeys();
+
             //HarmonyUtil.UninstallHarmony(HARMONY_ID);
         }
     }
