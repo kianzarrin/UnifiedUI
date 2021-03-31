@@ -134,6 +134,8 @@ namespace UnifiedUI.GUI {
 
         }
 
+        public static DefaultTool DefaultTool => ToolsModifierControl.GetTool<DefaultTool>();
+
         static ToolBase prevtool_;
         public static ToolBase Prevtool {
             get {
@@ -144,6 +146,7 @@ namespace UnifiedUI.GUI {
         }
 
         public static void SetTool(ToolBase tool) {
+            LogCalled(tool);
             if(!tool || !ToolsModifierControl.toolController) return;
             if(ToolsModifierControl.toolController.CurrentTool == tool) return;
 
@@ -158,13 +161,14 @@ namespace UnifiedUI.GUI {
         }
 
         public static void UnsetTool(ToolBase tool) {
+            LogCalled(tool);
             if(!tool || ToolsModifierControl.toolController?.CurrentTool != tool) return;
 
             if (!UUISettings.SwitchToPrevTool ||
                 !prevtool_ ||
                 prevtool_ == Singleton<BulldozeTool>.instance ||
-                prevtool_ == Singleton<DefaultTool>.instance) {
-                SetTool(Singleton<DefaultTool>.instance);
+                prevtool_ == DefaultTool) {
+                SetTool(DefaultTool);
                 Prevtool = null;
             } else {
                 SetTool(Prevtool);

@@ -122,10 +122,10 @@ namespace UnifiedUI.GUI {
                 .GetComponentsInChildren<UIButton>(includeInactive:true)
                 .Where(c => c is not GenericModButton && c.GetType().Name == typeName)
                 .FirstOrDefault();
-            if (ret == null)
-                Log.Error("could not find button: " + typeName);
+            if(ret == null)
+                Log.Debug("could not find button: " + typeName, false);
             else
-                Log.Debug($"GetButton({typeName})->{ret}");
+                Log.Debug($"GetButton({typeName})->{ret}", false);
             return ret;
         }
 
@@ -136,10 +136,11 @@ namespace UnifiedUI.GUI {
             var ret = UIView.GetAView()
                 .GetComponentsInChildren<UIButton>(includeInactive:true) // TODO: is includeInactive this redundant?
                 .Where(c => c is not GenericModButton && c.GetType().Name == typeName);
-            if (ret.IsNullorEmpty())
-                Log.Debug("could not find any button of type: " + typeName);
+            if(ret.IsNullorEmpty())
+                Log.Debug("could not find any button of type: " + typeName, false);
+                
             else
-                Log.Debug($"GetButtons({typeName})->{ret.ToSTR()}");
+                Log.Debug($"GetButtons({typeName})->{ret.ToSTR()}", false);
             return ret.Select(c => c as UIComponent);
         }
 
@@ -150,10 +151,10 @@ namespace UnifiedUI.GUI {
             var ret = UIView.GetAView()
                 .GetComponentsInChildren<UIButton>(includeInactive:true)
                 .Where(c => c is not GenericModButton && c.name == name);
-            if (ret.IsNullorEmpty())
-                Log.Debug("could not find any button with name: " + name);
+            if(ret.IsNullorEmpty())
+                Log.Debug("could not find any button with name: " + name, false);
             else
-                Log.Debug($"FindButtons({name})->{ret.ToSTR()}");
+                Log.Debug($"FindButtons({name})->{ret.ToSTR()}", false);
             return ret.Select(c => c as UIComponent);
         }
 
