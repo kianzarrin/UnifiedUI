@@ -20,9 +20,8 @@ namespace UnifiedUI.LifeCycle {
         public static void Enable() {
             Log.Debug("Testing StackTrace:\n" + new StackTrace(true).ToString(), copyToGameLog: false);
             KianCommons.UI.TextureUtil.EmbededResources = false;
-            HelpersExtensions.VERBOSE = false;
+            Log.VERBOSE = false;
 
-            //HarmonyHelper.EnsureHarmonyInstalled();
             if(HelpersExtensions.InGameOrEditor)
                 HotReload();
         }
@@ -42,7 +41,6 @@ namespace UnifiedUI.LifeCycle {
         public static void Load() {
             Log.Info("LifeCycle.Load() called");
             PluginUtil.Init();
-            //HarmonyUtil.InstallHarmony(HARMONY_ID);
 
             if(PluginUtil.GetNetworkDetective().IsActive())
                 MainPanel.Instance.AddButton<NetworkDetectiveButton>();
@@ -66,7 +64,6 @@ namespace UnifiedUI.LifeCycle {
             Log.Info("LifeCycle.Release() called");
             MainPanel.Release();
             UUISettings.ReviveDisabledKeys();
-            //HarmonyUtil.UninstallHarmony(HARMONY_ID);
         }
     }
 }
