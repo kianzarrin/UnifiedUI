@@ -8,10 +8,10 @@
     <DebugSymbols>true</DebugSymbols>
     <PathMap>$(MSBuildProjectDirectory)/=$(ProjectName)/</PathMap>
     <Configurations>Debug;Release</Configurations>
+    <DocumentationFile>C:\Users\dell\source\repos\UnifiedUI\UnifiedUILib\UnifiedUILib.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DocumentationFile>C:\Users\dell\source\repos\UnifiedUI\UnifiedUILib\UnifiedUILib.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <ManagedDLLPath>../dependencies</ManagedDLLPath>
