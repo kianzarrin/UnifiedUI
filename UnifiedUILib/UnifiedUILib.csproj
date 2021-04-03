@@ -47,8 +47,6 @@
     <Reference Include="ICities" />
     <Reference Include="UnityEngine" />
     <Reference Include="UnityEngine.UI" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Remove="KianCommons\**" />
     <Compile Remove="Patches\**" />
     <Compile Remove="Resources\bin\**" />
@@ -61,8 +59,6 @@
     <None Remove="Resources\MainPanel.png" />
     <None Remove="Resources\unlock-ring.png" />
     <None Remove="Resources\uui.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="KianCommons\KianCommons\IImplict\IMod.cs" />
     <Compile Include="KianCommons\KianCommons\Math\BezierUtil.cs" />
     <Compile Include="KianCommons\KianCommons\Math\ControlPoint2.cs" />
@@ -97,8 +93,6 @@
     <Compile Include="KianCommons\KianCommons\Util\ReflectionHelpers.cs" />
     <Compile Include="KianCommons\KianCommons\Util\StackHelpers.cs" />
     <Compile Include="KianCommons\KianCommons\Util\StringExtensions.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Resources\MainPanel.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -107,25 +101,4 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
-  <Target Name="DeployToModDirectory" AfterTargets="Build">
-    <Message Importance="high" Text="DeployToModDirectory ..." />
-    <GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
-      <Output TaskParameter="Assemblies" ItemName="Targets" />
-    </GetAssemblyIdentity>
-    <ItemGroup>
-      <VersionNumber Include="@(Targets->'%(Version)')" />
-    </ItemGroup>
-    <PropertyGroup>
-      <DeployDir Condition="'$(DeployDir)'==''">$(LOCALAPPDATA)/Colossal Order/Cities_Skylines/Addons/Mods/$(SolutionName)/</DeployDir>
-      <Now>$([System.DateTime]::Now.ToString("HH:mm:ss"))</Now>
-      <pdb2mdb>$(PkgMono_Unofficial_pdb2mdb)/tools/pdb2mdb.exe</pdb2mdb>
-    </PropertyGroup>
-
-    <Delete Files="$(TargetPath).mdb" />
-    <Exec Command="&quot;$(pdb2mdb)&quot; &quot;$(TargetPath)&quot;" />
-    <Copy SourceFiles="$(TargetPath).mdb" DestinationFolder="$(DeployDir)" />
-    <Copy SourceFiles="$(TargetDir)$(AssemblyName).xml" DestinationFolder="$(DeployDir)" />
-    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(DeployDir)" />
-    <Message Importance="high" Text="AssemblyVersion=@(VersionNumber) time=$(Now)" />
-  </Target>
 </Project>

@@ -63,20 +63,24 @@ namespace UnifiedUI.GUI {
         }
 
         public UITextureAtlas SetupSprites() {
-            string[] spriteNames = new string[] { IconNormal, IconHovered, IconPressed, IconDisabled };
-            var atlas = TextureUtil.GetAtlas(AtlasName);
-            if(atlas == UIView.GetAView().defaultAtlas) {
-                Texture2D texture2D;
-                if(!EmbededSprite)
-                    texture2D = TextureUtil.GetTextureFromFile(SpritesFile);
-                else
-                    texture2D = TextureUtil.GetTextureFromAssemblyManifest(SpritesFile);
-                return TextureUtil.CreateTextureAtlas(texture2D, AtlasName, spriteNames);
+            try {
+                Log.Debug(ThisMethod + " is called for " + Name, false);
+                string[] spriteNames = new string[] { IconNormal, IconHovered, IconPressed, IconDisabled };
+                var _atlas = TextureUtil.GetAtlas(AtlasName);
+                if (_atlas == UIView.GetAView().defaultAtlas) {
+                    Texture2D texture2D = EmbededSprite ?
+                        TextureUtil.GetTextureFromAssemblyManifest(SpritesFile) :
+                        TextureUtil.GetTextureFromFile(SpritesFile);
+                    _atlas = TextureUtil.CreateTextureAtlas(texture2D, AtlasName, spriteNames);
+                }
+                Log.Debug("atlas name is: " + _atlas.name, false);
+                this.atlas = _atlas;
+                UseDeactiveSprites();
+                return _atlas;
+            } catch(Exception ex) {
+                Log.Exception(ex);
+                return TextureUtil.Ingame;
             }
-            Log.Debug("atlas name is: " + atlas.name, false);
-            this.atlas = atlas;
-            UseDeactiveSprites();
-            return atlas;
         }
 
         public void UseActiveSprites() {

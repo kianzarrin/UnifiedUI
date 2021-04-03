@@ -169,6 +169,11 @@
     <Delete Files="$(TargetPath).mdb" />
     <Exec Command="&quot;$(pdb2mdb)&quot; &quot;$(TargetPath)&quot;" />
     <Copy SourceFiles="$(TargetPath).mdb" DestinationFolder="$(DeployDir)" />
+
+    <Delete Files="$(TargetDir)UnifiedUILib.dll.mdb" />
+    <Exec Command="&quot;$(pdb2mdb)&quot; &quot;$(TargetDir)UnifiedUILib.dll&quot;" />
+    <Copy SourceFiles="$(TargetDir)UnifiedUILib.dll.mdb" DestinationFolder="$(DeployDir)" />
+
     <Copy SourceFiles="@(AuxiliaryFiles)" DestinationFolder="$(DeployDir)" />
     <Delete Files="$(DeployDir)$(TargetFileName)" />
     <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(DeployDir)" />

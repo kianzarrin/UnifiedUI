@@ -14,6 +14,8 @@ namespace UnifiedUI.GUI {
 
         public void Release() => Destroy(gameObject);
 
+        public override string Name => name;
+
         public static ExternalButton Create(
             UIComponent parent,
             string name,
