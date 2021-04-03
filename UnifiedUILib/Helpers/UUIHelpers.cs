@@ -1,4 +1,4 @@
-﻿namespace UnifiedUI.Helpers {
+namespace UnifiedUI.Helpers {
     using ColossalFramework;
     using ColossalFramework.Plugins;
     using ColossalFramework.UI;
@@ -11,7 +11,9 @@
     using UnityEngine;
 
     public static class UUIHelpers {
-        const string UUI_NAME = "UnifiedUI.API.UUIMod";
+        const string UUI_NAME = "UnifiedUI.API.UUIAPI";
+
+        const string ASSEMLY_NAME = "UnifiedUILib";
 
         /// <typeparam name="TDelegate">delegate type</typeparam>
         /// <returns>Type[] represeting arguments of the delegate.</returns>
@@ -44,28 +46,27 @@
         internal static IEnumerable<PluginManager.PluginInfo> Plugins => PluginManager.instance.GetPluginsInfo();
 
         internal static PluginManager.PluginInfo GetUUIPlugin() =>
-            Plugins.FirstOrDefault(p => p.IsUUI());
+            Plugins.FirstOrDefault(p => p.IsUUIMod());
 
 
-        static bool IsUUI(this PluginManager.PluginInfo p) =>
+        static bool IsUUIMod(this PluginManager.PluginInfo p) =>
             p.userModInstance.GetType().Assembly.GetType(UUI_NAME) != null;
+
+        static bool IsUUILib(this Assembly assembly) => assembly.GetName().Name == ASSEMLY_NAME;
 
         internal static Assembly GetUUILib() {
             if (IsUUIEnabled())
-                return GetUUIPlugin().GetAssemblies().Find(a => a.GetName().Name == "UnifiedUILib");
+                return GetUUIPlugin().GetAssemblies().First(IsUUILib);
             
             Assembly ret = null;
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-            foreach (var assembly in assemblies) {
-                if (assembly.GetName().Name != "PrefabMetadata")
-                    continue;
-                if (ret == null || ret.GetName().Version < assembly.GetName().Version) {
+            foreach (var assembly in assemblies.Where(IsUUILib)) {
+                if (ret == null || ret.GetName().Version < assembly.GetName().Version)
                     ret = assembly;
-                }
             }
             if (ret == null ) {
                 string sAssemblies = string.Join("\n", assemblies.Select(asm => asm.ToString()).ToArray());
-                throw new Exception("failed to get latest PrefabMetadata. assemblies are:\n" + sAssemblies);
+                throw new Exception($"failed to get latest {ASSEMLY_NAME}. assemblies are:\n" + sAssemblies);
             }
             return ret;
         }
@@ -96,7 +97,6 @@
         public static UIComponent RegisterToolButton(
             string name, string groupName, string tooltip, string spritefile, ToolBase tool,
             SavedInputKey activationKey = null, Dictionary<SavedInputKey, Func<bool>> activeKeys = null) {
-            if (!IsUUIEnabled()) return null;
             var Register = CreateDelegate<RegisterToolHandler>(GetUUI(), "Register");
             return Register(
                 name: name,
@@ -151,7 +151,6 @@
             string name, string groupName, string tooltip, string spritefile,
             Action<bool> onToggle, Action<ToolBase> onToolChanged = null,
             SavedInputKey activationKey = null, Dictionary<SavedInputKey, Func<bool>> activeKeys = null) {
-            if (!IsUUIEnabled()) return null;
             var Register = CreateDelegate<RegisterCustomHandler>(GetUUI(), "Register");
             UIComponent component = Register(
                 name: name,

@@ -10,7 +10,7 @@ namespace UnifiedUI.GUI {
     using static KianCommons.ReflectionHelpers;
 
     public class MainPanel : UIAutoSizePanel {
-        const string SPRITES_FILE_PATH = "Resources.MainPanel.png";
+        const string SPRITES_FILE_NAME = "MainPanel.png";
         const string DEFAULT_GROUP = "group1";
         public const string FileName = "UnifiedUI";
 
@@ -132,7 +132,7 @@ namespace UnifiedUI.GUI {
             string[] spriteNames = new string[] { "background" };
             var _atlas = TextureUtil.GetAtlas(AtlasName);
             if (_atlas == UIView.GetAView().defaultAtlas) {
-                var texture = TextureUtil.GetTextureFromAssemblyManifest(SPRITES_FILE_PATH);
+                var texture = TextureUtil.GetTextureFromAssemblyManifest(SPRITES_FILE_NAME);
                 _atlas = TextureUtil.CreateTextureAtlas(texture, AtlasName, spriteNames);
                 _atlas.sprites[0].border = new RectOffset(8, 8, 13, 8);
             }

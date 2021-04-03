@@ -19,7 +19,7 @@
 
         public void OnEnabled() {
             Instance = this;
-            if (InGameOrEditor)
+            if (InGameOrEditor) // hot reload
                 Init();
         }
 
@@ -39,10 +39,10 @@
         internal static void Release() =>
             ToolsModifierControl.toolController.GetComponent<ExampleTool>()?.Destroy();
 
-        public void OnSettingsUI(UIHelper helper) => new ModSettings(helper);
+        public void OnSettingsUI(UIHelper helper) => ModSettings.OnSettingsUI(helper);
     }
 
-    public class ModSettings {
+    public static class ModSettings {
         const string FILE_NAME = "UUIExampleMod";
 
         static ModSettings() {
@@ -51,16 +51,13 @@
             }
         }
 
-        public static ModSettings instance;
-
-        public SavedInputKey Hotkey = new SavedInputKey(
+        public static SavedInputKey Hotkey = new SavedInputKey(
             "UUIExampleMod_HotKey", FILE_NAME,
             key: KeyCode.A, control: true, shift: true, alt: false, true);
 
 
-        public ModSettings(UIHelper helper) {
+        public static void OnSettingsUI(UIHelper helper) {
             try {
-                instance = this;
                 Debug.Log(Environment.StackTrace);
                 var keymappingsPanel = helper.AddKeymappingsPanel();
                 keymappingsPanel.AddKeymapping("Hotkey", Hotkey);
@@ -71,46 +68,22 @@
         }
     }
 
-    public class ThreadingExtension : ThreadingExtensionBase {
-        public override void OnUpdate(float realTimeDelta, float simulationTimeDelta) {
-            if (ModSettings.instance?.Hotkey?.IsKeyUp() ?? false) {
-                ToolsModifierControl.SetTool<DefaultTool>();
-            }
-        }
-    }
-
-    internal static class LifeCycle {
-
-    }
-
-
     public class ExampleTool : ToolBase {
-        UILabel label;
-        UIComponent button;
+        UILabel label_;
+        UIComponent button_;
         protected override void Awake() {
             try {
                 base.Awake();
                 string sprites = UserModExtension.Instance.GetFullPath("Resources", "B.png");
                 Debug.Log("[UUIExampleMod] ExampleTool.Awake() sprites=" + sprites);
-                button = UUIHelpers.RegisterToolButton(
+                button_ = UUIHelpers.RegisterToolButton(
                     name: "ExampleModButton",
                     groupName: null, // default group
                     tooltip: "UUI Example Mod",
                     spritefile: sprites,
                     tool: this,
-                    activationKey: ModSettings.instance.Hotkey);
+                    activationKey: ModSettings.Hotkey);
 
-                if (button != null) {
-                    ModSettings.instance.Hotkey = null;
-                } else {
-                    button = UIView.GetAView().AddUIComponent(typeof(UIPanel));
-                    new UIHelper(button).AddButton("UUI Example Mod", () => {
-                        if (enabled)
-                            ToolsModifierControl.SetTool<DefaultTool>();
-                        else
-                            enabled = true;
-                    });
-                }
             } catch (Exception ex) {
                 Debug.LogException(ex);
                 UIView.ForwardException(ex);
@@ -119,8 +92,10 @@
 
         protected override void OnDestroy() {
             try {
-                button.Destroy();
+                button_.Destroy();
                 base.OnDestroy();
+                button_ = null;
+                label_ = null;
             } catch (Exception ex) {
                 Debug.LogException(ex);
                 UIView.ForwardException(ex);
@@ -132,8 +107,8 @@
             try {
                 Debug.Log("[UUIExampleMod] ExampleTool.OnEnable()" + Environment.StackTrace);
                 base.OnEnable();
-                label = UIView.GetAView().AddUIComponent(typeof(UILabel)) as UILabel;
-                label.text = "Hello world!";
+                label_ = UIView.GetAView().AddUIComponent(typeof(UILabel)) as UILabel;
+                label_.text = "Hello world!";
             } catch (Exception ex) {
                 Debug.LogException(ex);
                 UIView.ForwardException(ex);
@@ -142,7 +117,7 @@
 
         protected override void OnDisable() {
             try {
-                label.Destroy();
+                label_.Destroy();
                 base.OnDisable();
             } catch (Exception ex) {
                 Debug.LogException(ex);

@@ -585,10 +585,10 @@
             <summary>Provides access to the git information for the current assembly.</summary>
         </member>
         <member name="F:ThisAssembly.Git.IsDirty">
-            <summary>IsDirty: false</summary>
+            <summary>IsDirty: true</summary>
         </member>
         <member name="F:ThisAssembly.Git.IsDirtyString">
-            <summary>IsDirtyString: false</summary>
+            <summary>IsDirtyString: true</summary>
         </member>
         <member name="F:ThisAssembly.Git.RepositoryUrl">
             <summary>Repository URL: https://github.com/kianzarrin/UnifiedUI</summary>
@@ -597,19 +597,19 @@
             <summary>Branch: standalone</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commit">
-            <summary>Commit: 1d75ee5</summary>
+            <summary>Commit: b29c919</summary>
         </member>
         <member name="F:ThisAssembly.Git.Sha">
-            <summary>Sha: 1d75ee50f485c4812b586008708f357da30571f2</summary>
+            <summary>Sha: b29c919a7695f9df419114d46f7723e9bb66fd98</summary>
         </member>
         <member name="F:ThisAssembly.Git.CommitDate">
-            <summary>Commit date: 2021-04-03T22:08:59+03:00</summary>
+            <summary>Commit date: 2021-04-03T22:11:05+03:00</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commits">
-            <summary>Commits on top of base version: 85</summary>
+            <summary>Commits on top of base version: 86</summary>
         </member>
         <member name="F:ThisAssembly.Git.Tag">
-            <summary>Tag: V2.1(2)-10-g1d75ee5</summary>
+            <summary>Tag: V2.1(2)-11-gb29c919</summary>
         </member>
         <member name="F:ThisAssembly.Git.BaseTag">
             <summary>Base tag: V2.1(2)</summary>
@@ -636,7 +636,7 @@
             <summary>Minor: 0</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Patch">
-            <summary>Patch: 85</summary>
+            <summary>Patch: 86</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Label">
             <summary>Label: </summary>

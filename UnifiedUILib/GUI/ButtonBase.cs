@@ -15,8 +15,8 @@ namespace UnifiedUI.GUI {
         const string IconDisabled = "IconDisabled";
         public string AtlasName => $"{GetType().FullName}_{Name}_rev"  + typeof(ButtonBase).VersionOf();
         public const int SIZE = 40;
-        public abstract string SpritesFilePath { get; }
-        public abstract bool EmbededSprite { get; }
+        public abstract string SpritesFile { get; }
+        public virtual bool EmbededSprite => false;
         public virtual string Name => GetType().Name;
         public virtual string Tooltip => null;
 
@@ -68,9 +68,9 @@ namespace UnifiedUI.GUI {
             if(atlas == UIView.GetAView().defaultAtlas) {
                 Texture2D texture2D;
                 if(!EmbededSprite)
-                    texture2D = TextureUtil.GetTextureFromFile(SpritesFilePath);
+                    texture2D = TextureUtil.GetTextureFromFile(SpritesFile);
                 else
-                    texture2D = TextureUtil.GetTextureFromAssemblyManifest(SpritesFilePath);
+                    texture2D = TextureUtil.GetTextureFromAssemblyManifest(SpritesFile);
                 return TextureUtil.CreateTextureAtlas(texture2D, AtlasName, spriteNames);
             }
             Log.Debug("atlas name is: " + atlas.name, false);

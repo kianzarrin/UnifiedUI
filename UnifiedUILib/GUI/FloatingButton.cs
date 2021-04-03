@@ -14,7 +14,7 @@ namespace UnifiedUI.GUI {
         public static readonly SavedBool SavedDraggable = new SavedBool(
             "ButtonDraggable", MainPanel.FileName, def:false, true);
 
-        public override string SpritesFilePath => "Resources.uui.png";
+        public override string SpritesFile => "Resources.uui.png";
         public override bool EmbededSprite => true;
 
         private UIDragHandle drag_ { get; set; }
