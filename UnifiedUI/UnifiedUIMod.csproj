@@ -78,6 +78,7 @@
     <None Remove="KianCommons\libs\**" />
     <None Remove="Patches\**" />
     <Compile Remove="KianCommons\KianCommons\Plugins\AdaptiveRoadsUtil.cs" />
+    <Compile Remove="KianCommons\KianCommons\Plugins\CSURUtil.cs" />
     <Compile Remove="KianCommons\KianCommons\UI\RenderUtil.cs" />
     <Compile Remove="KianCommons\KianCommons\Util\AssemblyTypeExtensions.cs" />
     <Compile Remove="KianCommons\KianCommons\Util\AuxilaryThread.cs" />

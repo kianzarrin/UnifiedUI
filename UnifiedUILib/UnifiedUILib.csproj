@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net35</TargetFramework>
     <LangVersion>latest</LangVersion>
@@ -57,7 +57,6 @@
     <None Remove="KianCommons\**" />
     <None Remove="Patches\**" />
     <None Remove="Resources\bin\**" />
-    <None Remove=".editorconfig" />
     <None Remove="Resources\MainPanel.png" />
     <None Remove="Resources\unlock-ring.png" />
     <None Remove="Resources\uui.png" />
@@ -88,20 +87,15 @@
     <Compile Include="KianCommons\KianCommons\UI\UIUtils.cs" />
     <Compile Include="KianCommons\KianCommons\Util\Assertion.cs" />
     <Compile Include="KianCommons\KianCommons\Util\AuxilaryThread.cs" />
-    <Compile Include="KianCommons\KianCommons\Util\CSURUtil.cs" />
     <Compile Include="KianCommons\KianCommons\Util\EnumBitMaskExtensions.cs" />
     <Compile Include="KianCommons\KianCommons\Util\EnumerationExtensions.cs" />
     <Compile Include="KianCommons\KianCommons\Util\GridUtil.cs" />
     <Compile Include="KianCommons\KianCommons\Util\HelpersExtensions.cs" />
     <Compile Include="KianCommons\KianCommons\Util\Log.cs" />
-    <Compile Include="KianCommons\KianCommons\Util\MeshUtil.cs" />
     <Compile Include="KianCommons\KianCommons\Util\NetUtil.cs" />
     <Compile Include="KianCommons\KianCommons\Util\ReflectionHelpers.cs" />
     <Compile Include="KianCommons\KianCommons\Util\StackHelpers.cs" />
     <Compile Include="KianCommons\KianCommons\Util\StringExtensions.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EditorConfigFiles Include=".editorconfig" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\MainPanel.png">

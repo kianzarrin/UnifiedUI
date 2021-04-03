@@ -203,7 +203,8 @@ namespace UnifiedUI.GUI {
         }
 
         void Refresh() {
-            RefreshButtons();
+            DoRefreshButtons();
+
             //Invalidate();
             dragHandle_.width = lblCaption_.width;
             RefreshSizeRecursive();
@@ -212,13 +213,6 @@ namespace UnifiedUI.GUI {
             lblCaption_.relativePosition = new Vector2((width - lblCaption_.width) * 0.5f, 3);
             dragHandle_.width = width;
             Invalidate();
-        }
-
-        void RefreshButtons() {
-            foreach(var btn in ModButtons) {
-                if(btn is GenericModButton btn2)
-                    btn2.HandleOriginalButtons();
-            }
         }
 
         public override void Update() {

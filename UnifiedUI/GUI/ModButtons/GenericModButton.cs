@@ -34,7 +34,7 @@ namespace UnifiedUI.GUI {
                 Log.Debug("GenericModButton.Start() is called for " + Name);
                 base.Start();
                 HandleOriginalButtons();
-                UUISettings.RefreshButtons += HandleOriginalButtons;
+                MainPanel.Instance.EventRefreshButtons += HandleOriginalButtons;
                 ActivationKey ??= GetHotkey();
                 Log.Info($"activation key for {Name} is {ActivationKey?.name}:{ActivationKey?.value}");
                 Log.Info($"active keys for {Name} are {ActiveKeys.ToSTR()}");
