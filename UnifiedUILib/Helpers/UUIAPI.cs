@@ -6,7 +6,7 @@ namespace UnifiedUI.API {
     using System.Collections.Generic;
     using UnifiedUI.GUI;
 
-    public static class UUIMod {
+    public static class UUIAPI {
         /// <summary>
         /// Register custom button
         /// </summary>

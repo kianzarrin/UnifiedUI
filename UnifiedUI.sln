@@ -4,11 +4,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.29926.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnifiedUIMod", "UnifiedUI\UnifiedUIMod.csproj", "{4E0BB9B3-EFB1-4D63-99D8-A3B82D33E4FE}"
-	ProjectSection(ProjectDependencies) = postProject
-		{C04FC54E-384D-4ED2-9001-5BAD94306970} = {C04FC54E-384D-4ED2-9001-5BAD94306970}
-	EndProjectSection
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnifiedUI.Helpers", "UnifiedUI.Helpers\UnifiedUI.Helpers.csproj", "{C04FC54E-384D-4ED2-9001-5BAD94306970}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UUIExampleMod", "ExampleMod\UUIExampleMod.csproj", "{3C8DEE8D-BDA9-4932-92B0-AF00FF217259}"
 EndProject
@@ -32,12 +27,6 @@ Global
 		{4E0BB9B3-EFB1-4D63-99D8-A3B82D33E4FE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4E0BB9B3-EFB1-4D63-99D8-A3B82D33E4FE}.Workshop|Any CPU.ActiveCfg = Workshop|Any CPU
 		{4E0BB9B3-EFB1-4D63-99D8-A3B82D33E4FE}.Workshop|Any CPU.Build.0 = Workshop|Any CPU
-		{C04FC54E-384D-4ED2-9001-5BAD94306970}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C04FC54E-384D-4ED2-9001-5BAD94306970}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C04FC54E-384D-4ED2-9001-5BAD94306970}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C04FC54E-384D-4ED2-9001-5BAD94306970}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C04FC54E-384D-4ED2-9001-5BAD94306970}.Workshop|Any CPU.ActiveCfg = Debug|Any CPU
-		{C04FC54E-384D-4ED2-9001-5BAD94306970}.Workshop|Any CPU.Build.0 = Debug|Any CPU
 		{3C8DEE8D-BDA9-4932-92B0-AF00FF217259}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3C8DEE8D-BDA9-4932-92B0-AF00FF217259}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C8DEE8D-BDA9-4932-92B0-AF00FF217259}.Release|Any CPU.ActiveCfg = Release|Any CPU

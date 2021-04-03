@@ -1,15 +1,14 @@
 ﻿namespace UnifiedUI.Helpers {
+    using ColossalFramework;
     using ColossalFramework.Plugins;
     using ColossalFramework.UI;
-    using System.Linq;
+    using ICities;
     using System;
+    using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Reflection;
     using UnityEngine;
-    using ICities;
-    using System.Collections.Generic;
-    using ColossalFramework;
-    using ColossalFramework.IO;
 
     public static class UUIHelpers {
         const string UUI_NAME = "UnifiedUI.API.UUIMod";
@@ -51,11 +50,30 @@
         static bool IsUUI(this PluginManager.PluginInfo p) =>
             p.userModInstance.GetType().Assembly.GetType(UUI_NAME) != null;
 
-        internal static Assembly GetUUIAssembly() => GetUUIPlugin().userModInstance.GetType().Assembly;
-        internal static Type GetUUI() => GetUUIAssembly().GetType(UUI_NAME, throwOnError: true);
+        internal static Assembly GetUUILib() {
+            if (IsUUIEnabled())
+                return GetUUIPlugin().GetAssemblies().Find(a => a.GetName().Name == "UnifiedUILib");
+            
+            Assembly ret = null;
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            foreach (var assembly in assemblies) {
+                if (assembly.GetName().Name != "PrefabMetadata")
+                    continue;
+                if (ret == null || ret.GetName().Version < assembly.GetName().Version) {
+                    ret = assembly;
+                }
+            }
+            if (ret == null ) {
+                string sAssemblies = string.Join("\n", assemblies.Select(asm => asm.ToString()).ToArray());
+                throw new Exception("failed to get latest PrefabMetadata. assemblies are:\n" + sAssemblies);
+            }
+            return ret;
+        }
+
+        internal static Type GetUUI() => GetUUILib().GetType(UUI_NAME, throwOnError: true);
 
         internal delegate UIComponent RegisterCustomHandler
-            (string name, string groupName, string tooltip, string spritefile, 
+            (string name, string groupName, string tooltip, string spritefile,
             Action<bool> onToggle, Action<ToolBase> onToolChanged,
             SavedInputKey activationKey, Dictionary<SavedInputKey, Func<bool>> activeKeys);
         internal delegate UIComponent RegisterToolHandler
@@ -81,10 +99,10 @@
             if (!IsUUIEnabled()) return null;
             var Register = CreateDelegate<RegisterToolHandler>(GetUUI(), "Register");
             return Register(
-                name:name, 
-                groupName:groupName, 
+                name: name,
+                groupName: groupName,
                 tooltip: tooltip,
-                spritefile: spritefile,  
+                spritefile: spritefile,
                 tool: tool,
                 activationKey: activationKey,
                 activeKeys: activeKeys);
@@ -166,7 +184,7 @@
             foreach (var key in activeKeys)
                 activeKeys2[key] = null;
 
-            return  RegisterCustomButton(
+            return RegisterCustomButton(
                 name: name,
                 groupName: groupName,
                 tooltip: tooltip,
@@ -185,7 +203,7 @@
         /// <param name="activationKey">hot key to toggle</param>
         /// <param name="activeKeys">hotkey->active dictionary. turns off these hotkeys in other mods while active</param>
         public static void RegisterHotkeys(
-            Action onToggle,  SavedInputKey activationKey = null, Dictionary<SavedInputKey, Func<bool>> activeKeys = null) {
+            Action onToggle, SavedInputKey activationKey = null, Dictionary<SavedInputKey, Func<bool>> activeKeys = null) {
             if (!IsUUIEnabled()) return;
             var Register = CreateDelegate<RegisterHotkeysHandler>(GetUUI(), "Register");
             Register(
@@ -215,7 +233,7 @@
         /// <returns>full path to file.</returns>
         public static string GetFullPath(this IUserMod userModInstance, params string[] paths) {
             string ret = userModInstance.GetModPath();
-            foreach(string path in paths)
+            foreach (string path in paths)
                 ret = Path.Combine(ret, path);
             return ret;
         }

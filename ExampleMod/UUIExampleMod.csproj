@@ -35,7 +35,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\UnifiedUI.Helpers\UnifiedUI.Helpers.csproj" />
+    <ProjectReference Include="..\UnifiedUILib\UnifiedUILib.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp" />
@@ -66,11 +66,11 @@
 
     <Delete Files="$(TargetDir)*.mdb" />
     <Exec Command="&quot;$(pdb2mdb)&quot; &quot;$(TargetPath)&quot;" />
-    <Exec Command="&quot;$(pdb2mdb)&quot; &quot;$(TargetDir)UnifiedUI.Helpers.dll&quot;" />
+    <Exec Command="&quot;$(pdb2mdb)&quot; &quot;$(TargetDir)UnifiedUILib.dll&quot;" />
     <Copy SourceFiles="$(TargetPath).mdb" DestinationFolder="$(DeployDir)" />
-    <Copy SourceFiles="$(TargetDir)UnifiedUI.Helpers.dll" DestinationFolder="$(DeployDir)" />
-    <Copy SourceFiles="$(TargetDir)UnifiedUI.Helpers.dll.mdb" DestinationFolder="$(DeployDir)" />
-    <Copy SourceFiles="$(TargetDir)UnifiedUI.Helpers.xml" DestinationFolder="$(DeployDir)" />
+    <Copy SourceFiles="$(TargetDir)UnifiedUILib.dll" DestinationFolder="$(DeployDir)" />
+    <Copy SourceFiles="$(TargetDir)UnifiedUILib.dll.mdb" DestinationFolder="$(DeployDir)" />
+    <Copy SourceFiles="$(TargetDir)UnifiedUILib.xml" DestinationFolder="$(DeployDir)" />
 
     <Copy SourceFiles="$(TargetDir)Resources/B.png" DestinationFolder="$(DeployDir)/Resources" />
     <Delete Files="$(DeployDir)$(TargetFileName)" />
