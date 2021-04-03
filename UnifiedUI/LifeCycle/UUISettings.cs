@@ -10,7 +10,7 @@ namespace UnifiedUI.LifeCycle {
 
 
     public static class UUISettings {
-        public const string FileName = nameof(UnifiedUI);
+        public const string FileName = "UnifiedUI";
 
         public const string CONFLICTS_PANEL_NAME = "Conflicts_keymapping";
 
@@ -27,11 +27,7 @@ namespace UnifiedUI.LifeCycle {
 
         public readonly static SavedBool HideOriginalButtons  = new SavedBool("HideOriginalButtons", FileName, true, true);
         public readonly static SavedBool HandleESC = new SavedBool("HandleESC", FileName, true, true);
-        public static SavedBool SwitchToPrevTool = new SavedBool("SwitchToPrevTool", FileName, true, true);
-        public static SavedBool ClearInfoPanelsOnToolChanged = new SavedBool("ClearInfoPanelsOnToolChanged", FileName, false, true);
-        public static event Action RefreshButtons;
 
-        public static void DoRefreshButtons() => RefreshButtons?.Invoke();
 
         public static List<SavedInputKey> DisabledKeys = new List<SavedInputKey>();
 
@@ -54,21 +50,22 @@ namespace UnifiedUI.LifeCycle {
                 //        Log.Info("HandleESC set to " + val);
                 //    }) as UICheckBox;
 
-                var g1 = helper.AddGroup("Conflicts") as UIHelper;
                 if(!Helpers.InStartupMenu) {
-                    (g1.self as UIComponent).eventVisibilityChanged += (c, __) => {
-                        if(c.isVisible)
-                            Collisions(g1);
-                    };
-                    Collisions(g1);
+                    var g1 = helper.AddGroup("Conflicts") as UIHelper;
+                    if(!Helpers.InStartupMenu) {
+                        (g1.self as UIComponent).eventVisibilityChanged += (c, __) => {
+                            if(c.isVisible)
+                                Collisions(g1);
+                        };
+                        Collisions(g1);
+                    }
                 }
 
                 helper.AddCheckbox("Switch to previous tool on disable",
-                    SwitchToPrevTool.value, val => SwitchToPrevTool.value = val);
+                    MainPanel.SwitchToPrevTool.value, val => MainPanel.SwitchToPrevTool.value = val);
 
                 helper.AddCheckbox("Clear info panels when tool changes",
-                    ClearInfoPanelsOnToolChanged.value, val => ClearInfoPanelsOnToolChanged.value = val);
-
+                    MainPanel.ClearInfoPanelsOnToolChanged.value, val => MainPanel.ClearInfoPanelsOnToolChanged.value = val);
 
                 var hideCheckBox = helper.AddCheckbox(
                     "Hide original activation buttons",
@@ -76,7 +73,8 @@ namespace UnifiedUI.LifeCycle {
                     val => {
                         HideOriginalButtons.value = val;
                         Log.Info("HideOriginalButtons set to " + val);
-                        RefreshButtons?.Invoke();
+                        if(MainPanel.Exists)
+                            MainPanel.Instance.DoRefreshButtons();
                     }) as UICheckBox;
 
 
@@ -124,8 +122,6 @@ namespace UnifiedUI.LifeCycle {
 
                     if(keymappingsPanel.GetComponentsInChildren<UIButton>().IsNullorEmpty())
                         keymappingsPanel.component.AddUIComponent<UILabel>().text = "None";
-
-
                 }
             } catch(Exception ex) {
                 Log.Exception(ex);

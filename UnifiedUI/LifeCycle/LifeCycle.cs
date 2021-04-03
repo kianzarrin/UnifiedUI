@@ -5,9 +5,10 @@ namespace UnifiedUI.LifeCycle {
     using KianCommons;
     using System.Diagnostics;
     using UnifiedUI.GUI;
+    using KianCommons.Plugins;
     using UnityEngine;
     using UnityEngine.SceneManagement;
-    using PluginUtil = Util.PluginUtil;
+    using UnifiedUI.GUI.ModButtons;
 
     public static class LifeCycle {
         public static string HARMONY_ID = "CS.Kian.UnifiedUI";
@@ -42,27 +43,29 @@ namespace UnifiedUI.LifeCycle {
             Log.Info("LifeCycle.Load() called");
             PluginUtil.Init();
             //HarmonyUtil.InstallHarmony(HARMONY_ID);
-            var uiView = UIView.GetAView();
-            if(!uiView.GetComponentInChildren<MainPanel>())
-                uiView.AddUIComponent(typeof(MainPanel));
-            if(!uiView.GetComponentInChildren<FloatingButton>())
-                uiView.AddUIComponent(typeof(FloatingButton));
-            
+
+            if(PluginUtil.GetNetworkDetective().IsActive())
+                MainPanel.Instance.AddButton<NetworkDetectiveButton>();
+
+            if(PluginUtil.GetIMT().IsActive())
+                MainPanel.Instance.AddButton<IntersectionMarkingButton>();
+
+            if(PluginUtil.GetRAB().IsActive())
+                MainPanel.Instance.AddButton<RoundaboutBuilderButton>();
+
+            if(PluginUtil.GetPedestrianBridge().IsActive())
+                MainPanel.Instance.AddButton<PedestrianBridgeButton>();
+
+            if(PluginUtil.GetNodeController().IsActive())
+                MainPanel.Instance.AddButton<NodeControllerButton>();
         }
 
         public static bool HasMainPanel => UIView.GetAView().GetComponentInChildren<MainPanel>();
 
         public static void Release() {
             Log.Info("LifeCycle.Release() called");
-
-            FloatingButton.Instance?.Hide();
-            Object.DestroyImmediate(FloatingButton.Instance);
-
-            MainPanel.Instance?.Hide();
-            Object.DestroyImmediate(MainPanel.Instance);
-
+            MainPanel.Release();
             UUISettings.ReviveDisabledKeys();
-
             //HarmonyUtil.UninstallHarmony(HARMONY_ID);
         }
     }

@@ -5,7 +5,6 @@ namespace UnifiedUI.GUI {
     using KianCommons.UI;
     using System;
     using System.Collections.Generic;
-    using UnifiedUI.LifeCycle;
     using UnityEngine;
     using static KianCommons.ReflectionHelpers;
 
@@ -14,10 +13,10 @@ namespace UnifiedUI.GUI {
         const string IconHovered = "IconHovered";
         const string IconPressed = "IconPressed";
         const string IconDisabled = "IconDisabled";
-        public string AtlasName => $"{GetType().FullName}_rev" + typeof(ButtonBase).VersionOf();
+        public string AtlasName => $"{GetType().FullName}_{Name}_rev"  + typeof(ButtonBase).VersionOf();
         public const int SIZE = 40;
-
-        public abstract string SpritesFileName { get; }
+        public abstract string SpritesFilePath { get; }
+        public abstract bool EmbededSprite { get; }
         public virtual string Name => GetType().Name;
         public virtual string Tooltip => null;
 
@@ -50,7 +49,7 @@ namespace UnifiedUI.GUI {
                 SetupSprites();
                 // m_TooltipBox = GetUIView()?.defaultTooltipBox; // Set up the tooltip
 
-                ThreadingExtension.EventToolChanged += OnToolChanged;
+                MainPanel.Instance.EventToolChanged += OnToolChanged;
             } catch(Exception ex) { Log.Exception(ex); }
         }
 
@@ -67,7 +66,12 @@ namespace UnifiedUI.GUI {
             string[] spriteNames = new string[] { IconNormal, IconHovered, IconPressed, IconDisabled };
             var atlas = TextureUtil.GetAtlas(AtlasName);
             if(atlas == UIView.GetAView().defaultAtlas) {
-                atlas = TextureUtil.CreateTextureAtlas(SpritesFileName, AtlasName, SIZE, SIZE, spriteNames);
+                Texture2D texture2D;
+                if(!EmbededSprite)
+                    texture2D = TextureUtil.GetTextureFromFile(SpritesFilePath);
+                else
+                    texture2D = TextureUtil.GetTextureFromAssemblyManifest(SpritesFilePath);
+                return TextureUtil.CreateTextureAtlas(texture2D, AtlasName, spriteNames);
             }
             Log.Debug("atlas name is: " + atlas.name, false);
             this.atlas = atlas;
@@ -151,7 +155,7 @@ namespace UnifiedUI.GUI {
             if(ToolsModifierControl.toolController.CurrentTool == tool) return;
 
             Prevtool = ToolsModifierControl.toolController.CurrentTool;
-            if(UUISettings.ClearInfoPanelsOnToolChanged) {
+            if(MainPanel.ClearInfoPanelsOnToolChanged) {
                 if(!ToolsModifierControl.keepThisWorldInfoPanel)
                     WorldInfoPanel.HideAllWorldInfoPanels();
                 GameAreaInfoPanel.Hide();
@@ -164,7 +168,7 @@ namespace UnifiedUI.GUI {
             LogCalled(tool);
             if(!tool || ToolsModifierControl.toolController?.CurrentTool != tool) return;
 
-            if (!UUISettings.SwitchToPrevTool ||
+            if (!MainPanel.SwitchToPrevTool ||
                 !prevtool_ ||
                 prevtool_ == Singleton<BulldozeTool>.instance ||
                 prevtool_ == DefaultTool) {

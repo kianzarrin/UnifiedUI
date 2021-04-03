@@ -10,7 +10,7 @@ namespace UnifiedUI.GUI {
         public Action<bool> OnToggleCallBack;
         public ToolBase Tool;
 
-        public override string SpritesFileName => spritesPath_;
+        public override string SpritesFilePath => spritesPath_;
 
         public void Release() => Destroy(gameObject);
 

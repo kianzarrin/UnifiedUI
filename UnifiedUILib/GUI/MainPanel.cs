@@ -5,58 +5,63 @@ namespace UnifiedUI.GUI {
     using KianCommons.UI;
     using System;
     using UnityEngine;
-    using GUI.ModButtons;
-    using PluginUtil = Util.PluginUtil;
     using System.Collections.Generic;
     using System.Linq;
     using static KianCommons.ReflectionHelpers;
-    using UnifiedUI.LifeCycle;
 
     public class MainPanel : UIAutoSizePanel {
-        public static readonly SavedFloat SavedX = new SavedFloat(
-            "PanelX", UUISettings.FileName, 0, true);
-        public static readonly SavedFloat SavedY = new SavedFloat(
-            "PanelY", UUISettings.FileName, 150, true);
-        public static readonly SavedBool SavedDraggable = new SavedBool(
-            "PanelDraggable", UUISettings.FileName, def: false, true);
+        const string SPRITES_FILE_PATH = "Resources.MainPanel.png";
         const string DEFAULT_GROUP = "group1";
+        public const string FileName = "UnifiedUI";
 
         public string AtlasName => $"{GetType().FullName}_rev" + this.VersionOf();
-        string spriteFileName_ = "MainPanel.png";
+        public static readonly SavedFloat SavedX = new SavedFloat(
+            "PanelX", FileName, 0, true);
+        public static readonly SavedFloat SavedY = new SavedFloat(
+            "PanelY", FileName, 150, true);
+        public static readonly SavedBool SavedDraggable = new SavedBool(
+            "PanelDraggable", FileName, def: false, true);
+
+        public static SavedBool SwitchToPrevTool = new SavedBool("SwitchToPrevTool", FileName, true, true);
+        public static SavedBool ClearInfoPanelsOnToolChanged = new SavedBool("ClearInfoPanelsOnToolChanged", FileName, false, true);
+
+        public event Action EventRefreshButtons;
+        public void DoRefreshButtons() => EventRefreshButtons?.Invoke();
 
         private UILabel lblCaption_;
         private UIDragHandle dragHandle_;
         UIAutoSizePanel containerPanel_;
 
-        public List<ModButtonBase> ModButtons;
+        public List<ButtonBase> ModButtons;
 
         bool started_ = false;
         #region Instanciation
-        public static MainPanel Instance { get; private set; }
 
-        public static MainPanel Create() {
-            var uiView = UIView.GetAView();
-            MainPanel panel = uiView.AddUIComponent(typeof(MainPanel)) as MainPanel;
-            return panel;
-        }
+        static MainPanel instance_;
+        public static MainPanel Instance => 
+            instance_ ??= UIView.GetAView().AddUIComponent(typeof(MainPanel)) as MainPanel;
 
-        public static void Release() {
-            Destroy(Instance);
-        }
+        public static bool Exists = instance_;
+
+        public static void Ensure() => _ = Instance;
+
+        public static void Release() => DestroyImmediate(instance_?.gameObject);
 
         #endregion Instanciation
 
         public override void Awake() {
             base.Awake();
-            Instance = this;
+            instance_ = this;
             AutoSize2 = true;
-            ModButtons = new List<ModButtonBase>();
+            ModButtons = new List<ButtonBase>();
             builtinKeyNavigation = true;
+            UIView.GetAView().AddUIComponent(typeof(FloatingButton));
         }
 
         public override void OnDestroy() {
             this.SetAllDeclaredFieldsToNull();
-            Instance = null;
+            instance_ = null;
+            DestroyImmediate(FloatingButton.Instance?.gameObject);
             base.OnDestroy();
         }
 
@@ -89,24 +94,8 @@ namespace UnifiedUI.GUI {
                 var g1 = Find<UIPanel>(DEFAULT_GROUP);
                 if(g1 == null)
                     g1 = AddGroup(body, DEFAULT_GROUP);
-                else 
+                else
                     body.AttachUIComponent(g1.gameObject);
-                var panel = g1;
-            
-                if (PluginUtil.Instance.NetworkDetective.IsActive)
-                    ModButtons.Add(panel.AddUIComponent<NetworkDetectiveButton>());
-
-                if (PluginUtil.Instance.IntersectionMarking.IsActive)
-                    ModButtons.Add(panel.AddUIComponent<IntersectionMarkingButton>());
-
-                if (PluginUtil.Instance.RoundaboutBuilder.IsActive)
-                    ModButtons.Add(panel.AddUIComponent<RoundaboutBuilderButton>());
-
-                if (PluginUtil.Instance.PedestrianBridge.IsActive)
-                    ModButtons.Add(panel.AddUIComponent<PedestrianBridgeButton>());
-
-                if (PluginUtil.Instance.NodeController.IsActive)
-                    ModButtons.Add(panel.AddUIComponent<NodeControllerButton>());
             }
 
             isVisible = false;
@@ -116,11 +105,9 @@ namespace UnifiedUI.GUI {
 
         public ExternalButton Register(
             string name, string groupName, string tooltip, string spritefile) {
-            var g = Find<UIPanel>(DEFAULT_GROUP);
-            if(g == null)
-                g = AddGroup(this, DEFAULT_GROUP);
-            else
-                this.AttachUIComponent(g.gameObject);
+            var g =
+                Find<UIPanel>(DEFAULT_GROUP) ??
+                AddGroup(this, DEFAULT_GROUP);
 
             var c = ExternalButton.Create(
                 parent: g,
@@ -131,19 +118,29 @@ namespace UnifiedUI.GUI {
             return c;
         }
 
+
+        public ButtonT AddButton<ButtonT>(string group = DEFAULT_GROUP)  where ButtonT: ButtonBase {
+            var g =
+                Find<UIPanel>(DEFAULT_GROUP) ??
+                AddGroup(this, DEFAULT_GROUP);
+            var button = g.AddUIComponent<ButtonT>();
+            ModButtons.Add(button);
+            return button;
+        }
+
         public UITextureAtlas SetupSprites() {
             string[] spriteNames = new string[] { "background" };
-            var atlas = TextureUtil.GetAtlas(AtlasName);
-            if (atlas == UIView.GetAView().defaultAtlas) {
-                atlas = TextureUtil.CreateTextureAtlas(spriteFileName_, AtlasName, spriteNames);
+            var _atlas = TextureUtil.GetAtlas(AtlasName);
+            if (_atlas == UIView.GetAView().defaultAtlas) {
+                var texture = TextureUtil.GetTextureFromAssemblyManifest(SPRITES_FILE_PATH);
+                _atlas = TextureUtil.CreateTextureAtlas(texture, AtlasName, spriteNames);
+                _atlas.sprites[0].border = new RectOffset(8, 8, 13, 8);
             }
-            Log.Debug("atlas name is: " + atlas.name, false);
-            this.atlas = atlas;
-            atlas.sprites[0].border = new RectOffset(8, 8, 13, 8);
 
+            Log.Debug("atlas name is: " + _atlas.name, false);
+            atlas = _atlas;
             backgroundSprite = "background";
-
-            return atlas;
+            return _atlas;
         }
 
         UIAutoSizePanel AddPanel() => AddPanel(this);
@@ -223,6 +220,37 @@ namespace UnifiedUI.GUI {
                     btn2.HandleOriginalButtons();
             }
         }
+
+        public override void Update() {
+            base.Update();
+            isVisible = isVisible; // FPS workaround
+            try {
+                if(!LoadingManager.instance.m_loadingComplete) return;
+                HandleHotkeys();
+                CaptureToolChanged();
+            } catch(Exception e) {
+                Log.Exception(e);
+            }
+        }
+
+        #region Handle Tool Changed
+        public delegate void ToolChangedHandler(ToolBase newTool);
+        public event ToolChangedHandler EventToolChanged;
+        ToolBase prevTool;
+        void CaptureToolChanged() {
+            var currentTool = ToolsModifierControl.toolController.CurrentTool;
+            if(!currentTool) return;  // tool is being destroyed. do not poke around!
+            if(!currentTool.enabled)
+                Log.DebugWait($"WARNING: currentTool({currentTool}) is disabled", seconds: 1f);
+            if(currentTool != prevTool) {
+                if(EventToolChanged == null)
+                    Log.Info("WARNING: EventToolChanged==null");
+                //Log.Debug($"ThreadingExtension.OnUpdate(): invoking EventToolChanged. currentTool={currentTool} prevTool={prevTool}");
+                prevTool = currentTool;
+                EventToolChanged?.Invoke(currentTool);
+            }
+        }
+        #endregion
 
         #region Hotkeys
 

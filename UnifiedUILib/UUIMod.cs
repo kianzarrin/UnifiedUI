@@ -5,20 +5,8 @@ namespace UnifiedUI.API {
     using System;
     using System.Collections.Generic;
     using UnifiedUI.GUI;
-    using UnifiedUI.LifeCycle;
 
     public static class UUIMod {
-        /// <summary>
-        /// common code for registering buttons
-        /// </summary>
-        private static ExternalButton Register(
-            string name, string groupName, string tooltip, string spritefile) {
-            if(!MainPanel.Instance)
-                LifeCycle.Load();
-            return MainPanel.Instance.Register(
-                name: name, groupName: groupName, tooltip: tooltip, spritefile: spritefile);
-        }
-
         /// <summary>
         /// Register custom button
         /// </summary>
@@ -26,9 +14,7 @@ namespace UnifiedUI.API {
             (string name, string groupName, string tooltip, string spritefile,
             Action<bool> onToggle, Action<ToolBase> onToolChanged,
             SavedInputKey activationKey, Dictionary<SavedInputKey, Func<bool>> activeKeys) {
-            if(!MainPanel.Instance)
-                LifeCycle.Load();
-            var ret = Register(name: name, groupName: groupName, tooltip: tooltip, spritefile: spritefile);
+            var ret = MainPanel.Instance.Register(name: name, groupName: groupName, tooltip: tooltip, spritefile: spritefile);
             ret.ActivationKey = activationKey;
             ret.ActiveKeys = activeKeys;
             ret.OnToggleCallBack = onToggle;
@@ -41,7 +27,7 @@ namespace UnifiedUI.API {
         public static UIComponent Register
             (string name, string groupName, string tooltip, string spritefile, ToolBase tool,
             SavedInputKey activationKey, Dictionary<SavedInputKey, Func<bool>> activeKeys) {
-            var ret = Register(name: name, groupName: groupName, tooltip: tooltip, spritefile: spritefile);
+            var ret = MainPanel.Instance.Register(name: name, groupName: groupName, tooltip: tooltip, spritefile: spritefile);
             ret.ActivationKey = activationKey;
             ret.ActiveKeys = activeKeys;
             ret.Tool = tool;
@@ -55,9 +41,6 @@ namespace UnifiedUI.API {
             SavedInputKey activationKey,
             Dictionary<SavedInputKey, Func<bool>> activeKeys) {
             try {
-                if(!MainPanel.Instance)
-                    LifeCycle.Load();
-
                 if(activationKey != null && onToggle != null)
                     MainPanel.Instance.CustomHotkeys[activationKey] = onToggle;
 

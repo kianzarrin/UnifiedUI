@@ -4,18 +4,18 @@ namespace UnifiedUI.GUI {
     using KianCommons;
     using UnityEngine;
     using ColossalFramework;
-    using UnifiedUI.LifeCycle;
 
     public class FloatingButton : ButtonBase {
         public static FloatingButton Instance { get; private set; }
         public static readonly SavedFloat SavedX = new SavedFloat(
-            "ButtonX", UUISettings.FileName, 0, true);
+            "ButtonX", MainPanel.FileName, 0, true);
         public static readonly SavedFloat SavedY = new SavedFloat(
-            "ButtonY", UUISettings.FileName, 100, true);
+            "ButtonY", MainPanel.FileName, 100, true);
         public static readonly SavedBool SavedDraggable = new SavedBool(
-            "ButtonDraggable", UUISettings.FileName, def:false, true);
+            "ButtonDraggable", MainPanel.FileName, def:false, true);
 
-        public override string SpritesFileName => "uui.png";
+        public override string SpritesFilePath => "Resources.uui.png";
+        public override bool EmbededSprite => true;
 
         private UIDragHandle drag_ { get; set; }
 
