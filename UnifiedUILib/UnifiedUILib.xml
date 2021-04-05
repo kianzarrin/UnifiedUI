@@ -110,6 +110,14 @@
             <param name="paths">diretory,file names to combine</param>
             <returns>full path to file.</returns>
         </member>
+        <member name="M:UnifiedUI.Helpers.UUIHelpers.GetFullPath``1(System.String[])">
+            <summary>
+            Gets the full path to a file from the input mod
+            </summary>
+            <typeparam name="UserModT">user mod type</typeparam>
+            <param name="paths">diretories/files to combine</param>
+            <returns>full path to file.</returns>
+        </member>
         <member name="M:UnifiedUI.Helpers.UUIHelpers.IsUUIEnabled">
             <summary>
             test if UnifiedUI is present and enable.
@@ -585,31 +593,31 @@
             <summary>Provides access to the git information for the current assembly.</summary>
         </member>
         <member name="F:ThisAssembly.Git.IsDirty">
-            <summary>IsDirty: false</summary>
+            <summary>IsDirty: true</summary>
         </member>
         <member name="F:ThisAssembly.Git.IsDirtyString">
-            <summary>IsDirtyString: false</summary>
+            <summary>IsDirtyString: true</summary>
         </member>
         <member name="F:ThisAssembly.Git.RepositoryUrl">
-            <summary>Repository URL: https://github.com/kianzarrin/UnifiedUI</summary>
+            <summary>Repository URL: https://github.com/kianzarrin/UnifiedUILib</summary>
         </member>
         <member name="F:ThisAssembly.Git.Branch">
             <summary>Branch: standalone</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commit">
-            <summary>Commit: 6d9d157</summary>
+            <summary>Commit: 461421a</summary>
         </member>
         <member name="F:ThisAssembly.Git.Sha">
-            <summary>Sha: 6d9d157b72c553973cf3ded2b2dce1726ad476a6</summary>
+            <summary>Sha: 461421ac0dc486e2274fa309f6818e732e79bcbe</summary>
         </member>
         <member name="F:ThisAssembly.Git.CommitDate">
-            <summary>Commit date: 2021-04-03T23:55:22+03:00</summary>
+            <summary>Commit date: 2021-04-05T12:19:03+03:00</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commits">
-            <summary>Commits on top of base version: 90</summary>
+            <summary>Commits on top of base version: 91</summary>
         </member>
         <member name="F:ThisAssembly.Git.Tag">
-            <summary>Tag: V2.1(2)-15-g6d9d157</summary>
+            <summary>Tag: V2.1(2)-16-g461421a</summary>
         </member>
         <member name="F:ThisAssembly.Git.BaseTag">
             <summary>Base tag: V2.1(2)</summary>
@@ -636,7 +644,7 @@
             <summary>Minor: 0</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Patch">
-            <summary>Patch: 90</summary>
+            <summary>Patch: 91</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Label">
             <summary>Label: </summary>

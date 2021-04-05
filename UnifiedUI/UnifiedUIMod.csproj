@@ -93,6 +93,8 @@
     <None Remove="KianCommons\.git" />
     <None Remove="KianCommons\.gitattributes" />
     <None Remove="KianCommons\.gitignore" />
+    <None Remove="Resources\A.png" />
+    <None Remove="Resources\B.png" />
     <None Remove="Resources\sprites.png" />
     <None Remove="Resources\uui_1440928803.png" />
     <None Remove="Resources\uui_1625704117.png" />
@@ -117,19 +119,7 @@
   </ItemGroup>
  
   <ItemGroup>
-    <None Update="Resources\A.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\B.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\MainPanel.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="Resources\NodeController.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Resources\uui.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Resources\uui_imt.png">
