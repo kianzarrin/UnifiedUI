@@ -228,6 +228,9 @@ namespace UnifiedUI.Helpers {
         public static string GetModPath(this IUserMod userModInstance) =>
             Plugins.FirstOrDefault(p => p?.userModInstance == userModInstance)?.modPath;
 
+        public static string GetModPath<UserModT>() where UserModT : IUserMod =>
+            Plugins.FirstOrDefault(p => p?.userModInstance is UserModT)?.modPath;
+
         /// <summary>
         /// Gets the full path to a file from the input mod
         /// </summary>
@@ -237,6 +240,19 @@ namespace UnifiedUI.Helpers {
         public static string GetFullPath(this IUserMod userModInstance, params string[] paths) {
             string ret = userModInstance.GetModPath();
             foreach (string path in paths)
+                ret = Path.Combine(ret, path);
+            return ret;
+        }
+
+        /// <summary>
+        /// Gets the full path to a file from the input mod
+        /// </summary>
+        /// <typeparam name="UserModT">user mod type</typeparam>
+        /// <param name="paths">diretories/files to combine</param>
+        /// <returns>full path to file.</returns>
+        public static string GetFullPath<UserModT>(params string[] paths) where UserModT : IUserMod {
+            string ret = GetModPath<UserModT>();
+            foreach(string path in paths)
                 ret = Path.Combine(ret, path);
             return ret;
         }

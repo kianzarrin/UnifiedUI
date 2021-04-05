@@ -8,8 +8,6 @@
     using UnityEngine.SceneManagement;
 
     public class UserModExtension : LoadingExtensionBase, IUserMod {
-        public static UserModExtension Instance;
-
         internal static bool InGameOrEditor =>
             SceneManager.GetActiveScene().name != "IntroScreen" &&
             SceneManager.GetActiveScene().name != "Startup";
@@ -18,13 +16,11 @@
         public string Description => "Show case for using UnifiedUI helpers";
 
         public void OnEnabled() {
-            Instance = this;
             if (InGameOrEditor) // hot reload
                 Init();
         }
 
         public void OnDisabled() {
-            Instance = null;
             Release();
         }
 
@@ -43,16 +39,16 @@
     }
 
     public static class ModSettings {
-        const string FILE_NAME = "UUIExampleMod";
+        const string SETTINGS_FILE_NAME = "UUIExampleMod";
 
         static ModSettings() {
-            if (GameSettings.FindSettingsFileByName(FILE_NAME) == null) {
-                GameSettings.AddSettingsFile(new SettingsFile[] { new SettingsFile() { fileName = FILE_NAME } });
+            if (GameSettings.FindSettingsFileByName(SETTINGS_FILE_NAME) == null) {
+                GameSettings.AddSettingsFile(new SettingsFile[] { new SettingsFile() { fileName = SETTINGS_FILE_NAME } });
             }
         }
 
         public static SavedInputKey Hotkey = new SavedInputKey(
-            "UUIExampleMod_HotKey", FILE_NAME,
+            "UUIExampleMod_HotKey", SETTINGS_FILE_NAME,
             key: KeyCode.A, control: true, shift: true, alt: false, true);
 
 
@@ -74,7 +70,7 @@
         protected override void Awake() {
             try {
                 base.Awake();
-                string sprites = UserModExtension.Instance.GetFullPath("Resources", "B.png");
+                string sprites = UUIHelpers.GetFullPath<UserModExtension>("Resources", "B.png");
                 Debug.Log("[UUIExampleMod] ExampleTool.Awake() sprites=" + sprites);
                 button_ = UUIHelpers.RegisterToolButton(
                     name: "ExampleModButton",
