@@ -9,7 +9,7 @@ namespace UnifiedUI.GUI.ModButtons {
     public class RoundaboutBuilderButton : GenericModButton {
         public static RoundaboutBuilderButton Instance;
         public RoundaboutBuilderButton() : base() => Instance = this;
-        public override string SpritesFile => "uui_roundabout_builder.png";
+        public override string SpritesFileName => "uui_roundabout_builder.png";
         public override string Tooltip => "Roundabout builder";
 
         UIPanel UIWindow =>

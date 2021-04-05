@@ -1,15 +1,15 @@
 namespace UnifiedUI.LifeCycle {
     using ColossalFramework.UI;
+    using ICities;
     using KianCommons;
     using KianCommons.IImplict;
-    using System.Diagnostics;
-    using UnifiedUI.GUI;
     using KianCommons.Plugins;
+    using UnifiedUI.GUI;
     using UnifiedUI.GUI.ModButtons;
     using static KianCommons.ReflectionHelpers;
 
 
-    internal class LifeCycle : LifeCycleBase, IModWithSettings {
+    public class LifeCycle : LifeCycleBase, IModWithSettings, IUserMod {
         public override string Name => "Unified UI " + VersionString;
         public override string Description => "organsized UI for some other mods into one unified place.";
 

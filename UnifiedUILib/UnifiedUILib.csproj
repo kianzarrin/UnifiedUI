@@ -34,7 +34,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Mono.Unofficial.pdb2mdb" Version="4.2.3.4" />
-    <PackageReference Include="ValueTupleBridge" Version="0.1.5" />
   </ItemGroup>
   <ItemDefinitionGroup>
     <Reference>

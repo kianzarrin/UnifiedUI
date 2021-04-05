@@ -10,6 +10,8 @@ namespace UnifiedUI.GUI {
     using ColossalFramework;
     using static KianCommons.ReflectionHelpers;
     using UnifiedUI.LifeCycle;
+    using System.IO;
+    using ICities;
 
     public abstract class GenericModButton : ModButtonBase {
         public virtual ToolBase Tool => null;
@@ -19,6 +21,12 @@ namespace UnifiedUI.GUI {
 
         List<UIComponent> originalButtons_ = new List<UIComponent>();
         /// <summary>button to turn off</summary>
+        ///
+        public static String ModPath => PluginUtil.GetPlugin<LifeCycle>().modPath;
+
+        public abstract string SpritesFileName { get; }
+        public override string SpritesFile => Path.Combine(ModPath, SpritesFileName);
+
         public virtual UIComponent GetOriginalButton() => null;
         public virtual IEnumerable<UIComponent> GetOriginalButtons() => null;
 

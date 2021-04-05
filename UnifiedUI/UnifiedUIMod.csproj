@@ -38,7 +38,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Mono.Unofficial.pdb2mdb" Version="4.2.3.4" />
-    <PackageReference Include="ValueTupleBridge" Version="0.1.5" />
   </ItemGroup>
   <ItemDefinitionGroup>
     <Reference>
@@ -53,6 +52,7 @@
     <Reference Include="UnityEngine.UI" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Remove="KianCommons\KianCommons\Backport\**" />
     <Compile Remove="KianCommons\KianCommons\Math\**" />
     <Compile Remove="KianCommons\KianCommons\ObjUnity3D\**" />
     <Compile Remove="KianCommons\KianCommons\obj\**" />
@@ -61,6 +61,7 @@
     <Compile Remove="KianCommons\KianCommons\Serialization\**" />
     <Compile Remove="KianCommons\libs\**" />
     <Compile Remove="Patches\**" />
+    <EmbeddedResource Remove="KianCommons\KianCommons\Backport\**" />
     <EmbeddedResource Remove="KianCommons\KianCommons\Math\**" />
     <EmbeddedResource Remove="KianCommons\KianCommons\ObjUnity3D\**" />
     <EmbeddedResource Remove="KianCommons\KianCommons\obj\**" />
@@ -69,6 +70,7 @@
     <EmbeddedResource Remove="KianCommons\KianCommons\Serialization\**" />
     <EmbeddedResource Remove="KianCommons\libs\**" />
     <EmbeddedResource Remove="Patches\**" />
+    <None Remove="KianCommons\KianCommons\Backport\**" />
     <None Remove="KianCommons\KianCommons\Math\**" />
     <None Remove="KianCommons\KianCommons\ObjUnity3D\**" />
     <None Remove="KianCommons\KianCommons\obj\**" />
@@ -191,5 +193,14 @@
     <Copy SourceFiles="@(FilesToCopy)" DestinationFolder="$(ContentPath)" />
     <RemoveDir Directories="$(DeployDir)" />
     <Message Importance="high" Text="Moved to $(ContentPath)" />
-  </Target>  
+  </Target>
+
+  <Target Name="CustomClean" BeforeTargets="CoreClean">
+    <RemoveDir Directories="$(TargetDir)" />
+    <PropertyGroup>
+      <DeployDir>$(LOCALAPPDATA)/Colossal Order/Cities_Skylines/Addons/Mods/$(SolutionName)/</DeployDir>
+    </PropertyGroup>
+    <Message Text="removing deploy directory" Importance="high" />
+    <RemoveDir Directories="$(DeployDir)" />
+  </Target>
 </Project>

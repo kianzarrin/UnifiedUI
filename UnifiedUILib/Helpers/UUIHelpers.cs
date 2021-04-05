@@ -55,10 +55,13 @@ namespace UnifiedUI.Helpers {
         static bool IsUUILib(this Assembly assembly) => assembly.GetName().Name == ASSEMLY_NAME;
 
         internal static Assembly GetUUILib() {
-            if (IsUUIEnabled())
-                return GetUUIPlugin().GetAssemblies().First(IsUUILib);
-            
             Assembly ret = null;
+            if (IsUUIEnabled()) {
+                ret  = GetUUIPlugin().GetAssemblies().First(IsUUILib);
+                Debug.Log($"using {ret} from UnifiedUI Mod");
+            }
+
+
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
             foreach (var assembly in assemblies.Where(IsUUILib)) {
                 if (ret == null || ret.GetName().Version < assembly.GetName().Version)
@@ -68,6 +71,7 @@ namespace UnifiedUI.Helpers {
                 string sAssemblies = string.Join("\n", assemblies.Select(asm => asm.ToString()).ToArray());
                 throw new Exception($"failed to get latest {ASSEMLY_NAME}. assemblies are:\n" + sAssemblies);
             }
+            Debug.Log($"using latest {ASSEMLY_NAME} version: {ret}");
             return ret;
         }
 
