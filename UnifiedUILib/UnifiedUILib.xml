@@ -602,22 +602,22 @@
             <summary>Repository URL: https://github.com/kianzarrin/UnifiedUI</summary>
         </member>
         <member name="F:ThisAssembly.Git.Branch">
-            <summary>Branch: standalone</summary>
+            <summary>Branch: master</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commit">
-            <summary>Commit: f40ffc3</summary>
+            <summary>Commit: 43534ca</summary>
         </member>
         <member name="F:ThisAssembly.Git.Sha">
-            <summary>Sha: f40ffc316b125b0ba5dfd2181d98035b89598868</summary>
+            <summary>Sha: 43534caaf552909bde47fb8e975d8a5481bca04a</summary>
         </member>
         <member name="F:ThisAssembly.Git.CommitDate">
-            <summary>Commit date: 2021-04-05T14:00:02+03:00</summary>
+            <summary>Commit date: 2021-04-21T22:40:29+03:00</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commits">
-            <summary>Commits on top of base version: 93</summary>
+            <summary>Commits on top of base version: 95</summary>
         </member>
         <member name="F:ThisAssembly.Git.Tag">
-            <summary>Tag: V2.1(2)-18-gf40ffc3</summary>
+            <summary>Tag: V2.1(2)-20-g43534ca</summary>
         </member>
         <member name="F:ThisAssembly.Git.BaseTag">
             <summary>Base tag: V2.1(2)</summary>
@@ -644,7 +644,7 @@
             <summary>Minor: 0</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Patch">
-            <summary>Patch: 93</summary>
+            <summary>Patch: 95</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Label">
             <summary>Label: </summary>

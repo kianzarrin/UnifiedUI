@@ -15,7 +15,6 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Workshop|AnyCPU' ">
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ContentID>2255219025</ContentID>
-    <ContentPath>$(SteamPath)/steamapps/workshop/content/255710/$(ContentID)</ContentPath>
   </PropertyGroup>
   <PropertyGroup>
     <ManagedDLLPath>../dependencies</ManagedDLLPath>
@@ -23,6 +22,7 @@
     <SteamPath Condition="! Exists ('$(SteamPath)')">$(ProgramFiles)/Steam</SteamPath>
     <SteamPath Condition="! Exists ('$(SteamPath)')">$(Registry:HKEY_CURRENT_USER\Software\Valve\Steam@SteamPath)</SteamPath>
     <CSPath>$(SteamPath)/steamapps/common/Cities_Skylines</CSPath>
+    <ContentPath>$(SteamPath)/steamapps/workshop/content/255710/$(ContentID)</ContentPath>
     <ManagedDLLPath Condition="!  Exists ('$(ManagedDLLPath)')">$(CSPath)/Cities_Data/Managed</ManagedDLLPath>
     <AssemblySearchPaths>
       $(AssemblySearchPaths);
@@ -182,7 +182,7 @@
     <Delete Files="@(FilesToDelete)" />
     <Copy SourceFiles="@(FilesToCopy)" DestinationFolder="$(ContentPath)" />
     <RemoveDir Directories="$(DeployDir)" />
-    <Message Importance="high" Text="Moved to $(ContentPath)" />
+    <Message Importance="high" Text="Moved $(DeployDir) to $(ContentPath)" />
   </Target>
 
   <Target Name="CustomClean" BeforeTargets="CoreClean">
