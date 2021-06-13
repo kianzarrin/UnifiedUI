@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29926.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnifiedUIMod", "UnifiedUI\UnifiedUIMod.csproj", "{4E0BB9B3-EFB1-4D63-99D8-A3B82D33E4FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnifiedUIMod", "UnifiedUIMod\UnifiedUIMod.csproj", "{4E0BB9B3-EFB1-4D63-99D8-A3B82D33E4FE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UUIExampleMod", "ExampleMod\UUIExampleMod.csproj", "{3C8DEE8D-BDA9-4932-92B0-AF00FF217259}"
 EndProject

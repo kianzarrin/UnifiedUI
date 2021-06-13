@@ -105,5 +105,6 @@ namespace UnifiedUI.GUI {
                 id: "absolutePosition: ".GetHashCode(), seconds: 0.2f, copyToGameLog: false);
         }
 
+        protected override void OnResolutionChanged(Vector2 previousResolution, Vector2 currentResolution) => OnPositionChanged();
     }
 }

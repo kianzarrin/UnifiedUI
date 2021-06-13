@@ -1,6 +1,6 @@
 
 [submodule "UnifiedUI/KianCommons"]
-	path = UnifiedUI/KianCommons
+	path = UnifiedUIMod/KianCommons
 	url = https://github.com/kianzarrin/KianCommons
 [submodule "UnifiedUILib/KianCommons"]
 	path = UnifiedUILib/KianCommons

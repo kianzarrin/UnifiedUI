@@ -201,6 +201,7 @@ namespace UnifiedUI.GUI {
             SavedY.value = absolutePosition.y;
             Log.DebugWait("absolutePosition: " + absolutePosition, id: "absolutePosition: ".GetHashCode(), seconds: 0.2f, copyToGameLog: false);
         }
+        protected override void OnResolutionChanged(Vector2 previousResolution, Vector2 currentResolution) => OnPositionChanged();
 
         void Refresh() {
             DoRefreshButtons();

@@ -3,12 +3,12 @@
     <TargetFramework>net35</TargetFramework>
     <LangVersion>latest</LangVersion>
     <Deterministic>false</Deterministic>
-    <AssemblyVersion>1.0.1.*</AssemblyVersion>
+    <AssemblyVersion>1.0.2.*</AssemblyVersion>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
     <PathMap>$(MSBuildProjectDirectory)/=$(ProjectName)/</PathMap>
     <Configurations>Debug;Release</Configurations>
-    <DocumentationFile>C:\Users\dell\source\repos\UnifiedUI\UnifiedUILib\UnifiedUILib.xml</DocumentationFile>
+    <DocumentationFile>./UnifiedUILib.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DefineConstants>DEBUG;TRACE</DefineConstants>
