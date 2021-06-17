@@ -7,32 +7,38 @@ namespace UnifiedUI.LifeCycle {
     using UnifiedUI.GUI;
     using UnifiedUI.GUI.ModButtons;
     using static KianCommons.ReflectionHelpers;
+    using ColossalFramework.Plugins;
+    using System;
 
+    static class Extension {
+        internal static bool IsActive(this PluginManager.PluginInfo p, string minVersion) =>
+            p.IsActive() && p.userModInstance.VersionOf() >= new Version(minVersion);
+    }
 
     public class LifeCycle : LifeCycleBase, IModWithSettings, IUserMod {
         public override string Name => "Unified UI " + VersionString;
         public override string Description => "organsized UI for some other mods into one unified place.";
+
 
         public override void Load() {
             LogCalled();
             KianCommons.UI.TextureUtil.EmbededResources = false;
             Log.VERBOSE = false;
 
-            if(PluginUtil.GetNetworkDetective().IsActive())
+            if (PluginUtil.GetNetworkDetective().IsActive("1.1"))
                 MainPanel.Instance.AddButton<NetworkDetectiveButton>();
 
-            if(PluginUtil.GetIMT().IsActive())
+            if(PluginUtil.GetIMT().IsActive("1.9"))
                 MainPanel.Instance.AddButton<IntersectionMarkingButton>();
 
-            if(PluginUtil.GetRAB().IsActive())
+            if(PluginUtil.GetRAB().IsActive("1.10"))
                 MainPanel.Instance.AddButton<RoundaboutBuilderButton>();
 
-            if(PluginUtil.GetPedestrianBridge().IsActive())
+            if(PluginUtil.GetPedestrianBridge().IsActive("2.1"))
                 MainPanel.Instance.AddButton<PedestrianBridgeButton>();
 
-            if(PluginUtil.GetNodeController().IsActive())
+            if(PluginUtil.GetNodeController().IsActive("3.2"))
                 MainPanel.Instance.AddButton<NodeControllerButton>();
-
         }
 
         public override void UnLoad() {
