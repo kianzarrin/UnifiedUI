@@ -11,8 +11,8 @@ namespace UnifiedUI.LifeCycle {
     using System;
 
     static class Extension {
-        internal static bool IsActive(this PluginManager.PluginInfo p, string minVersion) =>
-            p.IsActive() && p.userModInstance.VersionOf() >= new Version(minVersion);
+        internal static bool IsActive(this PluginManager.PluginInfo p, string maxVersion) =>
+            p.IsActive() && p.userModInstance.VersionOf() < new Version(maxVersion);
     }
 
     public class LifeCycle : LifeCycleBase, IModWithSettings, IUserMod {

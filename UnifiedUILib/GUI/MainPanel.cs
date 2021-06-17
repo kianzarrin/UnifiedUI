@@ -66,41 +66,45 @@ namespace UnifiedUI.GUI {
         }
 
         public override void Start() {
-            base.Start();
-            Log.Debug("MainPanel started");
-            name = "MainPanel";
+            try {
+                base.Start();
+                LogCalled();
+                name = "MainPanel";
 
-            SetupSprites();
+                SetupSprites();
 
-            absolutePosition = new Vector3(SavedX, SavedY);
+                absolutePosition = new Vector3(SavedX, SavedY);
 
-            {
-                dragHandle_ = AddUIComponent<UIDragHandle>();
-                dragHandle_.height = 20;
-                dragHandle_.relativePosition = Vector3.zero;
-                dragHandle_.target = parent;
+                {
+                    dragHandle_ = AddUIComponent<UIDragHandle>();
+                    dragHandle_.height = 20;
+                    dragHandle_.relativePosition = Vector3.zero;
+                    dragHandle_.target = parent;
 
-                lblCaption_ = dragHandle_.AddUIComponent<UILabel>();
-                lblCaption_.text = "UnifiedUI";
-                lblCaption_.name = "UnifiedUI_title";
-                lblCaption_.textScale = 0.75f;
+                    lblCaption_ = dragHandle_.AddUIComponent<UILabel>();
+                    lblCaption_.text = "UnifiedUI";
+                    lblCaption_.name = "UnifiedUI_title";
+                    lblCaption_.textScale = 0.75f;
+                }
+
+                var body = AddPanel();
+                body.autoLayoutPadding = new RectOffset(2, 0, 2, 2);
+                containerPanel_ = body;
+
+                {
+                    var g1 = Find<UIPanel>(DEFAULT_GROUP);
+                    if (g1 == null)
+                        g1 = AddGroup(body, DEFAULT_GROUP);
+                    else
+                        body.AttachUIComponent(g1.gameObject);
+                }
+
+                isVisible = false;
+                started_ = true;
+                Refresh();
+            } catch(Exception ex) {
+                Log.Exception(ex);
             }
-
-            var body = AddPanel();
-            body.autoLayoutPadding = new RectOffset(2, 0, 2, 2);
-            containerPanel_ = body;
-
-            {
-                var g1 = Find<UIPanel>(DEFAULT_GROUP);
-                if(g1 == null)
-                    g1 = AddGroup(body, DEFAULT_GROUP);
-                else
-                    body.AttachUIComponent(g1.gameObject);
-            }
-
-            isVisible = false;
-            started_ = true;
-            Refresh();
         }
 
         public ExternalButton Register(
@@ -190,18 +194,24 @@ namespace UnifiedUI.GUI {
         protected override void OnPositionChanged() {
             base.OnPositionChanged();
             Log.DebugWait("OnPositionChanged called", id: "OnPositionChanged called".GetHashCode(), seconds: 0.2f, copyToGameLog: false);
-
-            Vector2 resolution = GetUIView().GetScreenResolution();
-
-            absolutePosition = new Vector2(
-                Mathf.Clamp(absolutePosition.x, 0, resolution.x - width),
-                Mathf.Clamp(absolutePosition.y, 0, resolution.y - height));
+            FitToScreen();
 
             SavedX.value = absolutePosition.x;
             SavedY.value = absolutePosition.y;
             Log.DebugWait("absolutePosition: " + absolutePosition, id: "absolutePosition: ".GetHashCode(), seconds: 0.2f, copyToGameLog: false);
         }
-        protected override void OnResolutionChanged(Vector2 previousResolution, Vector2 currentResolution) => OnPositionChanged();
+
+        void FitToScreen() {
+            Vector2 resolution = GetUIView().GetScreenResolution();
+            absolutePosition = new Vector2(
+                Mathf.Clamp(absolutePosition.x, 0, resolution.x - width),
+                Mathf.Clamp(absolutePosition.y, 0, resolution.y - height));
+        }
+
+        protected override void OnResolutionChanged(Vector2 previousResolution, Vector2 currentResolution) {
+            LogCalled();
+            FitToScreen();
+        }
 
         void Refresh() {
             DoRefreshButtons();
