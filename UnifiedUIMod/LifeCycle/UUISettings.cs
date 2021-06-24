@@ -8,7 +8,6 @@ namespace UnifiedUI.LifeCycle {
     using UnityEngine;
     using UnifiedUI.GUI;
 
-
     public static class UUISettings {
         public const string FileName = "UnifiedUI";
 

@@ -73,13 +73,12 @@ namespace UnifiedUI.GUI {
 
                 SetupSprites();
 
-                absolutePosition = new Vector3(SavedX, SavedY);
-
                 {
                     dragHandle_ = AddUIComponent<UIDragHandle>();
                     dragHandle_.height = 20;
                     dragHandle_.relativePosition = Vector3.zero;
                     dragHandle_.target = parent;
+                    dragHandle_.eventMouseUp += DragHandle__eventMouseUp; 
 
                     lblCaption_ = dragHandle_.AddUIComponent<UILabel>();
                     lblCaption_.text = "UnifiedUI";
@@ -191,27 +190,37 @@ namespace UnifiedUI.GUI {
             Hide();
         }
 
-        protected override void OnPositionChanged() {
-            base.OnPositionChanged();
-            Log.DebugWait("OnPositionChanged called", id: "OnPositionChanged called".GetHashCode(), seconds: 0.2f, copyToGameLog: false);
+        #region pos
+        private void DragHandle__eventMouseUp(UIComponent component, UIMouseEventParameter eventParam) {
+            if (!Responsive) return;
+            LogCalled();
             FitToScreen();
 
             SavedX.value = absolutePosition.x;
             SavedY.value = absolutePosition.y;
-            Log.DebugWait("absolutePosition: " + absolutePosition, id: "absolutePosition: ".GetHashCode(), seconds: 0.2f, copyToGameLog: false);
+            Log.Info("absolutePosition: " + absolutePosition, copyToGameLog: false);
         }
-
+        protected override void OnResolutionChanged(Vector2 previousResolution, Vector2 currentResolution) {
+            if (!Responsive) return;
+            LogCalled();
+            LoadPosition();
+        }
+        void LoadPosition() {
+            absolutePosition = new Vector3(SavedX, SavedY);
+            FitToScreen();
+        }
         void FitToScreen() {
             Vector2 resolution = GetUIView().GetScreenResolution();
             absolutePosition = new Vector2(
                 Mathf.Clamp(absolutePosition.x, 0, resolution.x - width),
                 Mathf.Clamp(absolutePosition.y, 0, resolution.y - height));
         }
-
-        protected override void OnResolutionChanged(Vector2 previousResolution, Vector2 currentResolution) {
-            LogCalled();
+        protected override void OnPositionChanged() {
+            if (!Responsive) return;
             FitToScreen();
         }
+        #endregion
+
 
         void Refresh() {
             DoRefreshButtons();
@@ -223,14 +232,24 @@ namespace UnifiedUI.GUI {
             dragHandle_.width = width;
             lblCaption_.relativePosition = new Vector2((width - lblCaption_.width) * 0.5f, 3);
             dragHandle_.width = width;
+
+            LoadPosition();
             Invalidate();
         }
 
+        public static bool InLoadedGame =>
+            !LoadingManager.instance.m_applicationQuitting &&
+            !LoadingManager.instance.m_currentlyLoading &&
+            LoadingManager.instance.m_loadingComplete;
+
+        public bool Responsive => InLoadedGame && started_;
+
         public override void Update() {
             base.Update();
+            if (!Responsive) return;
             isVisible = isVisible; // FPS workaround
             try {
-                if(!LoadingManager.instance.m_loadingComplete) return;
+                if(InLoadedGame) return;
                 HandleHotkeys();
                 CaptureToolChanged();
             } catch(Exception e) {

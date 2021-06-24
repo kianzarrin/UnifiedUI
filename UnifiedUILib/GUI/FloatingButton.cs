@@ -34,9 +34,9 @@ namespace UnifiedUI.GUI {
             LogCalled();
             base.Start();
             Instance = this;
-            absolutePosition = new Vector3(SavedX, SavedY);
             SetupDrag();
             started_ = true;
+            LoadPosition();
         }
 
         public void SetupDrag() {
@@ -48,6 +48,7 @@ namespace UnifiedUI.GUI {
             drag_.width = width;
             drag_.height = height;
             drag_.enabled =  SavedDraggable;
+            drag_.eventMouseUp += Drag_eventMouseUp; 
         }
 
         public override void Activate() {
@@ -83,28 +84,43 @@ namespace UnifiedUI.GUI {
                 Toggle();
         }
 
-        protected override void OnPositionChanged() {
-            base.OnPositionChanged();
-            Log.DebugWait(ThisMethod + " called",
-                id: "OnPositionChanged called".GetHashCode() , seconds:0.2f,copyToGameLog:false);
-            if (!started_) return;
 
+        #region pos
+        public bool Responsive => MainPanel.InLoadedGame && started_;
+        private void Drag_eventMouseUp(UIComponent component, UIMouseEventParameter eventParam) {
+            if (!Responsive) return;
+            LogCalled();
+            FitToScreen();
+
+            SavedX.value = absolutePosition.x;
+            SavedY.value = absolutePosition.y;
+            Log.Info("absolutePosition: " + absolutePosition, copyToGameLog: false);
+        }
+        protected override void OnResolutionChanged(Vector2 previousResolution, Vector2 currentResolution) {
+            if (!Responsive) return;
+            LogCalled();
+            LoadPosition();
+        }
+        void LoadPosition() {
+            absolutePosition = new Vector3(SavedX, SavedY);
+            FitToScreen();
+        }
+        void FitToScreen() {
             Vector2 resolution = GetUIView().GetScreenResolution();
-
             absolutePosition = new Vector2(
                 Mathf.Clamp(absolutePosition.x, 0, resolution.x - width),
                 Mathf.Clamp(absolutePosition.y, 0, resolution.y - height));
+        }
+
+        protected override void OnPositionChanged() {
+            if (!Responsive) return;
 
             Vector2 delta = new Vector2(absolutePosition.x - SavedX, absolutePosition.y - SavedY);
             moving_ = delta.sqrMagnitude > 1f;
             // TODO move main panel by delta.
 
-            SavedX.value = absolutePosition.x;
-            SavedY.value = absolutePosition.y;
-            Log.DebugWait(message: "absolutePosition: " + absolutePosition,
-                id: "absolutePosition: ".GetHashCode(), seconds: 0.2f, copyToGameLog: false);
+            FitToScreen();
         }
-
-        protected override void OnResolutionChanged(Vector2 previousResolution, Vector2 currentResolution) => OnPositionChanged();
+        #endregion
     }
 }
