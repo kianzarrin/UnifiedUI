@@ -2,5 +2,5 @@ UUI options:
 - NC crossing toggle mode
 - Add/remove/Move node
 
-remove pluggin utils and add plugins to individual button.
+remove pluggin utils and add plugins to individual button. 
 
