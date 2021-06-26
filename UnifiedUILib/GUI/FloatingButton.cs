@@ -96,11 +96,6 @@ namespace UnifiedUI.GUI {
             SavedY.value = absolutePosition.y;
             Log.Info("absolutePosition: " + absolutePosition, copyToGameLog: false);
         }
-        protected override void OnResolutionChanged(Vector2 previousResolution, Vector2 currentResolution) {
-            if (!Responsive) return;
-            LogCalled();
-            LoadPosition();
-        }
         void LoadPosition() {
             absolutePosition = new Vector3(SavedX, SavedY);
             FitToScreen();
@@ -113,13 +108,12 @@ namespace UnifiedUI.GUI {
         }
 
         protected override void OnPositionChanged() {
+            base.OnPositionChanged();
             if (!Responsive) return;
 
             Vector2 delta = new Vector2(absolutePosition.x - SavedX, absolutePosition.y - SavedY);
             moving_ = delta.sqrMagnitude > 1f;
             // TODO move main panel by delta.
-
-            FitToScreen();
         }
         #endregion
     }

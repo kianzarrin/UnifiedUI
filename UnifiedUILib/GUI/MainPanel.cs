@@ -9,7 +9,7 @@ namespace UnifiedUI.GUI {
     using System.Linq;
     using static KianCommons.ReflectionHelpers;
 
-    public class MainPanel : UIAutoSizePanel {
+    public class MainPanel : UIPanel {
         const string SPRITES_FILE_NAME = "MainPanel.png";
         const string DEFAULT_GROUP = "group1";
         public const string FileName = "UnifiedUI";
@@ -30,7 +30,7 @@ namespace UnifiedUI.GUI {
 
         private UILabel lblCaption_;
         private UIDragHandle dragHandle_;
-        UIAutoSizePanel containerPanel_;
+        UIPanel containerPanel_;
 
         public List<ButtonBase> ModButtons;
 
@@ -51,8 +51,10 @@ namespace UnifiedUI.GUI {
 
         public override void Awake() {
             base.Awake();
+            autoLayout = true;
+            autoLayoutDirection = LayoutDirection.Vertical;
+            autoSize = autoFitChildrenHorizontally = autoFitChildrenVertically = true;
             instance_ = this;
-            AutoSize2 = true;
             ModButtons = new List<ButtonBase>();
             builtinKeyNavigation = true;
             UIView.GetAView().AddUIComponent(typeof(FloatingButton));
@@ -77,7 +79,6 @@ namespace UnifiedUI.GUI {
                     dragHandle_ = AddUIComponent<UIDragHandle>();
                     dragHandle_.height = 20;
                     dragHandle_.relativePosition = Vector3.zero;
-                    dragHandle_.target = parent;
                     dragHandle_.eventMouseUp += DragHandle__eventMouseUp; 
 
                     lblCaption_ = dragHandle_.AddUIComponent<UILabel>();
@@ -146,9 +147,9 @@ namespace UnifiedUI.GUI {
             return _atlas;
         }
 
-        UIAutoSizePanel AddPanel() => AddPanel(this);
+        UIPanel AddPanel() => AddPanel(this);
 
-        UIAutoSizePanel AddGroup(UIPanel parent, string name) {
+        UIPanel AddGroup(UIPanel parent, string name) {
             var g = AddPanel(parent);
             g.backgroundSprite = "GenericPanelWhite";
             g.color = new Color32(170, 170, 170, byte.MaxValue);
@@ -156,16 +157,13 @@ namespace UnifiedUI.GUI {
             return g;
         }
 
-        static UIAutoSizePanel AddPanel(UIPanel panel) {
+        static UIPanel AddPanel(UIPanel panel) {
             Assertion.AssertNotNull(panel, "panel");
-            int pad_horizontal = 0;
-            int pad_vertical = 0;
-            UIAutoSizePanel newPanel = panel.AddUIComponent<UIAutoSizePanel>();
+            UIPanel newPanel = panel.AddUIComponent<UIPanel>();
             Assertion.AssertNotNull(newPanel, "newPanel");
+            newPanel.autoLayout = true;
             newPanel.autoLayoutDirection = LayoutDirection.Horizontal;
-            newPanel.autoLayoutPadding =
-                new RectOffset(pad_horizontal, pad_horizontal, pad_vertical, pad_vertical);
-            newPanel.AutoSize2 = true;
+            newPanel.autoFitChildrenHorizontally = newPanel.autoFitChildrenVertically = true;
 
             return newPanel;
         }
@@ -200,11 +198,6 @@ namespace UnifiedUI.GUI {
             SavedY.value = absolutePosition.y;
             Log.Info("absolutePosition: " + absolutePosition, copyToGameLog: false);
         }
-        protected override void OnResolutionChanged(Vector2 previousResolution, Vector2 currentResolution) {
-            if (!Responsive) return;
-            LogCalled();
-            LoadPosition();
-        }
         void LoadPosition() {
             absolutePosition = new Vector3(SavedX, SavedY);
             FitToScreen();
@@ -215,24 +208,12 @@ namespace UnifiedUI.GUI {
                 Mathf.Clamp(absolutePosition.x, 0, resolution.x - width),
                 Mathf.Clamp(absolutePosition.y, 0, resolution.y - height));
         }
-        protected override void OnPositionChanged() {
-            if (!Responsive) return;
-            FitToScreen();
-        }
         #endregion
-
 
         void Refresh() {
             DoRefreshButtons();
-
-            //Invalidate();
-            dragHandle_.width = lblCaption_.width;
-            RefreshSizeRecursive();
-
-            dragHandle_.width = width;
+            dragHandle_.width = Mathf.Max(this.width, lblCaption_.width);
             lblCaption_.relativePosition = new Vector2((width - lblCaption_.width) * 0.5f, 3);
-            dragHandle_.width = width;
-
             LoadPosition();
             Invalidate();
         }
