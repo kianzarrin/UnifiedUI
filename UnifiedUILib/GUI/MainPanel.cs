@@ -8,7 +8,7 @@ namespace UnifiedUI.GUI {
     using System.Collections.Generic;
     using System.Linq;
     using static KianCommons.ReflectionHelpers;
-
+    using KianCommons.Plugins;
     public class MainPanel : UIPanel {
         const string SPRITES_FILE_NAME = "MainPanel.png";
         const string DEFAULT_GROUP = "group1";
@@ -76,15 +76,17 @@ namespace UnifiedUI.GUI {
                 SetupSprites();
 
                 {
-                    dragHandle_ = AddUIComponent<UIDragHandle>();
+                    dragHandle_ = AddUIComponent<ControlledDrag>();
                     dragHandle_.height = 20;
                     dragHandle_.relativePosition = Vector3.zero;
-                    dragHandle_.eventMouseUp += DragHandle__eventMouseUp; 
+                    dragHandle_.eventMouseUp += DragHandle__eventMouseUp;
 
                     lblCaption_ = dragHandle_.AddUIComponent<UILabel>();
                     lblCaption_.text = "UnifiedUI";
                     lblCaption_.name = "UnifiedUI_title";
                     lblCaption_.textScale = 0.75f;
+
+                    dragHandle_.tooltip = lblCaption_.tooltip = "hold CTRL to move";
                 }
 
                 var body = AddPanel();
@@ -121,7 +123,6 @@ namespace UnifiedUI.GUI {
             ModButtons.Add(c);
             return c;
         }
-
 
         public ButtonT AddButton<ButtonT>(string group = DEFAULT_GROUP)  where ButtonT: ButtonBase {
             var g =
@@ -225,12 +226,12 @@ namespace UnifiedUI.GUI {
 
         public bool Responsive => InLoadedGame && started_;
 
+
+        [FPSBoosterSkipOptimizations]
         public override void Update() {
             base.Update();
             if (!Responsive) return;
-            isVisible = isVisible; // FPS workaround
             try {
-                if(InLoadedGame) return;
                 HandleHotkeys();
                 CaptureToolChanged();
             } catch(Exception e) {

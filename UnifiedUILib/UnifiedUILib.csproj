@@ -1,5 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="../Version.props"/>
+  <Import Project="../Version.props" />
   <PropertyGroup>
     <TargetFramework>net35</TargetFramework>
     <LangVersion>latest</LangVersion>
@@ -68,6 +68,7 @@
     <Compile Include="KianCommons\KianCommons\Math\VecetorUtils.cs" />
     <Compile Include="KianCommons\KianCommons\Math\Vector2D.cs" />
     <Compile Include="KianCommons\KianCommons\Math\Vector3D.cs" />
+    <Compile Include="KianCommons\KianCommons\Plugins\FPSBooster.cs" />
     <Compile Include="KianCommons\KianCommons\Plugins\PluginUtil.cs" />
     <Compile Include="KianCommons\KianCommons\UI\Helpers\UIAutoSizePanel.cs" />
     <Compile Include="KianCommons\KianCommons\UI\Helpers\UIButtonExt.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="KianCommons\KianCommons\Util\ReflectionHelpers.cs" />
     <Compile Include="KianCommons\KianCommons\Util\StackHelpers.cs" />
     <Compile Include="KianCommons\KianCommons\Util\StringExtensions.cs" />
+    <Compile Include="KianCommons\KianCommons\Util\TypeUtil.cs" />
     <EmbeddedResource Include="Resources\MainPanel.png" />
     <EmbeddedResource Include="Resources\unlock-ring.png" />
     <EmbeddedResource Include="Resources\uui.png" />

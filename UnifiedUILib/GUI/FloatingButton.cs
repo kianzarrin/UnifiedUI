@@ -5,6 +5,7 @@ namespace UnifiedUI.GUI {
     using UnityEngine;
     using ColossalFramework;
     using KianCommons.UI;
+    using KianCommons.Plugins;
 
     public class FloatingButton : ButtonBase {
         public static FloatingButton Instance { get; private set; }
@@ -12,8 +13,6 @@ namespace UnifiedUI.GUI {
             "ButtonX", MainPanel.FileName, 0, true);
         public static readonly SavedFloat SavedY = new SavedFloat(
             "ButtonY", MainPanel.FileName, 100, true);
-        public static readonly SavedBool SavedDraggable = new SavedBool(
-            "ButtonDraggable", MainPanel.FileName, def:true, true);
 
         public override string SpritesFile => "uui.png";
         public override bool EmbededSprite => true;
@@ -32,17 +31,14 @@ namespace UnifiedUI.GUI {
             Invalidate();
         }
 
+        static bool isDraggable_;
         public bool IsDragable {
-            get => SavedDraggable.value;
+            get => isDraggable_;
             set {
-                SavedDraggable.value = value;
-                if(drag_) drag_.enabled = value;
-                unlockRing_.spriteName = IsDragable ? unlockRingSpriteName_ : ""; // instead of isVisible I do this to show tooltip.
-
-                if (value) 
-                    SetTooltip("unclocked (double click to lock)");
-                 else
-                    SetTooltip("locked (double click to unlock)");
+                if (isDraggable_ != value) {
+                    isDraggable_ = value;
+                    unlockRing_.spriteName = value ? unlockRingSpriteName_ : ""; // instead of isVisible I do this to show tooltip.
+                }
             }
         }
 
@@ -54,7 +50,6 @@ namespace UnifiedUI.GUI {
             AddUnlockRing();
             SetupDrag();
             started_ = true;
-            IsDragable = IsDragable; // initialize
             LoadPosition();
         }
 
@@ -75,12 +70,12 @@ namespace UnifiedUI.GUI {
             var dragHandler = new GameObject("UnifiedUI_FloatingButton_DragHandler");
             dragHandler.transform.parent = transform;
             dragHandler.transform.localPosition = Vector3.zero;
-            drag_ = dragHandler.AddComponent<UIDragHandle>();
+            drag_ = dragHandler.AddComponent<ControlledDrag>();
 
-            drag_.width = width;
-            drag_.height = height;
-            drag_.enabled =  SavedDraggable;
-            drag_.eventMouseUp += Drag_eventMouseUp; 
+            drag_.size = size;
+            drag_.eventMouseUp += Drag_eventMouseUp;
+
+            SetTooltip("hold CTRL to move");
         }
 
         public override void Activate() {
@@ -108,12 +103,11 @@ namespace UnifiedUI.GUI {
                 Toggle();
         }
 
-        protected override void OnDoubleClick(UIMouseEventParameter p) {
-            LogCalled();
-            base.OnDoubleClick(p);
-            IsDragable = !IsDragable;
-            if (!moving_)
-                Toggle();
+        [FPSBoosterSkipOptimizations]
+        public override void Update() {
+            base.Update();
+            if (!started_) return;
+            IsDragable = containsMouse && Helpers.ControlIsPressed;
         }
 
 
@@ -144,7 +138,7 @@ namespace UnifiedUI.GUI {
             if (!Responsive) return;
 
             Vector2 delta = new Vector2(absolutePosition.x - SavedX, absolutePosition.y - SavedY);
-            moving_ = delta.sqrMagnitude > 1f;
+            moving_ = delta.sqrMagnitude > 0f;
             // TODO move main panel by delta.
         }
         #endregion

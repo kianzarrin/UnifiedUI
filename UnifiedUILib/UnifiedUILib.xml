@@ -231,6 +231,18 @@
             Note: to convert CCW to CW EITHER swap v1 and v2 OR take the negative of the result.
             </summary>
         </member>
+        <member name="M:KianCommons.Plugins.DelegateUtil.GetParameterTypes``1">
+            <typeparam name="TDelegate">delegate type</typeparam>
+            <returns>Type[] represeting arguments of the delegate.</returns>
+        </member>
+        <member name="M:KianCommons.Plugins.DelegateUtil.GetMethod``1(System.Type,System.String)">
+            <summary>
+            Gets directly declared method based on a delegate that has
+            the same name as the target method
+            </summary>
+            <param name="type">the class/type where the method is delcared</param>
+            <param name="name">the name of the method</param>
+        </member>
         <member name="M:KianCommons.Plugins.PluginExtensions.IsActive(ColossalFramework.Plugins.PluginManager.PluginInfo)">
             <summary>
             shortcut for plugin?.isEnabled ?? false
@@ -267,6 +279,16 @@
             <param name="segmentId"></param>
             <param name="cut">The lenght of the highlight [0~1] </param>
             <param name="bStartNode">Determines the direction of the half sausage.</param>
+        </member>
+        <member name="M:KianCommons.EnumBitMaskExtensions.ToUInt64(System.IConvertible)">
+            <summary>
+            can convirt any enum based on signed/unsigned integer to long
+            </summary>
+        </member>
+        <member name="M:KianCommons.EnumBitMaskExtensions.ToInt64(System.IConvertible)">
+            <summary>
+            can convirt any enum based on signed/unsigned integer to long
+            </summary>
         </member>
         <member name="M:KianCommons.EnumerationExtensions.Clone1``1(System.Collections.Generic.IEnumerable{``0})">
             <summary>
@@ -335,6 +357,7 @@
             <summary>
             buffered logging is much faster but requires extra care for hot-reload/external modifications.
             to use Buffered mode with hot-reload: set when mod is enabled and unset when mod is disabled.
+            IMPORTANT: Buffer must be set to false as part of cleanup (particularly for hot reload).
             Note: buffered mode is 20 times faster but only if you do not copy to game log.
             </summary>
         </member>
@@ -420,6 +443,16 @@
         <member name="M:KianCommons.NetUtil.CalculateCorner(System.UInt16,System.UInt16,System.Boolean,UnityEngine.Vector3@,UnityEngine.Vector3@)">
             <param name="bLeft2">if other segment is to the left side of segmentID.</param>
         </member>
+        <member name="P:KianCommons.NetUtil.LHT">
+            <summary>
+            left hand traffic (traffic drives on left like UK).
+            </summary>
+        </member>
+        <member name="P:KianCommons.NetUtil.RHT">
+            <summary>
+            right hand traffic (traffic drives on right like most places).
+            </summary>
+        </member>
         <member name="M:KianCommons.NetUtil.IsGoingBackward(NetInfo.Direction)">
             <summary>
             checks if vehicles move backward or bypass backward (considers LHT)
@@ -444,15 +477,13 @@
             returns a clock-wise list of segments of the given node ID.
             </summary>
         </member>
-        <member name="M:KianCommons.NetUtil.GetSortedLanes(System.UInt16,System.Nullable{System.Boolean},NetInfo.LaneType,VehicleInfo.VehicleType)">
+        <member name="M:KianCommons.NetUtil.GetSortedLanes(System.UInt16,System.Nullable{System.Boolean},System.Nullable{NetInfo.LaneType},System.Nullable{VehicleInfo.VehicleType})">
             <summary>
             sorted from outer lane to inner lane when heading toward <paramref name="startNode"/>
             </summary>
-            <param name="segmentId"></param>
-            <param name="startNode"></param>
-            <param name="laneType"></param>
-            <param name="vehicleType"></param>
-            <returns></returns>
+        </member>
+        <member name="F:KianCommons.LaneData.StartNode">
+            <summary>true if the lane is going toward the start node of its segment (undefined for bidirectional lanes)</summary>
         </member>
         <member name="M:KianCommons.ReflectionHelpers.CopyPropertiesForced``1(System.Object,System.Object)">
             <summary>
@@ -593,31 +624,31 @@
             <summary>Provides access to the git information for the current assembly.</summary>
         </member>
         <member name="F:ThisAssembly.Git.IsDirty">
-            <summary>IsDirty: true</summary>
+            <summary>IsDirty: false</summary>
         </member>
         <member name="F:ThisAssembly.Git.IsDirtyString">
-            <summary>IsDirtyString: true</summary>
+            <summary>IsDirtyString: false</summary>
         </member>
         <member name="F:ThisAssembly.Git.RepositoryUrl">
             <summary>Repository URL: https://github.com/kianzarrin/UnifiedUI</summary>
         </member>
         <member name="F:ThisAssembly.Git.Branch">
-            <summary>Branch: master</summary>
+            <summary>Branch: controled-drag</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commit">
-            <summary>Commit: 53dc454</summary>
+            <summary>Commit: e7c02b8</summary>
         </member>
         <member name="F:ThisAssembly.Git.Sha">
-            <summary>Sha: 53dc45492aae71f1cd4c34c7e0671d2f5bcdff6e</summary>
+            <summary>Sha: e7c02b86e637733d02750fdcfb8332946c067255</summary>
         </member>
         <member name="F:ThisAssembly.Git.CommitDate">
-            <summary>Commit date: 2021-06-27T21:10:20+03:00</summary>
+            <summary>Commit date: 2021-06-28T01:27:00+03:00</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commits">
-            <summary>Commits on top of base version: 1</summary>
+            <summary>Commits on top of base version: 3</summary>
         </member>
         <member name="F:ThisAssembly.Git.Tag">
-            <summary>Tag: V1.0.7-1-g53dc454</summary>
+            <summary>Tag: V1.0.7-3-ge7c02b8</summary>
         </member>
         <member name="F:ThisAssembly.Git.BaseTag">
             <summary>Base tag: V1.0.7</summary>
@@ -644,7 +675,7 @@
             <summary>Minor: 0</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Patch">
-            <summary>Patch: 8</summary>
+            <summary>Patch: 10</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Label">
             <summary>Label: </summary>
