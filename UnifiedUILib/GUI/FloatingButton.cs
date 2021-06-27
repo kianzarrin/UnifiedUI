@@ -4,6 +4,7 @@ namespace UnifiedUI.GUI {
     using KianCommons;
     using UnityEngine;
     using ColossalFramework;
+    using KianCommons.UI;
 
     public class FloatingButton : ButtonBase {
         public static FloatingButton Instance { get; private set; }
@@ -12,31 +13,62 @@ namespace UnifiedUI.GUI {
         public static readonly SavedFloat SavedY = new SavedFloat(
             "ButtonY", MainPanel.FileName, 100, true);
         public static readonly SavedBool SavedDraggable = new SavedBool(
-            "ButtonDraggable", MainPanel.FileName, def:false, true);
+            "ButtonDraggable", MainPanel.FileName, def:true, true);
 
         public override string SpritesFile => "uui.png";
         public override bool EmbededSprite => true;
 
+        const string unlockRingSpriteName_ = "unlock";
+
         private UIDragHandle drag_ { get; set; }
+
+        UISprite unlockRing_;
+
+        void SetTooltip(string text) {
+            tooltip = unlockRing_.tooltip = drag_.tooltip = text;
+            RefreshTooltip();
+            unlockRing_.RefreshTooltip();
+            drag_.RefreshTooltip();
+            Invalidate();
+        }
 
         public bool IsDragable {
             get => SavedDraggable.value;
             set {
                 SavedDraggable.value = value;
-                if(drag_)
-                    drag_.enabled = value;
+                if(drag_) drag_.enabled = value;
+                unlockRing_.spriteName = IsDragable ? unlockRingSpriteName_ : ""; // instead of isVisible I do this to show tooltip.
+
+                if (value) 
+                    SetTooltip("unclocked (double click to lock)");
+                 else
+                    SetTooltip("locked (double click to unlock)");
             }
         }
-
 
         bool started_ = false;
         public override void Start() {
             LogCalled();
             base.Start();
             Instance = this;
+            AddUnlockRing();
             SetupDrag();
             started_ = true;
+            IsDragable = IsDragable; // initialize
             LoadPosition();
+        }
+
+        public void AddUnlockRing() {
+            string atlasName = AtlasName + "_ring";
+            var _atlas = TextureUtil.GetAtlas(atlasName);
+            if (_atlas == UIView.GetAView().defaultAtlas) {
+                Texture2D texture2D = TextureUtil.GetTextureFromAssemblyManifest("unlock-ring.png");
+                _atlas = TextureUtil.CreateTextureAtlas(texture2D, atlasName, new[] { unlockRingSpriteName_ });
+            }
+            unlockRing_ = AddUIComponent<UISprite>();
+            unlockRing_.name = "unlock ring";
+            unlockRing_.atlas = _atlas;
+            unlockRing_.relativePosition = default;
         }
 
         public void SetupDrag() {

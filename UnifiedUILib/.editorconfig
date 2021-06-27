@@ -12,6 +12,9 @@ dotnet_diagnostic.CS7035.severity = none
 # HAA0101: Array allocation for params parameter
 dotnet_diagnostic.HAA0101.severity = none
 
+# CS1591: Missing XML comment for publicly visible type or member
+dotnet_diagnostic.CS1591.severity = none
+
 [*]
 charset=utf-8
 end_of_line=crlf

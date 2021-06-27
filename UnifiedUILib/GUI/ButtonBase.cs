@@ -9,10 +9,10 @@ namespace UnifiedUI.GUI {
     using static KianCommons.ReflectionHelpers;
 
     public abstract class ButtonBase : UIButton {
-        const string IconNormal = "IconNormal";
-        const string IconHovered = "IconHovered";
-        const string IconPressed = "IconPressed";
-        const string IconDisabled = "IconDisabled";
+        internal protected string IconNormal = "IconNormal";
+        internal protected string IconHovered = "IconHovered";
+        internal protected string IconPressed = "IconPressed";
+        internal protected string IconDisabled = "IconDisabled";
         public string AtlasName => $"{GetType().FullName}_{Name}_rev"  + typeof(ButtonBase).VersionOf();
         public const int SIZE = 40;
         public abstract string SpritesFile { get; }
@@ -46,7 +46,8 @@ namespace UnifiedUI.GUI {
                 Log.Debug(ThisMethod + " is called for " + Name, false);
                 base.Start();
 
-                SetupSprites();
+                SetupAtlas();
+                UseDeactiveSprites();
                 // m_TooltipBox = GetUIView()?.defaultTooltipBox; // Set up the tooltip
 
                 MainPanel.Instance.EventToolChanged += OnToolChanged;
@@ -62,7 +63,7 @@ namespace UnifiedUI.GUI {
             base.OnDestroy();
         }
 
-        public UITextureAtlas SetupSprites() {
+        public virtual UITextureAtlas SetupAtlas() {
             try {
                 Log.Debug(ThisMethod + " is called for " + Name, false);
                 string[] spriteNames = new string[] { IconNormal, IconHovered, IconPressed, IconDisabled };
@@ -74,9 +75,7 @@ namespace UnifiedUI.GUI {
                     _atlas = TextureUtil.CreateTextureAtlas(texture2D, AtlasName, spriteNames);
                 }
                 Log.Debug("atlas name is: " + _atlas.name, false);
-                this.atlas = _atlas;
-                UseDeactiveSprites();
-                return _atlas;
+                return this.atlas = _atlas;
             } catch(Exception ex) {
                 Log.Exception(ex);
                 return TextureUtil.Ingame;
