@@ -10,7 +10,7 @@ namespace UnifiedUI.GUI {
         }
 
         protected override void OnMouseMove(UIMouseEventParameter p) {
-            if(Helpers.ControlIsPressed)
+            if(!MainPanel.ControlToDrag || Helpers.ControlIsPressed)
                 base.OnMouseMove(p);
         }
 

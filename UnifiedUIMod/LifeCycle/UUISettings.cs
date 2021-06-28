@@ -36,11 +36,10 @@ namespace UnifiedUI.LifeCycle {
             DisabledKeys.Clear();
         }
 
-
-
         public static void OnSettingsUI(UIHelper helper) {
             try {
-                Log.Debug(Environment.StackTrace);
+                Log.Debug(Environment.StackTrace, false);
+
                 //var showCheckBox2 = helper.AddCheckbox(
                 //    "Handle ESC key (esc key exits current tool if any).",
                 //    HandleESC,
@@ -49,7 +48,7 @@ namespace UnifiedUI.LifeCycle {
                 //        Log.Info("HandleESC set to " + val);
                 //    }) as UICheckBox;
 
-                if(!Helpers.InStartupMenu) {
+                if (!Helpers.InStartupMenu) {
                     var g1 = helper.AddGroup("Conflicts") as UIHelper;
                     if(!Helpers.InStartupMenu) {
                         (g1.self as UIComponent).eventVisibilityChanged += (c, __) => {
@@ -59,6 +58,14 @@ namespace UnifiedUI.LifeCycle {
                         Collisions(g1);
                     }
                 }
+
+                helper.AddSavedToggle(
+                    "Hold control to drag",
+                    MainPanel.ControlToDrag,
+                    delegate () {
+                        if (MainPanel.Exists)
+                            MainPanel.Instance.Refresh();
+                    });
 
                 helper.AddCheckbox("Switch to previous tool on disable",
                     MainPanel.SwitchToPrevTool.value, val => MainPanel.SwitchToPrevTool.value = val);

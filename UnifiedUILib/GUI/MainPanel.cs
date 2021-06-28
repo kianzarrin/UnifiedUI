@@ -19,8 +19,9 @@ namespace UnifiedUI.GUI {
             "PanelX", FileName, 0, true);
         public static readonly SavedFloat SavedY = new SavedFloat(
             "PanelY", FileName, 150, true);
-        public static readonly SavedBool SavedDraggable = new SavedBool(
-            "PanelDraggable", FileName, def: false, true);
+        public readonly static SavedBool ControlToDrag =
+            new SavedBool("ControlToDrag", FileName, false, true);
+
 
         public static SavedBool SwitchToPrevTool = new SavedBool("SwitchToPrevTool", FileName, true, true);
         public static SavedBool ClearInfoPanelsOnToolChanged = new SavedBool("ClearInfoPanelsOnToolChanged", FileName, false, true);
@@ -41,7 +42,9 @@ namespace UnifiedUI.GUI {
         public static MainPanel Instance => 
             instance_ ??= UIView.GetAView().AddUIComponent(typeof(MainPanel)) as MainPanel;
 
-        public static bool Exists = instance_;
+        public static MainPanel RowInstance_ => instance_;
+
+        public static bool Exists => instance_;
 
         public static void Ensure() => _ = Instance;
 
@@ -85,8 +88,6 @@ namespace UnifiedUI.GUI {
                     lblCaption_.text = "UnifiedUI";
                     lblCaption_.name = "UnifiedUI_title";
                     lblCaption_.textScale = 0.75f;
-
-                    dragHandle_.tooltip = lblCaption_.tooltip = "hold CTRL to move";
                 }
 
                 var body = AddPanel();
@@ -211,7 +212,14 @@ namespace UnifiedUI.GUI {
         }
         #endregion
 
-        void Refresh() {
+        public void Refresh() {
+            if (!Responsive) return;
+            if(ControlToDrag)
+                dragHandle_.tooltip = lblCaption_.tooltip = "hold CTRL to move";
+            else
+                dragHandle_.tooltip = lblCaption_.tooltip = "";
+
+            FloatingButton.Instance?.Refresh();
             DoRefreshButtons();
             dragHandle_.width = Mathf.Max(this.width, lblCaption_.width);
             lblCaption_.relativePosition = new Vector2((width - lblCaption_.width) * 0.5f, 3);

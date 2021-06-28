@@ -25,10 +25,6 @@ namespace UnifiedUI.GUI {
 
         void SetTooltip(string text) {
             tooltip = unlockRing_.tooltip = drag_.tooltip = text;
-            RefreshTooltip();
-            unlockRing_.RefreshTooltip();
-            drag_.RefreshTooltip();
-            Invalidate();
         }
 
         static bool isDraggable_;
@@ -50,6 +46,7 @@ namespace UnifiedUI.GUI {
             AddUnlockRing();
             SetupDrag();
             started_ = true;
+            Refresh();
             LoadPosition();
         }
 
@@ -74,8 +71,14 @@ namespace UnifiedUI.GUI {
 
             drag_.size = size;
             drag_.eventMouseUp += Drag_eventMouseUp;
+        }
 
-            SetTooltip("hold CTRL to move");
+        public void Refresh() {
+            if(MainPanel.ControlToDrag)
+                SetTooltip("hold CTRL to move");
+            else
+                SetTooltip("");
+            Invalidate();
         }
 
         public override void Activate() {
@@ -107,7 +110,10 @@ namespace UnifiedUI.GUI {
         public override void Update() {
             base.Update();
             if (!started_) return;
-            IsDragable = containsMouse && Helpers.ControlIsPressed;
+            if (MainPanel.ControlToDrag)
+                IsDragable = containsMouse && Helpers.ControlIsPressed;
+            else
+                IsDragable = true;
         }
 
 
