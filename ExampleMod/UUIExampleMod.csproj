@@ -59,6 +59,7 @@
       <VersionNumber Include="@(Targets->'%(Version)')" />
     </ItemGroup>
     <PropertyGroup>
+	  <DeployDir Condition="'$(DeployDir)'!=''">$(DeployDir)/../$(ProjectName)/</DeployDir> <!-- don't put example mod in the github build directory -->
       <DeployDir Condition="'$(DeployDir)'==''">$(LOCALAPPDATA)/Colossal Order/Cities_Skylines/Addons/Mods/$(ProjectName)/</DeployDir>
       <Now>$([System.DateTime]::Now.ToString("HH:mm:ss"))</Now>
       <pdb2mdb>$(PkgMono_Unofficial_pdb2mdb)/tools/pdb2mdb.exe</pdb2mdb>
