@@ -633,25 +633,25 @@
             <summary>Repository URL: https://github.com/kianzarrin/UnifiedUI</summary>
         </member>
         <member name="F:ThisAssembly.Git.Branch">
-            <summary>Branch: controled-drag</summary>
+            <summary>Branch: master</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commit">
-            <summary>Commit: 32d2138</summary>
+            <summary>Commit: 7f533fb</summary>
         </member>
         <member name="F:ThisAssembly.Git.Sha">
-            <summary>Sha: 32d21388eb73371f9a9ea0ce6a8d6ed5205142e1</summary>
+            <summary>Sha: 7f533fbc36dc04f25d6de33bb7701d2c346d2f76</summary>
         </member>
         <member name="F:ThisAssembly.Git.CommitDate">
-            <summary>Commit date: 2021-06-28T07:35:54+03:00</summary>
+            <summary>Commit date: 2021-07-01T16:52:00+03:00</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commits">
-            <summary>Commits on top of base version: 4</summary>
+            <summary>Commits on top of base version: 1</summary>
         </member>
         <member name="F:ThisAssembly.Git.Tag">
-            <summary>Tag: V1.0.7-4-g32d2138</summary>
+            <summary>Tag: V1.1.2-1-g7f533fb</summary>
         </member>
         <member name="F:ThisAssembly.Git.BaseTag">
-            <summary>Base tag: V1.0.7</summary>
+            <summary>Base tag: V1.1.2</summary>
         </member>
         <member name="T:ThisAssembly.Git.BaseVersion">
             <summary>Provides access to the base version information used to determine the <see cref="T:ThisAssembly.Git.SemVer" />.</summary>      
@@ -660,10 +660,10 @@
             <summary>Major: 1</summary>
         </member>
         <member name="F:ThisAssembly.Git.BaseVersion.Minor">
-            <summary>Minor: 0</summary>
+            <summary>Minor: 1</summary>
         </member>
         <member name="F:ThisAssembly.Git.BaseVersion.Patch">
-            <summary>Patch: 7</summary>
+            <summary>Patch: 2</summary>
         </member>
         <member name="T:ThisAssembly.Git.SemVer">
             <summary>Provides access to SemVer information for the current assembly.</summary>
@@ -672,10 +672,10 @@
             <summary>Major: 1</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Minor">
-            <summary>Minor: 0</summary>
+            <summary>Minor: 1</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Patch">
-            <summary>Patch: 11</summary>
+            <summary>Patch: 3</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Label">
             <summary>Label: </summary>

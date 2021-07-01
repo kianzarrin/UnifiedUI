@@ -194,7 +194,6 @@ namespace UnifiedUI.GUI {
         private void DragHandle__eventMouseUp(UIComponent component, UIMouseEventParameter eventParam) {
             if (!Responsive) return;
             LogCalled();
-            FitToScreen();
 
             SavedX.value = absolutePosition.x;
             SavedY.value = absolutePosition.y;
@@ -202,13 +201,7 @@ namespace UnifiedUI.GUI {
         }
         void LoadPosition() {
             absolutePosition = new Vector3(SavedX, SavedY);
-            FitToScreen();
-        }
-        void FitToScreen() {
-            Vector2 resolution = GetUIView().GetScreenResolution();
-            absolutePosition = new Vector2(
-                Mathf.Clamp(absolutePosition.x, 0, resolution.x - width),
-                Mathf.Clamp(absolutePosition.y, 0, resolution.y - height));
+            this.FitToScreen();
         }
         #endregion
 

@@ -1,7 +1,8 @@
 namespace UnifiedUI.GUI {
     using ColossalFramework.UI;
     using KianCommons;
-
+    using KianCommons.UI;
+    using UnityEngine;
 
     public class ControlledDrag : UIDragHandle {
         public override void Awake() {
@@ -14,5 +15,9 @@ namespace UnifiedUI.GUI {
                 base.OnMouseMove(p);
         }
 
+        protected override void OnResolutionChanged(Vector2 previousResolution, Vector2 currentResolution) {
+            base.OnResolutionChanged(previousResolution, currentResolution);
+            target.FitToScreen();
+        }
     }
 }
