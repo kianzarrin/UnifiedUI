@@ -140,6 +140,11 @@ namespace UnifiedUI.GUI {
             moving_ = delta.sqrMagnitude > 0f;
             // TODO move main panel by delta.
         }
+
+        protected override void OnResolutionChanged(Vector2 previousResolution, Vector2 currentResolution) {
+            base.OnResolutionChanged(previousResolution, currentResolution);
+            LoadPosition();
+        }
         #endregion
     }
 }

@@ -14,10 +14,5 @@ namespace UnifiedUI.GUI {
             if(!MainPanel.ControlToDrag || Helpers.ControlIsPressed)
                 base.OnMouseMove(p);
         }
-
-        protected override void OnResolutionChanged(Vector2 previousResolution, Vector2 currentResolution) {
-            base.OnResolutionChanged(previousResolution, currentResolution);
-            target.FitToScreen();
-        }
     }
 }

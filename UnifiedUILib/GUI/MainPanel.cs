@@ -203,6 +203,11 @@ namespace UnifiedUI.GUI {
             absolutePosition = new Vector3(SavedX, SavedY);
             this.FitToScreen();
         }
+
+        protected override void OnResolutionChanged(Vector2 previousResolution, Vector2 currentResolution) {
+            base.OnResolutionChanged(previousResolution, currentResolution);
+            LoadPosition();
+        }
         #endregion
 
         public void Refresh() {
