@@ -14,10 +14,9 @@ namespace UnifiedUI.GUI {
         public static readonly SavedFloat SavedY = new SavedFloat(
             "ButtonY", MainPanel.FileName, 100, true);
 
-        public override string SpritesFile => "uui.png";
-        public override bool EmbededSprite => true;
+        string spritesFile = "uui.png";
 
-        const string unlockRingSpriteName_ = "unlock";
+        const string UNLOCK_RING_SPRITE_NAME = "UnlockRing";
 
         private UIDragHandle drag_ { get; set; }
 
@@ -33,7 +32,7 @@ namespace UnifiedUI.GUI {
             set {
                 if (isDraggable_ != value) {
                     isDraggable_ = value;
-                    unlockRing_.spriteName = value ? unlockRingSpriteName_ : ""; // instead of isVisible I do this to show tooltip.
+                    unlockRing_.spriteName = value ? UNLOCK_RING_SPRITE_NAME : ""; // instead of isVisible I do this to show tooltip.
                 }
             }
         }
@@ -43,6 +42,7 @@ namespace UnifiedUI.GUI {
             LogCalled();
             base.Start();
             Instance = this;
+            SetupAtlas();
             AddUnlockRing();
             SetupDrag();
             started_ = true;
@@ -50,16 +50,15 @@ namespace UnifiedUI.GUI {
             LoadPosition();
         }
 
+        void SetupAtlas() {
+            string []names = new string[] { ICON_NORMAL, ICON_HOVERED, ICON_PRESSED, ICON_DISABLED, UNLOCK_RING_SPRITE_NAME};
+            atlas = GetOrCreateAtlas(SuggestedAtlasName, spritesFile, true, names);
+        }
+
         public void AddUnlockRing() {
-            string atlasName = AtlasName + "_ring";
-            var _atlas = TextureUtil.GetAtlas(atlasName);
-            if (_atlas == UIView.GetAView().defaultAtlas) {
-                Texture2D texture2D = TextureUtil.GetTextureFromAssemblyManifest("unlock-ring.png");
-                _atlas = TextureUtil.CreateTextureAtlas(texture2D, atlasName, new[] { unlockRingSpriteName_ });
-            }
             unlockRing_ = AddUIComponent<UISprite>();
             unlockRing_.name = "unlock ring";
-            unlockRing_.atlas = _atlas;
+            unlockRing_.atlas = atlas;
             unlockRing_.relativePosition = default;
         }
 

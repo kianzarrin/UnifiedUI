@@ -25,7 +25,7 @@ namespace UnifiedUI.GUI {
         public static String ModPath => PluginUtil.GetPlugin<LifeCycle>().modPath;
 
         public abstract string SpritesFileName { get; }
-        public override string SpritesFile => Path.Combine(ModPath, SpritesFileName);
+        public virtual string SpritesFile => Path.Combine(ModPath, SpritesFileName);
 
         public virtual UIComponent GetOriginalButton() => null;
         public virtual IEnumerable<UIComponent> GetOriginalButtons() => null;
@@ -34,6 +34,7 @@ namespace UnifiedUI.GUI {
             try {
                 base.Awake();
                 plugin_ = Plugin;
+                atlas = GetOrCreateAtlas(SuggestedAtlasName, SpritesFile, embeded: true);
             } catch(Exception ex) { Log.Exception(ex); }
         }
 

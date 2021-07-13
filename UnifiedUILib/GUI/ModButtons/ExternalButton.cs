@@ -5,12 +5,9 @@ namespace UnifiedUI.GUI {
     using System;
 
     public class ExternalButton : ModButtonBase {
-        private string spritesPath_;
         public Action<ToolBase> OnToolChangedCallBack;
         public Action<bool> OnToggleCallBack;
         public ToolBase Tool;
-
-        public override string SpritesFile => spritesPath_;
 
         public void Release() => Destroy(gameObject);
 
@@ -24,7 +21,21 @@ namespace UnifiedUI.GUI {
             var ret = parent.AddUIComponent<ExternalButton>();
             ret.tooltip = tooltip;
             ret.name = name;
-            ret.spritesPath_ = spritesFile;
+            ret.atlas = ret.SetupAtlas(spritesFile);
+            return ret;
+        }
+
+        private UITextureAtlas SetupAtlas(string file) => GetOrCreateAtlas(SuggestedAtlasName, file);
+
+        public static ExternalButton Create(
+            UIComponent parent,
+            string name,
+            string tooltip,
+            UITextureAtlas atlas) {
+            var ret = parent.AddUIComponent<ExternalButton>();
+            ret.tooltip = tooltip;
+            ret.name = name;
+            ret.atlas = atlas;
             return ret;
         }
 
