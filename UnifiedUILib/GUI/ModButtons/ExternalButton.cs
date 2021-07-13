@@ -17,27 +17,16 @@ namespace UnifiedUI.GUI {
             UIComponent parent,
             string name,
             string tooltip,
-            string spritesFile) { 
+            string spritesFile = null) { 
             var ret = parent.AddUIComponent<ExternalButton>();
             ret.tooltip = tooltip;
             ret.name = name;
+            if(!spritesFile.IsNullorEmpty())
             ret.atlas = ret.SetupAtlas(spritesFile);
             return ret;
         }
 
         private UITextureAtlas SetupAtlas(string file) => GetOrCreateAtlas(SuggestedAtlasName, file);
-
-        public static ExternalButton Create(
-            UIComponent parent,
-            string name,
-            string tooltip,
-            UITextureAtlas atlas) {
-            var ret = parent.AddUIComponent<ExternalButton>();
-            ret.tooltip = tooltip;
-            ret.name = name;
-            ret.atlas = atlas;
-            return ret;
-        }
 
         public override void OnDestroy() {
             this.SetAllDeclaredFieldsToNull();
