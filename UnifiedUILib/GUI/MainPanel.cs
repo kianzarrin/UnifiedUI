@@ -111,7 +111,7 @@ namespace UnifiedUI.GUI {
         }
 
         public ExternalButton Register(
-            string name, string groupName, string tooltip, string spritefile) {
+            string name, string groupName, string tooltip, string spritefile = null) {
             var g =
                 Find<UIPanel>(DEFAULT_GROUP) ??
                 AddGroup(this, DEFAULT_GROUP);

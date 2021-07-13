@@ -9,14 +9,18 @@ namespace UnifiedUI.GUI {
     using static KianCommons.ReflectionHelpers;
 
     public abstract class ButtonBase : UIButton {
-        internal protected string IconNormal = "IconNormal";
-        internal protected string IconHovered = "IconHovered";
-        internal protected string IconPressed = "IconPressed";
-        internal protected string IconDisabled = "IconDisabled";
-        public string AtlasName => $"{GetType().FullName}_{Name}_rev"  + typeof(ButtonBase).VersionOf();
+        internal const string ICON_NORMAL = "IconNormal";
+        internal const string ICON_HOVERED = "IconHovered";
+        internal const string ICON_PRESSED = "IconPressed";
+        internal const string ICON_DISABLED = "IconDisabled";
+
+        internal protected string IconNormal = ICON_NORMAL;
+        internal protected string IconHovered = ICON_HOVERED;
+        internal protected string IconPressed = ICON_PRESSED;
+        internal protected string IconDisabled = ICON_DISABLED;
+
+        public string SuggestedAtlasName => $"{GetType().FullName}_{Name}_rev"  + typeof(ButtonBase).VersionOf();
         public const int SIZE = 40;
-        public abstract string SpritesFile { get; }
-        public virtual bool EmbededSprite => false;
         public virtual string Name => GetType().Name;
         public virtual string Tooltip => null;
 
@@ -45,8 +49,6 @@ namespace UnifiedUI.GUI {
             try {
                 Log.Debug(ThisMethod + " is called for " + Name, false);
                 base.Start();
-
-                SetupAtlas();
                 UseDeactiveSprites();
                 // m_TooltipBox = GetUIView()?.defaultTooltipBox; // Set up the tooltip
 
@@ -63,24 +65,24 @@ namespace UnifiedUI.GUI {
             base.OnDestroy();
         }
 
-        public virtual UITextureAtlas SetupAtlas() {
+        public static UITextureAtlas GetOrCreateAtlas(string AtlasName, string spriteFile, bool embeded = false, string[] spriteNames = null) {
             try {
-                Log.Debug(ThisMethod + " is called for " + Name, false);
-                string[] spriteNames = new string[] { IconNormal, IconHovered, IconPressed, IconDisabled };
+                Log.Called(AtlasName, spriteFile, embeded, spriteNames);
+                spriteNames ??= new string[] { ICON_NORMAL, ICON_HOVERED, ICON_PRESSED, ICON_DISABLED };
                 var _atlas = TextureUtil.GetAtlas(AtlasName);
                 if (_atlas == UIView.GetAView().defaultAtlas) {
-                    Texture2D texture2D = EmbededSprite ?
-                        TextureUtil.GetTextureFromAssemblyManifest(SpritesFile) :
-                        TextureUtil.GetTextureFromFile(SpritesFile);
+                    Texture2D texture2D = embeded ?
+                        TextureUtil.GetTextureFromAssemblyManifest(spriteFile) :
+                        TextureUtil.GetTextureFromFile(spriteFile);
                     _atlas = TextureUtil.CreateTextureAtlas(texture2D, AtlasName, spriteNames);
                 }
-                Log.Debug("atlas name is: " + _atlas.name, false);
-                return this.atlas = _atlas;
-            } catch(Exception ex) {
+                return _atlas;
+            } catch (Exception ex) {
                 Log.Exception(ex);
                 return TextureUtil.Ingame;
             }
         }
+
 
         public void UseActiveSprites() {
             // focusedBgSprite = can focus is set to false.
