@@ -606,12 +606,12 @@
             returns id and type of both key and value
             </summary>
         </member>
-        <member name="M:KianCommons.StringExtensions.ToSTR``1(System.Collections.Generic.IEnumerable{``0})">
+        <member name="M:KianCommons.StringExtensions.ToSTR(System.Collections.IEnumerable)">
             <summary>
             returns all items as string
             </summary>
         </member>
-        <member name="M:KianCommons.StringExtensions.ToSTR``1(System.Collections.Generic.IEnumerable{``0},System.String)">
+        <member name="M:KianCommons.StringExtensions.ToSTR``1(System.Collections.IEnumerable,System.String)">
             <summary>
             prints all items of the list with the given format.
             throws exception if T.ToString(format) does not exists.
@@ -624,34 +624,34 @@
             <summary>Provides access to the git information for the current assembly.</summary>
         </member>
         <member name="F:ThisAssembly.Git.IsDirty">
-            <summary>IsDirty: false</summary>
+            <summary>IsDirty: true</summary>
         </member>
         <member name="F:ThisAssembly.Git.IsDirtyString">
-            <summary>IsDirtyString: false</summary>
+            <summary>IsDirtyString: true</summary>
         </member>
         <member name="F:ThisAssembly.Git.RepositoryUrl">
             <summary>Repository URL: https://github.com/kianzarrin/UnifiedUI</summary>
         </member>
         <member name="F:ThisAssembly.Git.Branch">
-            <summary>Branch: master</summary>
+            <summary>Branch: atlas-support</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commit">
-            <summary>Commit: 3380d50</summary>
+            <summary>Commit: a30234f</summary>
         </member>
         <member name="F:ThisAssembly.Git.Sha">
-            <summary>Sha: 3380d50b8147a0596fc2509e8add7ddc802b8f8a</summary>
+            <summary>Sha: a30234fcbb82cca918e3330154b2d0708c13cd12</summary>
         </member>
         <member name="F:ThisAssembly.Git.CommitDate">
-            <summary>Commit date: 2021-07-02T21:11:36+03:00</summary>
+            <summary>Commit date: 2021-07-13T13:50:39+03:00</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commits">
             <summary>Commits on top of base version: 2</summary>
         </member>
         <member name="F:ThisAssembly.Git.Tag">
-            <summary>Tag: V1.1.3-2-g3380d50</summary>
+            <summary>Tag: V1.1.5-2-ga30234f</summary>
         </member>
         <member name="F:ThisAssembly.Git.BaseTag">
-            <summary>Base tag: V1.1.3</summary>
+            <summary>Base tag: V1.1.5</summary>
         </member>
         <member name="T:ThisAssembly.Git.BaseVersion">
             <summary>Provides access to the base version information used to determine the <see cref="T:ThisAssembly.Git.SemVer" />.</summary>      
@@ -663,7 +663,7 @@
             <summary>Minor: 1</summary>
         </member>
         <member name="F:ThisAssembly.Git.BaseVersion.Patch">
-            <summary>Patch: 3</summary>
+            <summary>Patch: 5</summary>
         </member>
         <member name="T:ThisAssembly.Git.SemVer">
             <summary>Provides access to SemVer information for the current assembly.</summary>
@@ -675,7 +675,7 @@
             <summary>Minor: 1</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Patch">
-            <summary>Patch: 5</summary>
+            <summary>Patch: 7</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Label">
             <summary>Label: </summary>

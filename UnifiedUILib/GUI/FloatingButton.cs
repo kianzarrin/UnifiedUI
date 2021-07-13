@@ -60,6 +60,7 @@ namespace UnifiedUI.GUI {
             unlockRing_.name = "unlock ring";
             unlockRing_.atlas = atlas;
             unlockRing_.relativePosition = default;
+            unlockRing_.size = size;
         }
 
         public void SetupDrag() {

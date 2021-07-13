@@ -95,7 +95,6 @@
     <Compile Include="KianCommons\KianCommons\Util\StringExtensions.cs" />
     <Compile Include="KianCommons\KianCommons\Util\TypeUtil.cs" />
     <EmbeddedResource Include="Resources\MainPanel.png" />
-    <EmbeddedResource Include="Resources\unlock-ring.png" />
     <EmbeddedResource Include="Resources\uui.png" />
   </ItemGroup>
 </Project>

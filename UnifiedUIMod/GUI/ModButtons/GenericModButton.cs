@@ -34,7 +34,7 @@ namespace UnifiedUI.GUI {
             try {
                 base.Awake();
                 plugin_ = Plugin;
-                atlas = GetOrCreateAtlas(SuggestedAtlasName, SpritesFile, embeded: true);
+                atlas = GetOrCreateAtlas(SuggestedAtlasName, SpritesFile);
             } catch(Exception ex) { Log.Exception(ex); }
         }
 
