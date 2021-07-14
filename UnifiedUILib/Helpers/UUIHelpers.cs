@@ -200,16 +200,7 @@ namespace UnifiedUI.Helpers {
         #endregion
 
         #region Register with atlas
-        public struct UUISprites {
-            public UITextureAtlas Atlas;
-            public string NormalSprite, HoveredSprite, PressedSprite, DisabledSprite;
-            internal string []SpriteNames => new string[] {
-                NormalSprite ?? "",
-                HoveredSprite ?? "",
-                PressedSprite ?? "",
-                DisabledSprite ?? "",
-            };
-        }
+
 
         internal delegate UIComponent RegisterCustomHandler2
             (string name, string groupName, string tooltip,

@@ -65,16 +65,16 @@ namespace UnifiedUI.GUI {
             base.OnDestroy();
         }
 
-        public static UITextureAtlas GetOrCreateAtlas(string AtlasName, string spriteFile, bool embeded = false, string[] spriteNames = null) {
+        public static UITextureAtlas GetOrCreateAtlas(string atlasName, string spriteFile, bool embeded = false, string[] spriteNames = null) {
             try {
-                Log.Called(AtlasName, spriteFile, embeded, spriteNames);
+                Log.Called(atlasName, spriteFile, embeded, spriteNames);
                 spriteNames ??= new string[] { ICON_NORMAL, ICON_HOVERED, ICON_PRESSED, ICON_DISABLED };
-                var _atlas = TextureUtil.GetAtlas(AtlasName);
+                var _atlas = TextureUtil.GetAtlas(atlasName);
                 if (_atlas == UIView.GetAView().defaultAtlas) {
                     Texture2D texture2D = embeded ?
                         TextureUtil.GetTextureFromAssemblyManifest(spriteFile) :
                         TextureUtil.GetTextureFromFile(spriteFile);
-                    _atlas = TextureUtil.CreateTextureAtlas(texture2D, AtlasName, spriteNames);
+                    _atlas = TextureUtil.CreateTextureAtlas(texture2D, atlasName, spriteNames);
                 }
                 return _atlas;
             } catch (Exception ex) {
