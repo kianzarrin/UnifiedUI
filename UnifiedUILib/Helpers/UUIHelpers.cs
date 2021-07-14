@@ -204,7 +204,7 @@ namespace UnifiedUI.Helpers {
 
         internal delegate UIComponent RegisterCustomHandler2
             (string name, string groupName, string tooltip,
-            UITextureAtlas atlas, string [] spriteNames,
+            UITextureAtlas atlas, string[] spriteNames,
             Action<bool> onToggle, Action<ToolBase> onToolChanged,
             SavedInputKey activationKey, Dictionary<SavedInputKey, Func<bool>> activeKeys);
         internal delegate UIComponent RegisterToolHandler2

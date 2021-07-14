@@ -81,7 +81,7 @@
             <param name="activeKeys">hotkey->active dictionary. turns off these hotkeys in other mods while active</param>
             <returns>wrapper for the button which you can use to change the its state.</returns>
         </member>
-        <member name="M:UnifiedUI.Helpers.UUIHelpers.RegisterToolButton(System.String,System.String,System.String,UnifiedUI.Helpers.UUIHelpers.UUISprites,ToolBase,ColossalFramework.SavedInputKey,System.Collections.Generic.Dictionary{ColossalFramework.SavedInputKey,System.Func{System.Boolean}})">
+        <member name="M:UnifiedUI.Helpers.UUIHelpers.RegisterToolButton(System.String,System.String,System.String,UnifiedUI.Helpers.UUISprites,ToolBase,ColossalFramework.SavedInputKey,System.Collections.Generic.Dictionary{ColossalFramework.SavedInputKey,System.Func{System.Boolean}})">
             <summary>
             register a button to tie to the given tool.
             </summary>
@@ -92,7 +92,7 @@
             <param name="activeKeys">turn off these hotkeys in other mods</param>
             <returns>component containing the button. you can hide this component if necessary.</returns>
         </member>
-        <member name="M:UnifiedUI.Helpers.UUIHelpers.RegisterToolButton(System.String,System.String,System.String,UnifiedUI.Helpers.UUIHelpers.UUISprites,ToolBase,ColossalFramework.SavedInputKey,System.Collections.Generic.IEnumerable{ColossalFramework.SavedInputKey})">
+        <member name="M:UnifiedUI.Helpers.UUIHelpers.RegisterToolButton(System.String,System.String,System.String,UnifiedUI.Helpers.UUISprites,ToolBase,ColossalFramework.SavedInputKey,System.Collections.Generic.IEnumerable{ColossalFramework.SavedInputKey})">
             <summary>
             register a button to tie to the given tool.
             </summary>
@@ -103,7 +103,7 @@
             <param name="activeKeys">turn off these hotkeys in other mods</param>
             <returns>component containing the button. you can hide this component if necessary.</returns>
         </member>
-        <member name="M:UnifiedUI.Helpers.UUIHelpers.RegisterCustomButton(System.String,System.String,System.String,UnifiedUI.Helpers.UUIHelpers.UUISprites,System.Action{System.Boolean},System.Action{ToolBase},ColossalFramework.SavedInputKey,System.Collections.Generic.Dictionary{ColossalFramework.SavedInputKey,System.Func{System.Boolean}})">
+        <member name="M:UnifiedUI.Helpers.UUIHelpers.RegisterCustomButton(System.String,System.String,System.String,UnifiedUI.Helpers.UUISprites,System.Action{System.Boolean},System.Action{ToolBase},ColossalFramework.SavedInputKey,System.Collections.Generic.Dictionary{ColossalFramework.SavedInputKey,System.Func{System.Boolean}})">
             <summary>
             register a custom button .
             </summary>
@@ -115,7 +115,7 @@
             <param name="activeKeys">hotkey->active dictionary. turns off these hotkeys in other mods while active</param>
             <returns>wrapper for the button which you can use to change the its state.</returns>
         </member>
-        <member name="M:UnifiedUI.Helpers.UUIHelpers.RegisterCustomButton(System.String,System.String,System.String,UnifiedUI.Helpers.UUIHelpers.UUISprites,System.Action{System.Boolean},System.Action{ToolBase},ColossalFramework.SavedInputKey,System.Collections.Generic.IEnumerable{ColossalFramework.SavedInputKey})">
+        <member name="M:UnifiedUI.Helpers.UUIHelpers.RegisterCustomButton(System.String,System.String,System.String,UnifiedUI.Helpers.UUISprites,System.Action{System.Boolean},System.Action{ToolBase},ColossalFramework.SavedInputKey,System.Collections.Generic.IEnumerable{ColossalFramework.SavedInputKey})">
             <summary>
             register a custom button .
             </summary>
@@ -670,10 +670,10 @@
             <summary>Provides access to the git information for the current assembly.</summary>
         </member>
         <member name="F:ThisAssembly.Git.IsDirty">
-            <summary>IsDirty: false</summary>
+            <summary>IsDirty: true</summary>
         </member>
         <member name="F:ThisAssembly.Git.IsDirtyString">
-            <summary>IsDirtyString: false</summary>
+            <summary>IsDirtyString: true</summary>
         </member>
         <member name="F:ThisAssembly.Git.RepositoryUrl">
             <summary>Repository URL: https://github.com/kianzarrin/UnifiedUI</summary>
@@ -682,19 +682,19 @@
             <summary>Branch: master</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commit">
-            <summary>Commit: f5665e7</summary>
+            <summary>Commit: deef41e</summary>
         </member>
         <member name="F:ThisAssembly.Git.Sha">
-            <summary>Sha: f5665e7a7b1670eb8dfa36b763ee982c6ab78887</summary>
+            <summary>Sha: deef41e6e3f38c9dc2790ebc5f521b961ac295ea</summary>
         </member>
         <member name="F:ThisAssembly.Git.CommitDate">
-            <summary>Commit date: 2021-07-14T16:53:34+03:00</summary>
+            <summary>Commit date: 2021-07-15T01:28:58+03:00</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commits">
-            <summary>Commits on top of base version: 6</summary>
+            <summary>Commits on top of base version: 7</summary>
         </member>
         <member name="F:ThisAssembly.Git.Tag">
-            <summary>Tag: V1.1.5-6-gf5665e7</summary>
+            <summary>Tag: V1.1.5-7-gdeef41e</summary>
         </member>
         <member name="F:ThisAssembly.Git.BaseTag">
             <summary>Base tag: V1.1.5</summary>
@@ -721,7 +721,7 @@
             <summary>Minor: 1</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Patch">
-            <summary>Patch: 11</summary>
+            <summary>Patch: 12</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Label">
             <summary>Label: </summary>

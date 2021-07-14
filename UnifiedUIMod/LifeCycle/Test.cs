@@ -20,6 +20,13 @@ namespace UnifiedUI.LifeCycle {
             var sprites = UUISprites.CreateFromFile(LifeCycle.Instance.GetFullPath("uui_imt.png"));
             button_ = UUIHelpers.RegisterToolButton("Test", null, "test", sprites, tool_);
         }
+        public static void Run2() {
+            Log.Called();
+            tool_ = ToolsModifierControl.toolController.gameObject.AddComponent<UUITestTool>();
+            var sprites = UUISprites.CreateFromFile(LifeCycle.Instance.GetFullPath("uui_imt.png"));
+            var button = UUIHelpers.RegisterCustomButton("Test", null, "test", sprites, onToggle: (bool val) => { } );
+        }
+
     }
 }
 

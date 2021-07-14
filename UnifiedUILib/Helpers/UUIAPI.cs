@@ -42,16 +42,6 @@ namespace UnifiedUI.API {
             SavedInputKey activationKey, Dictionary<SavedInputKey, Func<bool>> activeKeys) {
             var ret = MainPanel.Instance.Register(name: name, groupName: groupName, tooltip: tooltip);
 
-            Assertion.NotNull(atlas,"atlas");
-            Assertion.NotNull(spriteNames,"spriteNames");
-            Assertion.Equal(spriteNames.Length, 4, "spriteNames");
-
-            ret.atlas = atlas;
-            ret.IconNormal = spriteNames[0] ?? "";
-            ret.IconHovered = spriteNames[1] ?? "";
-            ret.IconPressed = spriteNames[2] ?? "";
-            ret.IconDisabled = spriteNames[3] ?? "";
-
             ret.ActivationKey = activationKey;
             ret.ActiveKeys = activeKeys;
 
@@ -64,8 +54,19 @@ namespace UnifiedUI.API {
         // register tool button.
         public static UIComponent Register
             (string name, string groupName, string tooltip, ToolBase tool,
+            UITextureAtlas atlas, string[] spriteNames,
             SavedInputKey activationKey, Dictionary<SavedInputKey, Func<bool>> activeKeys) {
             var ret = MainPanel.Instance.Register(name: name, groupName: groupName, tooltip: tooltip);
+
+            Assertion.NotNull(atlas, "atlas");
+            Assertion.NotNull(spriteNames, "spriteNames");
+            Assertion.Equal(spriteNames.Length, 4, "spriteNames");
+            ret.atlas = atlas;
+            ret.IconNormal = spriteNames[0] ?? "";
+            ret.IconHovered = spriteNames[1] ?? "";
+            ret.IconPressed = spriteNames[2] ?? "";
+            ret.IconDisabled = spriteNames[3] ?? "";
+
             ret.ActivationKey = activationKey;
             ret.ActiveKeys = activeKeys;
             ret.Tool = tool;
