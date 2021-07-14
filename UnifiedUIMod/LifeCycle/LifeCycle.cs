@@ -37,8 +37,13 @@ namespace UnifiedUI.LifeCycle {
             if(PluginUtil.GetPedestrianBridge().IsActive("2.1"))
                 MainPanel.Instance.AddButton<PedestrianBridgeButton>();
 
-            if(PluginUtil.GetNodeController().IsActive("3.2"))
-                MainPanel.Instance.AddButton<NodeControllerButton>();
+            {
+                var nc = PluginUtil.GetNodeController();
+                bool create2 = nc.IsActive("2.3") && nc.userModInstance.VersionOf().Major == 2;
+                bool create3 = nc.IsActive("3.2");
+                if (create2 || create3)
+                    MainPanel.Instance.AddButton<NodeControllerButton>();
+            }
         }
 
         public override void UnLoad() {

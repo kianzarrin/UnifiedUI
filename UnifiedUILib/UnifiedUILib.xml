@@ -679,22 +679,22 @@
             <summary>Repository URL: https://github.com/kianzarrin/UnifiedUI</summary>
         </member>
         <member name="F:ThisAssembly.Git.Branch">
-            <summary>Branch: atlas-support</summary>
+            <summary>Branch: master</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commit">
-            <summary>Commit: d704234</summary>
+            <summary>Commit: bb3c134</summary>
         </member>
         <member name="F:ThisAssembly.Git.Sha">
-            <summary>Sha: d7042348e6cd978bbc8184fcc865724eee378a59</summary>
+            <summary>Sha: bb3c134fd0f605ed814812eadef721d941047daa</summary>
         </member>
         <member name="F:ThisAssembly.Git.CommitDate">
-            <summary>Commit date: 2021-07-13T17:38:45+03:00</summary>
+            <summary>Commit date: 2021-07-13T23:36:06+03:00</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commits">
-            <summary>Commits on top of base version: 3</summary>
+            <summary>Commits on top of base version: 5</summary>
         </member>
         <member name="F:ThisAssembly.Git.Tag">
-            <summary>Tag: V1.1.5-3-gd704234</summary>
+            <summary>Tag: V1.1.5-5-gbb3c134</summary>
         </member>
         <member name="F:ThisAssembly.Git.BaseTag">
             <summary>Base tag: V1.1.5</summary>
@@ -721,7 +721,7 @@
             <summary>Minor: 1</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Patch">
-            <summary>Patch: 8</summary>
+            <summary>Patch: 10</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Label">
             <summary>Label: </summary>
