@@ -28,7 +28,7 @@ namespace UnifiedUI.LifeCycle {
             if (PluginUtil.GetNetworkDetective().IsActive("1.1"))
                 MainPanel.Instance.AddButton<NetworkDetectiveButton>();
 
-            if(PluginUtil.GetIMT().IsActive("1.9"))
+            if(PluginUtil.GetIMT().IsActive(" 1.7.5"))
                 MainPanel.Instance.AddButton<IntersectionMarkingButton>();
 
             if(PluginUtil.GetRAB().IsActive("1.10"))
@@ -42,7 +42,7 @@ namespace UnifiedUI.LifeCycle {
             {
                 var version = nc.userModInstance.VersionOf();
                 bool create2 = version.Major == 2 && version.Minor < 3;
-                bool create3 = version.Major == 3 && version.Minor < 2;
+                bool create3 = version.Major == 3 && version < new Version("3.1.1");
                 if (create2 || create3)
                     MainPanel.Instance.AddButton<NodeControllerButton>();
             }
