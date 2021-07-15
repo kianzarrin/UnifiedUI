@@ -59,6 +59,7 @@ namespace UnifiedUI.Helpers {
             if (IsUUIEnabled()) {
                 ret  = GetUUIPlugin().GetAssemblies().First(IsUUILib);
                 Debug.Log($"using {ret} from UnifiedUI Mod");
+                return ret;
             }
 
 
