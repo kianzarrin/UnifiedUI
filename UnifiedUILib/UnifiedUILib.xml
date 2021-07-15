@@ -668,22 +668,22 @@
             <summary>Repository URL: https://github.com/kianzarrin/UnifiedUI</summary>
         </member>
         <member name="F:ThisAssembly.Git.Branch">
-            <summary>Branch: alien</summary>
+            <summary>Branch: master</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commit">
-            <summary>Commit: b4a71aa</summary>
+            <summary>Commit: dd33e23</summary>
         </member>
         <member name="F:ThisAssembly.Git.Sha">
-            <summary>Sha: b4a71aa3d93791615449bf1795005d1d9ee93a38</summary>
+            <summary>Sha: dd33e23dc50025e2d8c38378e21cb3b79abb3357</summary>
         </member>
         <member name="F:ThisAssembly.Git.CommitDate">
-            <summary>Commit date: 2021-07-15T18:59:08+03:00</summary>
+            <summary>Commit date: 2021-07-15T19:00:40+03:00</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commits">
-            <summary>Commits on top of base version: 11</summary>
+            <summary>Commits on top of base version: 12</summary>
         </member>
         <member name="F:ThisAssembly.Git.Tag">
-            <summary>Tag: V1.1.5-11-gb4a71aa</summary>
+            <summary>Tag: V1.1.5-12-gdd33e23</summary>
         </member>
         <member name="F:ThisAssembly.Git.BaseTag">
             <summary>Base tag: V1.1.5</summary>
@@ -710,7 +710,7 @@
             <summary>Minor: 1</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Patch">
-            <summary>Patch: 16</summary>
+            <summary>Patch: 17</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Label">
             <summary>Label: </summary>

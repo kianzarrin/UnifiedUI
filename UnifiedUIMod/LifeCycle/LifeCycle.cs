@@ -19,7 +19,6 @@ namespace UnifiedUI.LifeCycle {
         public override string Name => "Unified UI " + VersionString;
         public override string Description => "organsized UI for some other mods into one unified place.";
 
-
         public override void Load() {
             LogCalled();
             KianCommons.UI.TextureUtil.EmbededResources = false;

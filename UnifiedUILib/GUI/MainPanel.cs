@@ -156,8 +156,8 @@ namespace UnifiedUI.GUI {
         }
 
         UIPanel GetOrCreateGroup(string groupName = null) {
-            groupName ??= DEFAULT_GROUP;
-            return Find<UIPanel>(groupName) ?? AddGroup(groupName);
+            if (groupName.IsNullOrWhiteSpace()) groupName = DEFAULT_GROUP;
+                    return Find<UIPanel>(groupName) ?? AddGroup(groupName);
         }
 
         UIPanel AddGroup(string name) {
