@@ -134,13 +134,12 @@ namespace UnifiedUI.GUI {
 
         public virtual void Toggle() {
             try {
-                LogCalled();
+                Log.Called();
                 if(IsActive) Deactivate();
                 else Activate();
             } catch(Exception ex) {
                 Log.Exception(ex);
             }
-
         }
 
         public static DefaultTool DefaultTool => ToolsModifierControl.GetTool<DefaultTool>();
