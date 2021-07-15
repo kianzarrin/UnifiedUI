@@ -104,5 +104,9 @@ namespace UnifiedUI.API {
                 Log.Exception(ex);
             }
         }
+
+        public static void AttachAlien(UIComponent alien, string groupName) {
+            MainPanel.Instance.AttachAlien(alien, groupName);
+        }
     }
 }

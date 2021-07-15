@@ -259,9 +259,16 @@ namespace UnifiedUI.Helpers {
 
         #endregion
 
+        internal delegate void AttachAlienHandler(UIComponent alien, string groupName);
+
+        public static void AttachAlien(UIComponent alien, string groupName) {
+            var attachAlien = CreateDelegate<AttachAlienHandler>(GetUUI(), "AttachAlien");
+            attachAlien(alien: alien, groupName: groupName);
+        }
 
         internal delegate void RegisterHotkeysHandler(Action onToggle,
             SavedInputKey activationKey, Dictionary<SavedInputKey, Func<bool>> activeKeys);
+
         /// <summary>
         /// register hotkeys.
         /// </summary>
@@ -271,7 +278,6 @@ namespace UnifiedUI.Helpers {
         /// <param name="activeKeys">hotkey->active dictionary. turns off these hotkeys in other mods while active</param>
         public static void RegisterHotkeys(
             Action onToggle, SavedInputKey activationKey = null, Dictionary<SavedInputKey, Func<bool>> activeKeys = null) {
-            if (!IsUUIEnabled()) return;
             var Register = CreateDelegate<RegisterHotkeysHandler>(GetUUI(), "Register");
             Register(
                 onToggle: onToggle,

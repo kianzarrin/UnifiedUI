@@ -27,6 +27,9 @@ namespace UnifiedUI.GUI {
         public static SavedBool ClearInfoPanelsOnToolChanged = new SavedBool("ClearInfoPanelsOnToolChanged", FileName, false, true);
 
         public event Action EventRefreshButtons;
+
+        HashSet<string> groups_ = new HashSet<string>();
+
         public void DoRefreshButtons() => EventRefreshButtons?.Invoke();
 
         private UILabel lblCaption_;
@@ -94,12 +97,13 @@ namespace UnifiedUI.GUI {
                 body.autoLayoutPadding = new RectOffset(2, 0, 2, 2);
                 containerPanel_ = body;
 
+                foreach(string groupName in groups_)
                 {
-                    var g1 = Find<UIPanel>(DEFAULT_GROUP);
-                    if (g1 == null)
-                        g1 = AddGroup(body, DEFAULT_GROUP);
+                    var group = Find<UIPanel>(groupName);
+                    if (group == null)
+                        group = AddGroup(body, groupName);
                     else
-                        body.AttachUIComponent(g1.gameObject);
+                        body.AttachUIComponent(group.gameObject);
                 }
 
                 isVisible = false;
@@ -112,10 +116,7 @@ namespace UnifiedUI.GUI {
 
         public ExternalButton Register(
             string name, string groupName, string tooltip, string spritefile = null) {
-            var g =
-                Find<UIPanel>(DEFAULT_GROUP) ??
-                AddGroup(this, DEFAULT_GROUP);
-
+            var g = GetOrCreateGroup(groupName);
             var c = ExternalButton.Create(
                 parent: g,
                 name: name,
@@ -125,10 +126,15 @@ namespace UnifiedUI.GUI {
             return c;
         }
 
-        public ButtonT AddButton<ButtonT>(string group = DEFAULT_GROUP)  where ButtonT: ButtonBase {
-            var g =
-                Find<UIPanel>(DEFAULT_GROUP) ??
-                AddGroup(this, DEFAULT_GROUP);
+        public void AttachAlien(UIComponent alien, string groupName = null) {
+            Assertion.NotNull(alien);
+            alien.size = new Vector2(40, 40);
+            var g = GetOrCreateGroup(groupName);
+            g.AttachUIComponent(alien.gameObject);
+        }
+
+        public ButtonT AddButton<ButtonT>(string groupName = DEFAULT_GROUP)  where ButtonT: ButtonBase {
+            var g = GetOrCreateGroup(groupName);
             var button = g.AddUIComponent<ButtonT>();
             ModButtons.Add(button);
             return button;
@@ -149,15 +155,25 @@ namespace UnifiedUI.GUI {
             return _atlas;
         }
 
-        UIPanel AddPanel() => AddPanel(this);
+        UIPanel GetOrCreateGroup(string groupName = null) {
+            groupName ??= DEFAULT_GROUP;
+            return Find<UIPanel>(groupName) ?? AddGroup(groupName);
+        }
+
+        UIPanel AddGroup(string name) {
+            return AddGroup(containerPanel_ ?? this, name ?? DEFAULT_GROUP);
+        }
 
         UIPanel AddGroup(UIPanel parent, string name) {
             var g = AddPanel(parent);
             g.backgroundSprite = "GenericPanelWhite";
             g.color = new Color32(170, 170, 170, byte.MaxValue);
             g.name = name;
+            groups_.Add(name);
             return g;
         }
+
+        UIPanel AddPanel() => AddPanel(this);
 
         static UIPanel AddPanel(UIPanel panel) {
             Assertion.AssertNotNull(panel, "panel");
