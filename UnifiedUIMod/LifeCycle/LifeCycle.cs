@@ -28,7 +28,7 @@ namespace UnifiedUI.LifeCycle {
             if (PluginUtil.GetNetworkDetective().IsActive("1.1"))
                 MainPanel.Instance.AddButton<NetworkDetectiveButton>();
 
-            if(PluginUtil.GetIMT().IsActive(" 1.7.5"))
+            if(PluginUtil.GetIMT().IsActive("1.7.5"))
                 MainPanel.Instance.AddButton<IntersectionMarkingButton>();
 
             if(PluginUtil.GetRAB().IsActive("1.10"))
