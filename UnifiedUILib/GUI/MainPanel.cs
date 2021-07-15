@@ -91,6 +91,7 @@ namespace UnifiedUI.GUI {
                     lblCaption_.text = "UnifiedUI";
                     lblCaption_.name = "UnifiedUI_title";
                     lblCaption_.textScale = 0.75f;
+                    lblCaption_.padding.top = 4;    
                 }
 
                 var body = AddPanel();
@@ -292,7 +293,7 @@ namespace UnifiedUI.GUI {
             if(UIView.HasModalInput() || UIView.HasInputFocus())
                 return;
 
-            if(ModButtons.Any(b => b.AvoidCollision())) {
+            if (ModButtons.Any(b => b.AvoidCollision())) {
                 Log.Info("Active Key pressed");
                 return;
             }
