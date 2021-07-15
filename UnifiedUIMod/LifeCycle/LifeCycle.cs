@@ -47,7 +47,8 @@ namespace UnifiedUI.LifeCycle {
                     MainPanel.Instance.AddButton<NodeControllerButton>();
             }
 
-            Test.Run();
+            //Test.Run();
+            //Test.Run2();
         }
 
         public override void UnLoad() {
@@ -55,7 +56,6 @@ namespace UnifiedUI.LifeCycle {
             MainPanel.Release();
             UUISettings.ReviveDisabledKeys();
         }
-
 
         public static bool HasMainPanel => UIView.GetAView().GetComponentInChildren<MainPanel>();
 
