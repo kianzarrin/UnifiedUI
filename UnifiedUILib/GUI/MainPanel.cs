@@ -250,9 +250,10 @@ namespace UnifiedUI.GUI {
         public bool Responsive => InLoadedGame && started_;
 
 
-        [FPSBoosterSkipOptimizations]
+        //[FPSBoosterSkipOptimizations]
         public override void Update() {
             base.Update();
+            isVisible = isVisible; // FPSBooster workaround
             if (!Responsive) return;
             try {
                 HandleHotkeys();
@@ -319,3 +320,4 @@ namespace UnifiedUI.GUI {
     }
 }
 
+        
