@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="../Version.props" />
   <PropertyGroup>
     <TargetFramework>net35</TargetFramework>
@@ -13,7 +13,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Workshop|AnyCPU' ">
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants/>
     <ContentID>2255219025</ContentID>
   </PropertyGroup>
   <PropertyGroup>
