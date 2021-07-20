@@ -14,6 +14,7 @@ namespace UnifiedUI.API {
             (string name, string groupName, string tooltip, string spritefile,
             Action<bool> onToggle, Action<ToolBase> onToolChanged,
             SavedInputKey activationKey, Dictionary<SavedInputKey, Func<bool>> activeKeys) {
+            Log.Called(name,groupName,tooltip,spritefile,onToggle,onToolChanged,activationKey, activeKeys);
             var ret = MainPanel.Instance.Register(name: name, groupName: groupName, tooltip: tooltip, spritefile: spritefile);
             ret.ActivationKey = activationKey;
             ret.ActiveKeys = activeKeys;
@@ -27,6 +28,8 @@ namespace UnifiedUI.API {
         public static UIComponent Register
             (string name, string groupName, string tooltip, string spritefile, ToolBase tool,
             SavedInputKey activationKey, Dictionary<SavedInputKey, Func<bool>> activeKeys) {
+            Log.Called(name, groupName, tooltip, spritefile, tool, activationKey, activeKeys);
+
             var ret = MainPanel.Instance.Register(name: name, groupName: groupName, tooltip: tooltip, spritefile: spritefile);
             ret.ActivationKey = activationKey;
             ret.ActiveKeys = activeKeys;
@@ -41,6 +44,7 @@ namespace UnifiedUI.API {
             UITextureAtlas atlas, string[] spriteNames,
             Action<bool> onToggle, Action<ToolBase> onToolChanged,
             SavedInputKey activationKey, Dictionary<SavedInputKey, Func<bool>> activeKeys) {
+            Log.Called(name, groupName, tooltip, atlas, spriteNames, onToggle, onToolChanged, activationKey, activeKeys);
             var ret = MainPanel.Instance.Register(name: name, groupName: groupName, tooltip: tooltip);
 
             Assertion.NotNull(atlas, "atlas");
@@ -66,6 +70,7 @@ namespace UnifiedUI.API {
             (string name, string groupName, string tooltip, ToolBase tool,
             UITextureAtlas atlas, string[] spriteNames,
             SavedInputKey activationKey, Dictionary<SavedInputKey, Func<bool>> activeKeys) {
+            Log.Called(name, groupName, tooltip, atlas, spriteNames, tool, activationKey, activeKeys);
             var ret = MainPanel.Instance.Register(name: name, groupName: groupName, tooltip: tooltip);
 
             Assertion.NotNull(atlas, "atlas");
@@ -89,6 +94,7 @@ namespace UnifiedUI.API {
             Action onToggle,
             SavedInputKey activationKey,
             Dictionary<SavedInputKey, Func<bool>> activeKeys) {
+            Log.Called(onToggle, activationKey, activeKeys);
             try {
                 if(activationKey != null && onToggle != null)
                     MainPanel.Instance.CustomHotkeys[activationKey] = onToggle;
@@ -106,6 +112,7 @@ namespace UnifiedUI.API {
         }
 
         public static void AttachAlien(UIComponent alien, string groupName) {
+            Log.Called(alien, groupName);
             MainPanel.Instance.AttachAlien(alien, groupName);
         }
     }

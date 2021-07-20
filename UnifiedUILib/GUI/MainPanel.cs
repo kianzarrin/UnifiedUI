@@ -10,9 +10,18 @@ namespace UnifiedUI.GUI {
     using static KianCommons.ReflectionHelpers;
     using KianCommons.Plugins;
     public class MainPanel : UIPanel {
+        public const string FileName = "UnifiedUI";
+
+        static MainPanel() {
+            // Creating setting file - from SamsamTS
+            if (GameSettings.FindSettingsFileByName(FileName) == null) {
+                GameSettings.AddSettingsFile(new SettingsFile[] { new SettingsFile() { fileName = FileName } });
+            }
+        }
+
+
         const string SPRITES_FILE_NAME = "MainPanel.png";
         const string DEFAULT_GROUP = "group1";
-        public const string FileName = "UnifiedUI";
 
         public string AtlasName => $"{GetType().FullName}_rev" + this.VersionOf();
         public static readonly SavedFloat SavedX = new SavedFloat(
@@ -117,6 +126,7 @@ namespace UnifiedUI.GUI {
 
         public ExternalButton Register(
             string name, string groupName, string tooltip, string spritefile = null) {
+            Log.Called(name, groupName, tooltip, spritefile);
             var g = GetOrCreateGroup(groupName);
             var c = ExternalButton.Create(
                 parent: g,

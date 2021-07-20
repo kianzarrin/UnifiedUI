@@ -9,8 +9,6 @@ namespace UnifiedUI.LifeCycle {
     using UnifiedUI.GUI;
 
     public static class UUISettings {
-        public const string FileName = "UnifiedUI";
-
         public const string CONFLICTS_PANEL_NAME = "Conflicts_keymapping";
 
         public static bool InUUIConflictPanel(this UIComponent c) {
@@ -19,13 +17,13 @@ namespace UnifiedUI.LifeCycle {
 
         static UUISettings() {
             // Creating setting file - from SamsamTS
-            if(GameSettings.FindSettingsFileByName(FileName) == null) {
-                GameSettings.AddSettingsFile(new SettingsFile[] { new SettingsFile() { fileName = FileName } });
+            if (GameSettings.FindSettingsFileByName(MainPanel.FileName) == null) {
+                GameSettings.AddSettingsFile(new SettingsFile[] { new SettingsFile() { fileName = MainPanel.FileName } });
             }
         }
 
-        public readonly static SavedBool HideOriginalButtons  = new SavedBool("HideOriginalButtons", FileName, true, true);
-        public readonly static SavedBool HandleESC = new SavedBool("HandleESC", FileName, true, true);
+        public readonly static SavedBool HideOriginalButtons = new SavedBool("HideOriginalButtons", MainPanel.FileName, true, true);
+        public readonly static SavedBool HandleESC = new SavedBool("HandleESC", MainPanel.FileName, true, true);
 
 
         public static List<SavedInputKey> DisabledKeys = new List<SavedInputKey>();
