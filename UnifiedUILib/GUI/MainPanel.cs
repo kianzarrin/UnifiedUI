@@ -69,7 +69,7 @@ namespace UnifiedUI.GUI {
             autoLayout = true;
             autoLayoutDirection = LayoutDirection.Vertical;
             autoSize = autoFitChildrenHorizontally = autoFitChildrenVertically = true;
-            
+
             instance_ = this;
             ModButtons = new List<ButtonBase>();
             builtinKeyNavigation = true;
@@ -104,18 +104,18 @@ namespace UnifiedUI.GUI {
                     lblCaption_.padding.top = 4;    
                 }
 
-                var body = AddPanel();
-                body.autoLayoutPadding = new RectOffset(2, 0, 2, 2);
-                containerPanel_ = body;
-                containerPanel_.eventFitChildren += () => containerPanel_.width += containerPanel_.padding.right;
+                containerPanel_ = AddPanel();
+                containerPanel_.autoLayoutPadding = new RectOffset(2, 0, 2, 2);
+                containerPanel_.autoFitChildrenHorizontally = false;//broken
+
 
                 foreach (string groupName in groups_)
                 {
                     var group = Find<UIPanel>(groupName);
                     if (group == null)
-                        group = AddGroup(body, groupName);
+                        group = AddGroup(containerPanel_, groupName);
                     else
-                        body.AttachUIComponent(group.gameObject);
+                        containerPanel_.AttachUIComponent(group.gameObject);
                 }
 
                 isVisible = false;
@@ -252,6 +252,7 @@ namespace UnifiedUI.GUI {
             lblCaption_.relativePosition = new Vector2((width - lblCaption_.width) * 0.5f, 3);
             LoadPosition();
             Invalidate();
+            containerPanel_?.FitChildrenHorizontally(2);
         }
 
         public static bool InLoadedGame =>
