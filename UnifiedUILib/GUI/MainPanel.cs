@@ -69,6 +69,7 @@ namespace UnifiedUI.GUI {
             autoLayout = true;
             autoLayoutDirection = LayoutDirection.Vertical;
             autoSize = autoFitChildrenHorizontally = autoFitChildrenVertically = true;
+            
             instance_ = this;
             ModButtons = new List<ButtonBase>();
             builtinKeyNavigation = true;
@@ -106,8 +107,9 @@ namespace UnifiedUI.GUI {
                 var body = AddPanel();
                 body.autoLayoutPadding = new RectOffset(2, 0, 2, 2);
                 containerPanel_ = body;
+                containerPanel_.eventFitChildren += () => containerPanel_.width += containerPanel_.padding.right;
 
-                foreach(string groupName in groups_)
+                foreach (string groupName in groups_)
                 {
                     var group = Find<UIPanel>(groupName);
                     if (group == null)
