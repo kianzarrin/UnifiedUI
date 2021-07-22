@@ -107,7 +107,8 @@ namespace UnifiedUI.GUI {
 
                 containerPanel_ = AddPanel();
                 containerPanel_.autoLayoutPadding = new RectOffset(2, 0, 2, 2);
-                containerPanel_.autoFitChildrenHorizontally = false;//broken
+                containerPanel_.autoFitChildrenHorizontally =
+                    containerPanel_.autoFitChildrenVertically = false; //broken
 
 
                 foreach (string groupName in groups_)
@@ -254,6 +255,7 @@ namespace UnifiedUI.GUI {
             LoadPosition();
             Invalidate();
             containerPanel_?.FitChildrenHorizontally(2);
+            containerPanel_?.FitChildrenVertically(2);
         }
 
         public static bool InLoadedGame =>
