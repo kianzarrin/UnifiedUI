@@ -101,7 +101,8 @@ namespace UnifiedUI.GUI {
                     lblCaption_.text = "UnifiedUI";
                     lblCaption_.name = "UnifiedUI_title";
                     lblCaption_.textScale = 0.75f;
-                    lblCaption_.padding.top = 4;    
+                    lblCaption_.padding.top = 4;
+                    lblCaption_.padding.left = 2;
                 }
 
                 containerPanel_ = AddPanel();
