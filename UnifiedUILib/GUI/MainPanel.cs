@@ -13,12 +13,10 @@ namespace UnifiedUI.GUI {
         public const string FileName = "UnifiedUI";
 
         static MainPanel() {
-            // Creating setting file - from SamsamTS
             if (GameSettings.FindSettingsFileByName(FileName) == null) {
                 GameSettings.AddSettingsFile(new SettingsFile[] { new SettingsFile() { fileName = FileName } });
             }
         }
-
 
         const string SPRITES_FILE_NAME = "MainPanel.png";
         const string DEFAULT_GROUP = "group1";
