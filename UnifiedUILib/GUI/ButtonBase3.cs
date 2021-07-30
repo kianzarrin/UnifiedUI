@@ -8,18 +8,22 @@ namespace UnifiedUI.GUI {
     using UnityEngine;
     using static KianCommons.ReflectionHelpers;
 
-    public abstract class ButtonBase : UIButton {
-        internal const string ICON_NORMAL = "IconNormal";
-        internal const string ICON_HOVERED = "IconHovered";
-        internal const string ICON_PRESSED = "IconPressed";
-        internal const string ICON_DISABLED = "IconDisabled";
+    public abstract class ButtonBase3 : UIButton {
+        internal const string ICON = "Icon";
+        internal const string BG_NORMAL = "Normal";
+        internal const string BG_ACTIVE = "Active";
+        internal const string BG_HOVERED = "Hovered";
+        internal const string BG_PRESSED = "Pressed";
+        internal const string BG_DISABLED = "Disabled";
 
-        internal protected string IconNormal = ICON_NORMAL;
-        internal protected string IconHovered = ICON_HOVERED;
-        internal protected string IconPressed = ICON_PRESSED;
-        internal protected string IconDisabled = ICON_DISABLED;
+        internal protected string IconName = ICON;
+        internal protected string BGNormal = BG_NORMAL;
+        internal protected string BGActive = BG_ACTIVE;
+        internal protected string BGHovered = BG_HOVERED;
+        internal protected string BGPressed = BG_PRESSED;
+        internal protected string BGDisabled = BG_DISABLED;
 
-        public string SuggestedAtlasName => $"{GetType().FullName}_{Name}_rev"  + typeof(ButtonBase).VersionOf();
+        public string SuggestedAtlasName => $"{GetType().FullName}_{Name}_rev"  + typeof(ButtonBase3).VersionOf();
         public const int SIZE = 40;
         public virtual string Name => GetType().Name;
         public virtual string Tooltip => null;
@@ -37,6 +41,7 @@ namespace UnifiedUI.GUI {
         public override void Awake() {
             try {
                 base.Awake();
+                normalFgSprite = hoveredFgSprite = pressedFgSprite = disabledFgSprite = IconName;
                 isVisible = true;
                 size = new Vector2(SIZE, SIZE);
                 canFocus = false;
@@ -68,7 +73,7 @@ namespace UnifiedUI.GUI {
         public static UITextureAtlas GetOrCreateAtlas(string atlasName, string spriteFile, bool embeded = false, string[] spriteNames = null) {
             try {
                 Log.Called(atlasName, spriteFile, embeded, spriteNames);
-                spriteNames ??= new string[] { ICON_NORMAL, ICON_HOVERED, ICON_PRESSED, ICON_DISABLED };
+                spriteNames ??= new string[] { ICON };
                 var _atlas = TextureUtil.GetAtlas(atlasName);
                 if (_atlas == UIView.GetAView().defaultAtlas) {
                     Texture2D texture2D = embeded ?
@@ -86,20 +91,20 @@ namespace UnifiedUI.GUI {
 
         public void UseActiveSprites() {
             // focusedBgSprite = can focus is set to false.
-            normalBgSprite = IconPressed;
-            hoveredBgSprite = IconHovered;
-            pressedBgSprite = IconPressed;
-            disabledBgSprite = IconDisabled;
+            normalBgSprite = BGPressed;
+            hoveredBgSprite = BGHovered;
+            pressedBgSprite = BGPressed;
+            disabledBgSprite = BGDisabled;
             Invalidate();
             active_ = true;
         }
 
         public void UseDeactiveSprites() {
             // focusedBgSprite = can focus is set to false.
-            normalBgSprite = IconNormal;
-            hoveredBgSprite = IconHovered;
-            pressedBgSprite = IconPressed;
-            disabledBgSprite = IconDisabled;
+            normalBgSprite = BGNormal;
+            hoveredBgSprite = BGHovered;
+            pressedBgSprite = BGPressed;
+            disabledBgSprite = BGDisabled;
             Invalidate();
             active_ = false;
         }
@@ -184,6 +189,5 @@ namespace UnifiedUI.GUI {
                 Prevtool = null; // prevent exit loop.
             }
         }
-
     }
 }
