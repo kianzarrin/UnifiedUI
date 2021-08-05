@@ -55,6 +55,8 @@
     <None Remove="KianCommons\**" />
     <None Remove="Patches\**" />
     <None Remove="Resources\bin\**" />
+    <Compile Remove="GUI\ModButtons\ExternalButton3.cs" />
+    <Compile Remove="GUI\ModButtons\ModButtonBase3.cs" />
     <None Remove="Resources\MainPanel.png" />
     <None Remove="Resources\unlock-ring.png" />
     <None Remove="Resources\uui.png" />
@@ -77,6 +79,7 @@
     <Compile Include="KianCommons\KianCommons\UI\Helpers\UIDropDownExt.cs" />
     <Compile Include="KianCommons\KianCommons\UI\Helpers\UISliderExt.cs" />
     <Compile Include="KianCommons\KianCommons\UI\RenderUtil.cs" />
+    <Compile Include="KianCommons\KianCommons\UI\TextureExtensions.cs" />
     <Compile Include="KianCommons\KianCommons\UI\TextureUtil.cs" />
     <Compile Include="KianCommons\KianCommons\UI\UIExtensions.cs" />
     <Compile Include="KianCommons\KianCommons\UI\UIKeymappingsPanel.cs" />

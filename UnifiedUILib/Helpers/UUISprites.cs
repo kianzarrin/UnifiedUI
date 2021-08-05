@@ -18,10 +18,10 @@ namespace UnifiedUI.Helpers {
                 spriteFile: filePath);
             return new UUISprites {
                 Atlas = atlas,
-                NormalSprite = ButtonBase.ICON_NORMAL,
-                HoveredSprite = ButtonBase.ICON_HOVERED,
-                PressedSprite = ButtonBase.ICON_PRESSED,
-                DisabledSprite = ButtonBase.ICON_DISABLED,
+                NormalSprite = ButtonBase.BG_NORMAL,
+                HoveredSprite = ButtonBase.BG_HOVERED,
+                PressedSprite = ButtonBase.BG_PRESSED,
+                DisabledSprite = ButtonBase.BG_DISABLED,
             };
         }
     }

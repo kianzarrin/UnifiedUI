@@ -7,7 +7,7 @@ namespace UnifiedUI.GUI {
     using System.Collections.Generic;
     using UnityEngine;
     using static KianCommons.ReflectionHelpers;
-
+    using System.Linq;
     public abstract class ButtonBase3 : UIButton {
         internal const string ICON = "Icon";
         internal const string BG_NORMAL = "Normal";
@@ -70,24 +70,16 @@ namespace UnifiedUI.GUI {
             base.OnDestroy();
         }
 
-        public static UITextureAtlas GetOrCreateAtlas(string atlasName, string spriteFile, bool embeded = false, string[] spriteNames = null) {
-            try {
-                Log.Called(atlasName, spriteFile, embeded, spriteNames);
-                spriteNames ??= new string[] { ICON };
-                var _atlas = TextureUtil.GetAtlas(atlasName);
-                if (_atlas == UIView.GetAView().defaultAtlas) {
-                    Texture2D texture2D = embeded ?
-                        TextureUtil.GetTextureFromAssemblyManifest(spriteFile) :
-                        TextureUtil.GetTextureFromFile(spriteFile);
-                    _atlas = TextureUtil.CreateTextureAtlas(texture2D, atlasName, spriteNames);
+        public static void AddTextureToAtlas(UITextureAtlas atlas, Texture2D texture) {
+            try { 
+                if (atlas.spriteNames.Contains(texture.name)) {
+                    Log.Info("atlas already has " + texture.name);
                 }
-                return _atlas;
+                TextureUtil.AddTexturesInAtlas(atlas, new[] { texture });
             } catch (Exception ex) {
                 Log.Exception(ex);
-                return TextureUtil.Ingame;
             }
         }
-
 
         public void UseActiveSprites() {
             // focusedBgSprite = can focus is set to false.

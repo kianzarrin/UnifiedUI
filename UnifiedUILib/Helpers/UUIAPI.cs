@@ -51,10 +51,10 @@ namespace UnifiedUI.API {
             Assertion.NotNull(spriteNames, "spriteNames");
             Assertion.Equal(spriteNames.Length, 4, "spriteNames");
             ret.atlas = atlas;
-            ret.IconNormal = spriteNames[0] ?? "";
-            ret.IconHovered = spriteNames[1] ?? "";
-            ret.IconPressed = spriteNames[2] ?? "";
-            ret.IconDisabled = spriteNames[3] ?? "";
+            ret.BGNormal = spriteNames[0] ?? "";
+            ret.BGHovered = spriteNames[1] ?? "";
+            ret.BGPressed = spriteNames[2] ?? "";
+            ret.BGDisabled = spriteNames[3] ?? "";
 
             ret.ActivationKey = activationKey;
             ret.ActiveKeys = activeKeys;
@@ -77,10 +77,10 @@ namespace UnifiedUI.API {
             Assertion.NotNull(spriteNames, "spriteNames");
             Assertion.Equal(spriteNames.Length, 4, "spriteNames");
             ret.atlas = atlas;
-            ret.IconNormal = spriteNames[0] ?? "";
-            ret.IconHovered = spriteNames[1] ?? "";
-            ret.IconPressed = spriteNames[2] ?? "";
-            ret.IconDisabled = spriteNames[3] ?? "";
+            ret.BGNormal = spriteNames[0] ?? "";
+            ret.BGHovered = spriteNames[1] ?? "";
+            ret.BGPressed = spriteNames[2] ?? "";
+            ret.BGDisabled = spriteNames[3] ?? "";
 
             ret.ActivationKey = activationKey;
             ret.ActiveKeys = activeKeys;
