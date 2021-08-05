@@ -11,10 +11,10 @@ namespace UnifiedUI.GUI {
 
     public abstract class ButtonBase : UIButton {
         internal const string ICON = "Icon";
-        internal const string BG_NORMAL = "BGNormal";
-        internal const string BG_HOVERED = "BGHovered";
-        internal const string BG_PRESSED = "BGPressed";
-        internal const string BG_DISABLED = "BGDisabled";
+        internal const string BG_NORMAL = "bg_normal";
+        internal const string BG_HOVERED = "bg_hovered";
+        internal const string BG_PRESSED = "bg_pressed";
+        internal const string BG_DISABLED = "bg_disabled";
 
         internal protected string Icon = ICON;
         internal protected string BGNormal = BG_NORMAL;
@@ -24,6 +24,9 @@ namespace UnifiedUI.GUI {
 
         public string SuggestedAtlasName => $"{GetType().FullName}_{Name}_rev" + typeof(ButtonBase).VersionOf();
         public const int SIZE = 40;
+
+        public static string MainAtlasName => $"MainAtals_rev" + typeof(ButtonBase).VersionOf();
+
         public virtual string Name => GetType().Name;
         public virtual string Tooltip => null;
 
@@ -43,8 +46,6 @@ namespace UnifiedUI.GUI {
                 isVisible = true;
                 size = new Vector2(SIZE, SIZE);
                 canFocus = false;
-                name = Name;
-                if (Tooltip != null) tooltip = Tooltip;
             } catch (Exception ex) { Log.Exception(ex); }
         }
 
@@ -52,13 +53,12 @@ namespace UnifiedUI.GUI {
             try {
                 Log.Debug(ThisMethod + " is called for " + Name, false);
                 base.Start();
+                name = Name;
+                if (Tooltip != null) tooltip = Tooltip;
                 disabledFgSprite = pressedFgSprite = hoveredFgSprite = normalFgSprite = Icon;
-                hoveredBgSprite = BGHovered;
                 pressedBgSprite = BGPressed;
                 disabledBgSprite = BGDisabled;
                 UseInactiveSprites();
-                // m_TooltipBox = GetUIView()?.defaultTooltipBox; // Set up the tooltip
-
                 MainPanel.Instance.EventToolChanged += OnToolChanged;
             } catch (Exception ex) { Log.Exception(ex); }
         }
@@ -72,18 +72,21 @@ namespace UnifiedUI.GUI {
             base.OnDestroy();
         }
 
-
-        public static string MainAtlasName => $"MainAtals_rev" + typeof(ButtonBase).VersionOf();
-        const string MAIN_ATLAS_FILE = "bg_sprites.png";
         public static UITextureAtlas CreateMainAtlas() {
             try {
                 Log.Called();
                 Destroy(TextureUtil.GetAtlasOrNull(MainAtlasName));
-                var spriteNames = new string[] { BG_NORMAL, BG_HOVERED, BG_PRESSED, BG_DISABLED };
-                var texture2D = TextureUtil.GetTextureFromFile(MAIN_ATLAS_FILE);
-                return TextureUtil.CreateTextureAtlas(texture2D, MainAtlasName, spriteNames);
+                var spriteNames = new [] { BG_NORMAL, BG_HOVERED, BG_PRESSED, BG_DISABLED };
+                var textures = spriteNames.Select(GetTexture).ToArray();
+                return TextureUtil.CreateTextureAtlas(MainAtlasName, textures);
             } catch (Exception ex) { ex.Log(); }
             return null;
+
+            static Texture2D GetTexture(string _spriteName) {
+                var _texture = TextureUtil.GetTextureFromAssemblyManifest(_spriteName + ".png");
+                _texture.name = _spriteName;
+                return _texture;
+            }
         }
 
         public static UITextureAtlas GetOrCreateAtlas(string atlasName, string spriteFile, bool embeded = false, string[] spriteNames = null) {
@@ -104,19 +107,19 @@ namespace UnifiedUI.GUI {
             }
         }
 
+        public void SetIcon(Texture2D texture) {
+            Assertion.Assert(texture, "texture");
+            atlas = MainPanel.Instance.MainAtlas;
+            AddTextureToAtlas(atlas, texture);
+            Icon = texture.name;
+        }
+
         public static void AddTextureToAtlas(UITextureAtlas atlas, Texture2D newTexture) {
             try {
                 if (atlas.spriteNames.Contains(newTexture.name)) {
                     Log.Error("atlas already has " + newTexture.name);
                 } else {
-                    Rect[] regions = atlas.texture.PackTextures(
-                       new[] { atlas.texture, newTexture }, atlas.padding, 4096, false);
-                    atlas.sprites.Add(new UITextureAtlas.SpriteInfo {
-                        name = newTexture.name,
-                        texture = newTexture,
-                        region = regions[1],
-                    });
-                    atlas.RebuildIndexes();
+                    TextureUtil.AddTexturesToAtlas(atlas, new[] { newTexture });
                 }
             } catch (Exception ex) {
                 Log.Exception(ex);
@@ -125,12 +128,14 @@ namespace UnifiedUI.GUI {
 
         public void UseActiveSprites() {
             normalBgSprite = BGPressed;
+            hoveredBgSprite = BGPressed;
             Invalidate();
             active_ = true;
         }
 
         public void UseInactiveSprites() {
             normalBgSprite = BGNormal;
+            hoveredBgSprite = BGHovered;
             Invalidate();
             active_ = false;
         }

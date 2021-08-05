@@ -1,7 +1,10 @@
 namespace UnifiedUI.Helpers {
+    using System;
     using System.IO;
     using ColossalFramework.UI;
     using UnifiedUI.GUI;
+
+    [Obsolete]
     public struct UUISprites {
         public UITextureAtlas Atlas;
         public string NormalSprite, HoveredSprite, PressedSprite, DisabledSprite;

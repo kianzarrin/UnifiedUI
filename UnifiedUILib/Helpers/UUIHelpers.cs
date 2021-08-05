@@ -99,6 +99,7 @@ namespace UnifiedUI.Helpers {
         /// <param name="activationKey">hot key to trigger the button</param>
         /// <param name="activeKeys">turn off these hotkeys in other mods</param>
         /// <returns>component containing the button. you can hide this component if necessary.</returns>
+        [Obsolete]
         public static UIComponent RegisterToolButton(
             string name, string groupName, string tooltip, string spritefile, ToolBase tool,
             SavedInputKey activationKey = null, Dictionary<SavedInputKey, Func<bool>> activeKeys = null) {
@@ -123,6 +124,7 @@ namespace UnifiedUI.Helpers {
         /// <param name="activationKey">hot key to trigger the button</param>
         /// <param name="activeKeys">turn off these hotkeys in other mods</param>
         /// <returns>component containing the button. you can hide this component if necessary.</returns>
+        [Obsolete]
         public static UIComponent RegisterToolButton(
             string name, string groupName, string tooltip, string spritefile, ToolBase tool,
             SavedInputKey activationKey, IEnumerable<SavedInputKey> activeKeys) {
@@ -152,6 +154,7 @@ namespace UnifiedUI.Helpers {
         /// <param name="activationKey">hot key to trigger the button</param>
         /// <param name="activeKeys">hotkey->active dictionary. turns off these hotkeys in other mods while active</param>
         /// <returns>wrapper for the button which you can use to change the its state.</returns>
+        [Obsolete]
         public static UUICustomButton RegisterCustomButton(
             string name, string groupName, string tooltip, string spritefile,
             Action<bool> onToggle, Action<ToolBase> onToolChanged = null,
@@ -180,6 +183,7 @@ namespace UnifiedUI.Helpers {
         /// <param name="activationKey">hot key to trigger the button</param>
         /// <param name="activeKeys">hotkey->active dictionary. turns off these hotkeys in other mods while active</param>
         /// <returns>wrapper for the button which you can use to change the its state.</returns>
+        [Obsolete]
         public static UUICustomButton RegisterCustomButton(
             string name, string groupName, string tooltip, string spritefile,
             Action<bool> onToggle, Action<ToolBase> onToolChanged,
@@ -218,6 +222,7 @@ namespace UnifiedUI.Helpers {
         /// <param name="groupName">the group under which button will be added. use null to addd to the default gorup.</param>
         /// <param name="tool">the tool to tie the buttont to.</param>
         /// <returns>component containing the button. you can hide this component if necessary.</returns>
+        [Obsolete]
         public static UIComponent RegisterToolButton(
             string name, string groupName, string tooltip, ToolBase tool, UUISprites sprites, UUIHotKeys hotkeys = null) {
             var Register = CreateDelegate<RegisterToolHandler2>(GetUUI(), "Register");
@@ -240,6 +245,7 @@ namespace UnifiedUI.Helpers {
         /// <param name="onToggle">call-back for when the button is activated/deactivated</param>
         /// <param name="onToolChanged">call-back for when any active tool changes.</param>
         /// <returns>wrapper for the button which you can use to change the its state.</returns>
+        [Obsolete]
         public static UUICustomButton RegisterCustomButton(
             string name, string groupName, string tooltip, UUISprites sprites,
             Action<bool> onToggle, Action<ToolBase> onToolChanged = null,
@@ -259,6 +265,64 @@ namespace UnifiedUI.Helpers {
         }
 
         #endregion
+
+        #region Register with Icon
+        internal delegate UIComponent RegisterToolHandler3
+            (string name, string groupName, string tooltip, ToolBase tool,
+             Texture2D texture,
+             SavedInputKey activationKey, Dictionary<SavedInputKey, Func<bool>> activeKeys);
+        internal delegate UIComponent RegisterCustomHandler3
+            (string name, string groupName, string tooltip, Texture2D texture,
+            Action<bool> onToggle, Action<ToolBase> onToolChanged,
+            SavedInputKey activationKey, Dictionary<SavedInputKey, Func<bool>> activeKeys);
+
+        /// <summary>
+        /// register a button to tie to the given tool.
+        /// </summary>
+        /// <param name="name">game object name for button. must be unique.</param>
+        /// <param name="groupName">the group under which button will be added. use null to addd to the default gorup.</param>
+        /// <param name="tool">the tool to tie the buttont to.</param>
+        /// <returns>component containing the button. you can hide this component if necessary.</returns>
+        public static UIComponent RegisterToolButton(
+            string name, string groupName, string tooltip, ToolBase tool, Texture2D icon, UUIHotKeys hotkeys = null) {
+            var Register = CreateDelegate<RegisterToolHandler3>(GetUUI(), "Register");
+            return Register(
+                name: name,
+                groupName: groupName,
+                tooltip: tooltip,
+                tool: tool,
+                texture: icon,
+                activationKey: hotkeys?.ActicationKey,
+                activeKeys: hotkeys?.InToolKeys);
+        }
+
+        /// <summary>
+        /// register a custom button .
+        /// </summary>
+        /// <param name="name">game object name for button</param>
+        /// <param name="groupName">the group under which button will be added. use null to addd to the default gorup.</param>
+        /// <param name="onToggle">call-back for when the button is activated/deactivated</param>
+        /// <param name="onToolChanged">call-back for when any active tool changes.</param>
+        /// <returns>wrapper for the button which you can use to change the its state.</returns>
+        public static UUICustomButton RegisterCustomButton(
+            string name, string groupName, string tooltip, Texture2D icon,
+            Action<bool> onToggle, Action<ToolBase> onToolChanged = null,
+            UUIHotKeys hotkeys = null) {
+            var Register = CreateDelegate<RegisterCustomHandler3>(GetUUI(), "Register");
+            UIComponent component = Register(
+                name: name,
+                groupName: groupName,
+                tooltip: tooltip,
+                texture: icon,
+                onToggle: onToggle,
+                onToolChanged: onToolChanged,
+                activationKey: hotkeys?.ActicationKey,
+                activeKeys: hotkeys?.InToolKeys);
+            return new UUICustomButton(component);
+        }
+
+        #endregion
+
 
         internal delegate void AttachAlienHandler(UIComponent alien, string groupName);
 

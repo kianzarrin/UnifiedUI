@@ -55,8 +55,14 @@
     <None Remove="KianCommons\**" />
     <None Remove="Patches\**" />
     <None Remove="Resources\bin\**" />
+    <Compile Remove="GUI\ButtonBase3.cs" />
     <Compile Remove="GUI\ModButtons\ExternalButton3.cs" />
     <Compile Remove="GUI\ModButtons\ModButtonBase3.cs" />
+    <None Remove="Resources\bg_disabled.png" />
+    <None Remove="Resources\bg_hovered.png" />
+    <None Remove="Resources\bg_normal.png" />
+    <None Remove="Resources\bg_pressed.png" />
+    <None Remove="Resources\bg_sprites.png" />
     <None Remove="Resources\MainPanel.png" />
     <None Remove="Resources\unlock-ring.png" />
     <None Remove="Resources\uui.png" />
@@ -99,5 +105,19 @@
     <Compile Include="KianCommons\KianCommons\Util\TypeUtil.cs" />
     <EmbeddedResource Include="Resources\MainPanel.png" />
     <EmbeddedResource Include="Resources\uui.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\bg_disabled.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\bg_hovered.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\bg_normal.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\bg_pressed.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

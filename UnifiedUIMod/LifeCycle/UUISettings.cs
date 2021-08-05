@@ -72,7 +72,7 @@ namespace UnifiedUI.LifeCycle {
                     MainPanel.ClearInfoPanelsOnToolChanged.value, val => MainPanel.ClearInfoPanelsOnToolChanged.value = val);
 
                 var hideCheckBox = helper.AddCheckbox(
-                    "Hide original activation buttons",
+                    "Hide original activation buttons (legacy)",
                     HideOriginalButtons,
                     val => {
                         HideOriginalButtons.value = val;
@@ -80,7 +80,7 @@ namespace UnifiedUI.LifeCycle {
                         if(MainPanel.Exists)
                             MainPanel.Instance.DoRefreshButtons();
                     }) as UICheckBox;
-
+                hideCheckBox.tooltip = "this feature is stale only works on a few mods. each mod owner should handle this independantly.";
 
             } catch(Exception e) {
                 Log.Exception(e);

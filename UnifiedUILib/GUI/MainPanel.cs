@@ -68,17 +68,19 @@ namespace UnifiedUI.GUI {
         #endregion Instanciation
 
         public override void Awake() {
-            base.Awake();
-            MainAtlas = ButtonBase.CreateMainAtlas();
+            try {
+                base.Awake();
+                MainAtlas = ButtonBase.CreateMainAtlas();
 
-            autoLayout = true;
-            autoLayoutDirection = LayoutDirection.Vertical;
-            autoSize = autoFitChildrenHorizontally = autoFitChildrenVertically = true;
+                autoLayout = true;
+                autoLayoutDirection = LayoutDirection.Vertical;
+                autoSize = autoFitChildrenHorizontally = autoFitChildrenVertically = true;
 
-            instance_ = this;
-            ModButtons = new List<ButtonBase>();
-            builtinKeyNavigation = true;
-            UIView.GetAView().AddUIComponent(typeof(FloatingButton));
+                instance_ = this;
+                ModButtons = new List<ButtonBase>();
+                builtinKeyNavigation = true;
+                UIView.GetAView().AddUIComponent(typeof(FloatingButton));
+            } catch(Exception ex) { ex.Log(); }
         }
 
         public override void OnDestroy() {
