@@ -4,11 +4,11 @@ namespace UnifiedUI.GUI {
     using KianCommons;
     using KianCommons.UI;
     using System;
-    using UnityEngine;
     using System.Collections.Generic;
     using System.Linq;
+    using UnityEngine;
     using static KianCommons.ReflectionHelpers;
-    using KianCommons.Plugins;
+
     public class MainPanel : UIPanel {
         public const string FileName = "UnifiedUI";
 
@@ -18,7 +18,6 @@ namespace UnifiedUI.GUI {
                 GameSettings.AddSettingsFile(new SettingsFile[] { new SettingsFile() { fileName = FileName } });
             }
         }
-
 
         const string SPRITES_FILE_NAME = "MainPanel.png";
         const string DEFAULT_GROUP = "group1";
@@ -31,13 +30,12 @@ namespace UnifiedUI.GUI {
         public readonly static SavedBool ControlToDrag =
             new SavedBool("ControlToDrag", FileName, false, true);
 
-
         public static SavedBool SwitchToPrevTool = new SavedBool("SwitchToPrevTool", FileName, true, true);
         public static SavedBool ClearInfoPanelsOnToolChanged = new SavedBool("ClearInfoPanelsOnToolChanged", FileName, false, true);
 
         public event Action EventRefreshButtons;
 
-        HashSet<string> groups_ = new HashSet<string>();
+        MultiRowPanel multiRowPanel_;
 
         public void DoRefreshButtons() => EventRefreshButtons?.Invoke();
 
@@ -80,7 +78,8 @@ namespace UnifiedUI.GUI {
                 ModButtons = new List<ButtonBase>();
                 builtinKeyNavigation = true;
                 UIView.GetAView().AddUIComponent(typeof(FloatingButton));
-            } catch(Exception ex) { ex.Log(); }
+                AddUIComponent<MultiRowPanel>();
+            } catch (Exception ex) { ex.Log(); }
         }
 
         public override void OnDestroy() {
@@ -116,16 +115,10 @@ namespace UnifiedUI.GUI {
                 containerPanel_ = AddPanel();
                 containerPanel_.autoLayoutPadding = new RectOffset(2, 0, 2, 2);
                 containerPanel_.autoFitChildrenHorizontally =
-                    containerPanel_.autoFitChildrenVertically = false; //broken
+                containerPanel_.autoFitChildrenVertically = false; //broken
 
-
-                foreach (string groupName in groups_) {
-                    var group = Find<UIPanel>(groupName);
-                    if (group == null)
-                        group = AddGroup(containerPanel_, groupName);
-                    else
-                        containerPanel_.AttachUIComponent(group.gameObject);
-                }
+                Assertion.Assert(multiRowPanel_, "multiRowPanel_");
+                containerPanel_.AttachUIComponent(multiRowPanel_.gameObject);
 
                 isVisible = false;
                 started_ = true;
@@ -137,29 +130,37 @@ namespace UnifiedUI.GUI {
 
         public ExternalButton Register(
             string name, string groupName, string tooltip, string spritefile = null) {
-            Log.Called(name, groupName, tooltip, spritefile);
-            var g = GetOrCreateGroup(groupName);
-            var c = ExternalButton.Create(
-                parent: g,
-                name: name,
-                tooltip: tooltip,
-                spritesFile: spritefile);
-            ModButtons.Add(c);
-            return c;
+            try {
+                Log.Called(name, groupName, tooltip, spritefile);
+                var c = ExternalButton.Create(
+                    parent: multiRowPanel_,
+                    name: name,
+                    tooltip: tooltip,
+                    spritesFile: spritefile);
+                multiRowPanel_.AddButton(c, groupName);
+                ModButtons.Add(c);
+                return c;
+            } catch (Exception ex) { ex.Log(); }
+            return null;
         }
 
         public void AttachAlien(UIComponent alien, string groupName = null) {
-            Assertion.NotNull(alien);
-            alien.size = new Vector2(40, 40);
-            var g = GetOrCreateGroup(groupName);
-            g.AttachUIComponent(alien.gameObject);
+            try {
+                Assertion.NotNull(alien);
+                alien.size = new Vector2(40, 40);
+                multiRowPanel_.AttachUIComponent(alien.gameObject);
+                multiRowPanel_.AddButton(alien, groupName);
+            } catch (Exception ex) { ex.Log(); }
         }
 
         public ButtonT AddButton<ButtonT>(string groupName = DEFAULT_GROUP) where ButtonT : ButtonBase {
-            var g = GetOrCreateGroup(groupName);
-            var button = g.AddUIComponent<ButtonT>();
-            ModButtons.Add(button);
-            return button;
+            try {
+                var button = multiRowPanel_.AddUIComponent<ButtonT>();
+                multiRowPanel_.AddButton(button, groupName);
+                ModButtons.Add(button);
+                return button;
+            } catch (Exception ex) { ex.Log(); }
+            return null;
         }
 
         public UITextureAtlas SetupSprites() {
@@ -175,23 +176,6 @@ namespace UnifiedUI.GUI {
             atlas = _atlas;
             backgroundSprite = "background";
             return _atlas;
-        }
-        UIPanel GetOrCreateGroup(string groupName = null) {
-            if (groupName.IsNullOrWhiteSpace()) groupName = DEFAULT_GROUP;
-                    return Find<UIPanel>(groupName) ?? AddGroup(groupName);
-        }
-
-        UIPanel AddGroup(string name) {
-            return AddGroup(containerPanel_ ?? this, name ?? DEFAULT_GROUP);
-        }
-
-        UIPanel AddGroup(UIPanel parent, string name) {
-            var g = AddPanel(parent);
-            g.backgroundSprite = "GenericPanelWhite";
-            g.color = new Color32(170, 170, 170, byte.MaxValue);
-            g.name = name;
-            groups_.Add(name);
-            return g;
         }
 
         UIPanel AddPanel() => AddPanel(this);
@@ -249,19 +233,24 @@ namespace UnifiedUI.GUI {
 
         public void Refresh() {
             if (!Responsive) return;
-            if(ControlToDrag)
+            if (ControlToDrag)
                 dragHandle_.tooltip = lblCaption_.tooltip = "hold CTRL to move";
             else
                 dragHandle_.tooltip = lblCaption_.tooltip = "";
 
             FloatingButton.Instance?.Refresh();
             DoRefreshButtons();
-            dragHandle_.width = Mathf.Max(this.width, lblCaption_.width);
-            lblCaption_.relativePosition = new Vector2((width - lblCaption_.width) * 0.5f, 3);
             LoadPosition();
             Invalidate();
+            RefreshDragAndCaptionPos();
             containerPanel_?.FitChildrenHorizontally(2);
             containerPanel_?.FitChildrenVertically(2);
+            RefreshDragAndCaptionPos();
+        }
+
+        void RefreshDragAndCaptionPos() {
+            dragHandle_.width = Mathf.Max(this.width, lblCaption_.width);
+            lblCaption_.relativePosition = new Vector2((width - lblCaption_.width) * 0.5f, 3);
         }
 
         public static bool InLoadedGame =>
@@ -280,7 +269,7 @@ namespace UnifiedUI.GUI {
             try {
                 HandleHotkeys();
                 CaptureToolChanged();
-            } catch(Exception e) {
+            } catch (Exception e) {
                 Log.Exception(e);
             }
         }
@@ -291,11 +280,11 @@ namespace UnifiedUI.GUI {
         ToolBase prevTool;
         void CaptureToolChanged() {
             var currentTool = ToolsModifierControl.toolController.CurrentTool;
-            if(!currentTool) return;  // tool is being destroyed. do not poke around!
-            if(!currentTool.enabled)
+            if (!currentTool) return;  // tool is being destroyed. do not poke around!
+            if (!currentTool.enabled)
                 Log.DebugWait($"WARNING: currentTool({currentTool}) is disabled", seconds: 1f);
-            if(currentTool != prevTool) {
-                if(EventToolChanged == null)
+            if (currentTool != prevTool) {
+                if (EventToolChanged == null)
                     Log.Info("WARNING: EventToolChanged==null");
                 //Log.Debug($"ThreadingExtension.OnUpdate(): invoking EventToolChanged. currentTool={currentTool} prevTool={prevTool}");
                 prevTool = currentTool;
@@ -313,7 +302,7 @@ namespace UnifiedUI.GUI {
         static bool ToolIsDefault => ToolsModifierControl.toolController.CurrentTool == ToolsModifierControl.GetTool<DefaultTool>();
 
         public void HandleHotkeys() {
-            if(UIView.HasModalInput() || UIView.HasInputFocus())
+            if (UIView.HasModalInput() || UIView.HasInputFocus())
                 return;
 
             if (ModButtons.Any(b => b.AvoidCollision())) {
@@ -321,18 +310,18 @@ namespace UnifiedUI.GUI {
                 return;
             }
 
-            if(CustomActiveHotkeys.Any(pair => pair.Value != null && pair.Value.Invoke() && pair.Key.IsKeyUp())) {
+            if (CustomActiveHotkeys.Any(pair => pair.Value != null && pair.Value.Invoke() && pair.Key.IsKeyUp())) {
                 Log.Info("Active Key pressed");
                 return;
             }
 
-            foreach(var button in ModButtons) {
-                if(button.HandleHotKey())
+            foreach (var button in ModButtons) {
+                if (button.HandleHotKey())
                     return;
             }
 
-            foreach(var pair in CustomHotkeys) {
-                if(pair.Key.IsKeyUp()) {
+            foreach (var pair in CustomHotkeys) {
+                if (pair.Key.IsKeyUp()) {
                     pair.Value?.Invoke();
                     return;
                 }
@@ -342,4 +331,3 @@ namespace UnifiedUI.GUI {
     }
 }
 
-        
