@@ -9,6 +9,11 @@
             Register custom button
             </summary>
         </member>
+        <member name="M:UnifiedUI.API.UUIAPI.Register(System.String,System.String,System.String,UnityEngine.Texture2D,System.Action{System.Boolean},System.Action{ToolBase},ColossalFramework.SavedInputKey,System.Collections.Generic.Dictionary{ColossalFramework.SavedInputKey,System.Func{System.Boolean}})">
+            <summary>
+            Register custom button
+            </summary>
+        </member>
         <member name="P:UnifiedUI.Helpers.UUICustomButton.Button">
             <summary>
             UUI button. you can hide this if necessary.
@@ -91,6 +96,25 @@
             <returns>component containing the button. you can hide this component if necessary.</returns>
         </member>
         <member name="M:UnifiedUI.Helpers.UUIHelpers.RegisterCustomButton(System.String,System.String,System.String,UnifiedUI.Helpers.UUISprites,System.Action{System.Boolean},System.Action{ToolBase},UnifiedUI.Helpers.UUIHotKeys)">
+            <summary>
+            register a custom button .
+            </summary>
+            <param name="name">game object name for button</param>
+            <param name="groupName">the group under which button will be added. use null to addd to the default gorup.</param>
+            <param name="onToggle">call-back for when the button is activated/deactivated</param>
+            <param name="onToolChanged">call-back for when any active tool changes.</param>
+            <returns>wrapper for the button which you can use to change the its state.</returns>
+        </member>
+        <member name="M:UnifiedUI.Helpers.UUIHelpers.RegisterToolButton(System.String,System.String,System.String,ToolBase,UnityEngine.Texture2D,UnifiedUI.Helpers.UUIHotKeys)">
+            <summary>
+            register a button to tie to the given tool.
+            </summary>
+            <param name="name">game object name for button. must be unique.</param>
+            <param name="groupName">the group under which button will be added. use null to addd to the default gorup.</param>
+            <param name="tool">the tool to tie the buttont to.</param>
+            <returns>component containing the button. you can hide this component if necessary.</returns>
+        </member>
+        <member name="M:UnifiedUI.Helpers.UUIHelpers.RegisterCustomButton(System.String,System.String,System.String,UnityEngine.Texture2D,System.Action{System.Boolean},System.Action{ToolBase},UnifiedUI.Helpers.UUIHotKeys)">
             <summary>
             register a custom button .
             </summary>
@@ -314,6 +338,16 @@
             <param name="segmentId"></param>
             <param name="cut">The lenght of the highlight [0~1] </param>
             <param name="bStartNode">Determines the direction of the half sausage.</param>
+        </member>
+        <member name="M:KianCommons.UI.TextureExtensions.GetReadableCopy(UnityEngine.Texture2D,System.Boolean)">
+            <summary>
+            reteurns a copy of the texture with the differenc that: mipmap=false, linear=false, readable=true;
+            </summary>
+        </member>
+        <member name="M:KianCommons.UI.TextureUtil.CreateTextureAtlas(System.String,UnityEngine.Texture2D[])">
+            <summary>
+            Create a new atlas.
+            </summary>
         </member>
         <member name="M:KianCommons.EnumBitMaskExtensions.ToUInt64(System.IConvertible)">
             <summary>
@@ -668,22 +702,22 @@
             <summary>Repository URL: https://github.com/kianzarrin/UnifiedUI</summary>
         </member>
         <member name="F:ThisAssembly.Git.Branch">
-            <summary>Branch: master</summary>
+            <summary>Branch: single-icon</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commit">
-            <summary>Commit: e0a2bd4</summary>
+            <summary>Commit: 821e6c5</summary>
         </member>
         <member name="F:ThisAssembly.Git.Sha">
-            <summary>Sha: e0a2bd4f98919869de50373966b44f4e381e2deb</summary>
+            <summary>Sha: 821e6c54459b81bc64aab54eab16e554027656af</summary>
         </member>
         <member name="F:ThisAssembly.Git.CommitDate">
-            <summary>Commit date: 2021-07-22T21:51:35+03:00</summary>
+            <summary>Commit date: 2021-08-05T21:12:10+03:00</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commits">
-            <summary>Commits on top of base version: 1</summary>
+            <summary>Commits on top of base version: 8</summary>
         </member>
         <member name="F:ThisAssembly.Git.Tag">
-            <summary>Tag: V1.3.5-1-ge0a2bd4</summary>
+            <summary>Tag: V1.3.5-8-g821e6c5</summary>
         </member>
         <member name="F:ThisAssembly.Git.BaseTag">
             <summary>Base tag: V1.3.5</summary>
@@ -710,7 +744,7 @@
             <summary>Minor: 3</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Patch">
-            <summary>Patch: 6</summary>
+            <summary>Patch: 13</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Label">
             <summary>Label: </summary>

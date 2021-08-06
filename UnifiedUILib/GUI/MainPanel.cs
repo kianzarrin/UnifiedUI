@@ -47,11 +47,14 @@ namespace UnifiedUI.GUI {
 
         public List<ButtonBase> ModButtons;
 
+        public UITextureAtlas MainAtlas;
+
+
         bool started_ = false;
         #region Instanciation
 
         static MainPanel instance_;
-        public static MainPanel Instance => 
+        public static MainPanel Instance =>
             instance_ ??= UIView.GetAView().AddUIComponent(typeof(MainPanel)) as MainPanel;
 
         public static MainPanel RowInstance_ => instance_;
@@ -65,18 +68,23 @@ namespace UnifiedUI.GUI {
         #endregion Instanciation
 
         public override void Awake() {
-            base.Awake();
-            autoLayout = true;
-            autoLayoutDirection = LayoutDirection.Vertical;
-            autoSize = autoFitChildrenHorizontally = autoFitChildrenVertically = true;
+            try {
+                base.Awake();
+                MainAtlas = ButtonBase.CreateMainAtlas();
 
-            instance_ = this;
-            ModButtons = new List<ButtonBase>();
-            builtinKeyNavigation = true;
-            UIView.GetAView().AddUIComponent(typeof(FloatingButton));
+                autoLayout = true;
+                autoLayoutDirection = LayoutDirection.Vertical;
+                autoSize = autoFitChildrenHorizontally = autoFitChildrenVertically = true;
+
+                instance_ = this;
+                ModButtons = new List<ButtonBase>();
+                builtinKeyNavigation = true;
+                UIView.GetAView().AddUIComponent(typeof(FloatingButton));
+            } catch(Exception ex) { ex.Log(); }
         }
 
         public override void OnDestroy() {
+            Destroy(MainAtlas);
             this.SetAllDeclaredFieldsToNull();
             instance_ = null;
             DestroyImmediate(FloatingButton.Instance?.gameObject);
@@ -111,8 +119,7 @@ namespace UnifiedUI.GUI {
                     containerPanel_.autoFitChildrenVertically = false; //broken
 
 
-                foreach (string groupName in groups_)
-                {
+                foreach (string groupName in groups_) {
                     var group = Find<UIPanel>(groupName);
                     if (group == null)
                         group = AddGroup(containerPanel_, groupName);
@@ -123,7 +130,7 @@ namespace UnifiedUI.GUI {
                 isVisible = false;
                 started_ = true;
                 Refresh();
-            } catch(Exception ex) {
+            } catch (Exception ex) {
                 Log.Exception(ex);
             }
         }
@@ -148,7 +155,7 @@ namespace UnifiedUI.GUI {
             g.AttachUIComponent(alien.gameObject);
         }
 
-        public ButtonT AddButton<ButtonT>(string groupName = DEFAULT_GROUP)  where ButtonT: ButtonBase {
+        public ButtonT AddButton<ButtonT>(string groupName = DEFAULT_GROUP) where ButtonT : ButtonBase {
             var g = GetOrCreateGroup(groupName);
             var button = g.AddUIComponent<ButtonT>();
             ModButtons.Add(button);
@@ -169,7 +176,6 @@ namespace UnifiedUI.GUI {
             backgroundSprite = "background";
             return _atlas;
         }
-
         UIPanel GetOrCreateGroup(string groupName = null) {
             if (groupName.IsNullOrWhiteSpace()) groupName = DEFAULT_GROUP;
                     return Find<UIPanel>(groupName) ?? AddGroup(groupName);

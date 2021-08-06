@@ -13,7 +13,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Workshop|AnyCPU' ">
-    <DefineConstants/>
+    <DefineConstants />
     <ContentID>2255219025</ContentID>
   </PropertyGroup>
   <PropertyGroup>
@@ -109,7 +109,6 @@
     <None Remove="KianCommons\.gitattributes" />
     <None Remove="KianCommons\.gitignore" />
     <None Remove="KianCommons\KianCommons\.editorconfig_" />
-    <None Remove="Resources\A.png" />
     <None Remove="Resources\B.png" />
     <None Remove="Resources\sprites.png" />
     <None Remove="Resources\uui_1440928803.png" />
@@ -137,6 +136,12 @@
   </ItemGroup>
  
   <ItemGroup>
+    <None Update="Resources\A.png" Condition=" '$(Configuration)' == 'Debug'">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\A1.png" Condition=" '$(Configuration)' == 'Debug' ">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\NodeController.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

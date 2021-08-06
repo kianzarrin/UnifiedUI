@@ -5,22 +5,28 @@ namespace UnifiedUI.GUI {
     using KianCommons.UI;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using UnityEngine;
     using static KianCommons.ReflectionHelpers;
 
     public abstract class ButtonBase : UIButton {
-        internal const string ICON_NORMAL = "IconNormal";
-        internal const string ICON_HOVERED = "IconHovered";
-        internal const string ICON_PRESSED = "IconPressed";
-        internal const string ICON_DISABLED = "IconDisabled";
+        internal const string ICON = "Icon";
+        internal const string BG_NORMAL = "bg_normal";
+        internal const string BG_HOVERED = "bg_hovered";
+        internal const string BG_PRESSED = "bg_pressed";
+        internal const string BG_DISABLED = "bg_disabled";
 
-        internal protected string IconNormal = ICON_NORMAL;
-        internal protected string IconHovered = ICON_HOVERED;
-        internal protected string IconPressed = ICON_PRESSED;
-        internal protected string IconDisabled = ICON_DISABLED;
+        internal protected string Icon = ICON;
+        internal protected string BGNormal = BG_NORMAL;
+        internal protected string BGHovered = BG_HOVERED;
+        internal protected string BGPressed = BG_PRESSED;
+        internal protected string BGDisabled = BG_DISABLED;
 
-        public string SuggestedAtlasName => $"{GetType().FullName}_{Name}_rev"  + typeof(ButtonBase).VersionOf();
+        public string SuggestedAtlasName => $"{GetType().FullName}_{Name}_rev" + typeof(ButtonBase).VersionOf();
         public const int SIZE = 40;
+
+        public static string MainAtlasName => $"MainAtals_rev" + typeof(ButtonBase).VersionOf();
+
         public virtual string Name => GetType().Name;
         public virtual string Tooltip => null;
 
@@ -31,7 +37,7 @@ namespace UnifiedUI.GUI {
 
         public bool IsActive {
             get => active_;
-            set { if(value) UseActiveSprites(); else UseDeactiveSprites(); }
+            set { if (value) UseActiveSprites(); else UseInactiveSprites(); }
         }
 
         public override void Awake() {
@@ -40,20 +46,21 @@ namespace UnifiedUI.GUI {
                 isVisible = true;
                 size = new Vector2(SIZE, SIZE);
                 canFocus = false;
-                name = Name;
-                if(Tooltip != null) tooltip = Tooltip;
-            } catch(Exception ex) { Log.Exception(ex); }
+            } catch (Exception ex) { Log.Exception(ex); }
         }
 
         public override void Start() {
             try {
                 Log.Debug(ThisMethod + " is called for " + Name, false);
                 base.Start();
-                UseDeactiveSprites();
-                // m_TooltipBox = GetUIView()?.defaultTooltipBox; // Set up the tooltip
-
+                name = Name;
+                if (Tooltip != null) tooltip = Tooltip;
+                disabledFgSprite = pressedFgSprite = hoveredFgSprite = normalFgSprite = Icon;
+                pressedBgSprite = BGPressed;
+                disabledBgSprite = BGDisabled;
+                UseInactiveSprites();
                 MainPanel.Instance.EventToolChanged += OnToolChanged;
-            } catch(Exception ex) { Log.Exception(ex); }
+            } catch (Exception ex) { Log.Exception(ex); }
         }
 
         public virtual void OnToolChanged(ToolBase newTool) { }
@@ -65,10 +72,27 @@ namespace UnifiedUI.GUI {
             base.OnDestroy();
         }
 
+        public static UITextureAtlas CreateMainAtlas() {
+            try {
+                Log.Called();
+                Destroy(TextureUtil.GetAtlasOrNull(MainAtlasName));
+                var spriteNames = new [] { BG_NORMAL, BG_HOVERED, BG_PRESSED, BG_DISABLED };
+                var textures = spriteNames.Select(GetTexture).ToArray();
+                return TextureUtil.CreateTextureAtlas(MainAtlasName, textures);
+            } catch (Exception ex) { ex.Log(); }
+            return null;
+
+            static Texture2D GetTexture(string _spriteName) {
+                var _texture = TextureUtil.GetTextureFromAssemblyManifest(_spriteName + ".png");
+                _texture.name = _spriteName;
+                return _texture;
+            }
+        }
+
         public static UITextureAtlas GetOrCreateAtlas(string atlasName, string spriteFile, bool embeded = false, string[] spriteNames = null) {
             try {
                 Log.Called(atlasName, spriteFile, embeded, spriteNames);
-                spriteNames ??= new string[] { ICON_NORMAL, ICON_HOVERED, ICON_PRESSED, ICON_DISABLED };
+                spriteNames ??= new string[] { BG_NORMAL, BG_HOVERED, BG_PRESSED, BG_DISABLED };
                 var _atlas = TextureUtil.GetAtlas(atlasName);
                 if (_atlas == UIView.GetAView().defaultAtlas) {
                     Texture2D texture2D = embeded ?
@@ -83,23 +107,35 @@ namespace UnifiedUI.GUI {
             }
         }
 
+        public void SetIcon(Texture2D texture) {
+            Assertion.Assert(texture, "texture");
+            atlas = MainPanel.Instance.MainAtlas;
+            AddTextureToAtlas(atlas, texture);
+            Icon = texture.name;
+        }
+
+        public static void AddTextureToAtlas(UITextureAtlas atlas, Texture2D newTexture) {
+            try {
+                if (atlas.spriteNames.Contains(newTexture.name)) {
+                    Log.Error("atlas already has " + newTexture.name);
+                } else {
+                    TextureUtil.AddTexturesToAtlas(atlas, new[] { newTexture });
+                }
+            } catch (Exception ex) {
+                Log.Exception(ex);
+            }
+        }
 
         public void UseActiveSprites() {
-            // focusedBgSprite = can focus is set to false.
-            normalBgSprite = IconPressed;
-            hoveredBgSprite = IconPressed;
-            pressedBgSprite = IconPressed;
-            disabledBgSprite = IconDisabled;
+            normalBgSprite = BGPressed;
+            hoveredBgSprite = BGPressed;
             Invalidate();
             active_ = true;
         }
 
-        public void UseDeactiveSprites() {
-            // focusedBgSprite = can focus is set to false.
-            normalBgSprite = IconNormal;
-            hoveredBgSprite = IconHovered;
-            pressedBgSprite = IconPressed;
-            disabledBgSprite = IconDisabled;
+        public void UseInactiveSprites() {
+            normalBgSprite = BGNormal;
+            hoveredBgSprite = BGHovered;
             Invalidate();
             active_ = false;
         }

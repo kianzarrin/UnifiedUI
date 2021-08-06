@@ -51,7 +51,7 @@ namespace UnifiedUI.GUI {
         }
 
         void SetupAtlas() {
-            string []names = new string[] { ICON_NORMAL, ICON_HOVERED, ICON_PRESSED, ICON_DISABLED, UNLOCK_RING_SPRITE_NAME};
+            string []names = new string[] { BG_NORMAL, BG_HOVERED, BG_PRESSED, BG_DISABLED, UNLOCK_RING_SPRITE_NAME};
             atlas = GetOrCreateAtlas(SuggestedAtlasName, spritesFile, true, names);
         }
 
