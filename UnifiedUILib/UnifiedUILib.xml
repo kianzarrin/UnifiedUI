@@ -693,31 +693,31 @@
             <summary>Provides access to the git information for the current assembly.</summary>
         </member>
         <member name="F:ThisAssembly.Git.IsDirty">
-            <summary>IsDirty: false</summary>
+            <summary>IsDirty: true</summary>
         </member>
         <member name="F:ThisAssembly.Git.IsDirtyString">
-            <summary>IsDirtyString: false</summary>
+            <summary>IsDirtyString: true</summary>
         </member>
         <member name="F:ThisAssembly.Git.RepositoryUrl">
             <summary>Repository URL: https://github.com/kianzarrin/UnifiedUI</summary>
         </member>
         <member name="F:ThisAssembly.Git.Branch">
-            <summary>Branch: single-icon</summary>
+            <summary>Branch: multiRow</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commit">
-            <summary>Commit: 821e6c5</summary>
+            <summary>Commit: c94ec29</summary>
         </member>
         <member name="F:ThisAssembly.Git.Sha">
-            <summary>Sha: 821e6c54459b81bc64aab54eab16e554027656af</summary>
+            <summary>Sha: c94ec29e2405064d6439d1aecf5fde572806fc8d</summary>
         </member>
         <member name="F:ThisAssembly.Git.CommitDate">
-            <summary>Commit date: 2021-08-05T21:12:10+03:00</summary>
+            <summary>Commit date: 2021-08-06T22:43:04+03:00</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commits">
-            <summary>Commits on top of base version: 8</summary>
+            <summary>Commits on top of base version: 7</summary>
         </member>
         <member name="F:ThisAssembly.Git.Tag">
-            <summary>Tag: V1.3.5-8-g821e6c5</summary>
+            <summary>Tag: V1.3.5-7-gc94ec29</summary>
         </member>
         <member name="F:ThisAssembly.Git.BaseTag">
             <summary>Base tag: V1.3.5</summary>
@@ -744,7 +744,7 @@
             <summary>Minor: 3</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Patch">
-            <summary>Patch: 13</summary>
+            <summary>Patch: 12</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Label">
             <summary>Label: </summary>

@@ -8,7 +8,6 @@ namespace UnifiedUI.GUI {
     using KianCommons.Plugins;
 
     public class FloatingButton : ButtonBase {
-        public static FloatingButton Instance { get; private set; }
         public static readonly SavedFloat SavedX = new SavedFloat(
             "ButtonX", MainPanel.FileName, 0, true);
         public static readonly SavedFloat SavedY = new SavedFloat(
@@ -41,7 +40,6 @@ namespace UnifiedUI.GUI {
         public override void Start() {
             LogCalled();
             base.Start();
-            Instance = this;
             SetupAtlas();
             AddUnlockRing();
             SetupDrag();

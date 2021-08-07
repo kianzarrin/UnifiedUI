@@ -171,7 +171,6 @@ namespace UnifiedUI.GUI {
         public virtual void Toggle() {
             try {
                 Log.Called();
-                Log.Debug(Environment.StackTrace);
                 if(IsActive) Deactivate();
                 else Activate();
             } catch(Exception ex) {

@@ -48,43 +48,35 @@ namespace UnifiedUI.LifeCycle {
 
                 if (!Helpers.InStartupMenu) {
                     var g1 = helper.AddGroup("Conflicts") as UIHelper;
-                    if(!Helpers.InStartupMenu) {
-                        (g1.self as UIComponent).eventVisibilityChanged += (c, __) => {
-                            if(c.isVisible)
-                                Collisions(g1);
-                        };
-                        Collisions(g1);
-                    }
+                    (g1.self as UIComponent).eventVisibilityChanged += (c, __) => {
+                        if(c.isVisible)
+                            Collisions(g1);
+                    };
+                    Collisions(g1);
                 }
 
-                helper.AddSavedToggle(
-                    "Hold control to drag",
-                    MainPanel.ControlToDrag,
-                    delegate () {
-                        if (MainPanel.Exists)
-                            MainPanel.Instance.Refresh();
-                    });
+                helper.AddSavedClampedIntTextfield("Number of columns", MultiRowPanel.Cols, 0, 100, TryRefresh);
+                helper.AddSavedToggle("put Seperator between groups", MultiRowPanel.GroupSeperator, TryRefresh);
+                helper.AddSavedToggle("Hold control to drag", MainPanel.ControlToDrag, TryRefresh);
+                helper.AddSavedToggle("Switch to previous tool on disable", MainPanel.SwitchToPrevTool);
+                helper.AddSavedToggle("Clear info panels when tool changes", MainPanel.ClearInfoPanelsOnToolChanged);
 
-                helper.AddCheckbox("Switch to previous tool on disable",
-                    MainPanel.SwitchToPrevTool.value, val => MainPanel.SwitchToPrevTool.value = val);
-
-                helper.AddCheckbox("Clear info panels when tool changes",
-                    MainPanel.ClearInfoPanelsOnToolChanged.value, val => MainPanel.ClearInfoPanelsOnToolChanged.value = val);
-
-                var hideCheckBox = helper.AddCheckbox(
-                    "Hide original activation buttons (legacy)",
-                    HideOriginalButtons,
-                    val => {
-                        HideOriginalButtons.value = val;
-                        Log.Info("HideOriginalButtons set to " + val);
-                        if(MainPanel.Exists)
-                            MainPanel.Instance.DoRefreshButtons();
-                    }) as UICheckBox;
-                hideCheckBox.tooltip = "this feature is stale only works on a few mods. each mod owner should handle this independantly.";
-
+                {
+                    var g2 = helper.AddGroup("legacy") as UIHelper;
+                    var hideCheckBox = g2.AddSavedToggle(
+                        "Hide original activation buttons (legacy)",
+                        HideOriginalButtons,
+                        TryRefresh);
+                    hideCheckBox.tooltip = "this feature is stale only works on a few mods. each mod owner should handle this independantly.";
+                }
             } catch(Exception e) {
                 Log.Exception(e);
             }
+        }
+
+        static void TryRefresh() {
+            if (MainPanel.Exists)
+                MainPanel.Instance.Refresh();
         }
 
         public static void Collisions(UIHelper helper) {
