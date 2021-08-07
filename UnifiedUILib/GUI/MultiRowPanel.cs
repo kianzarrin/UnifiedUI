@@ -12,7 +12,7 @@ namespace UnifiedUI.GUI {
         public readonly static SavedBool GroupSeperator =
             new SavedBool("Seperator", MainPanel.FileName, false, true);
         public readonly static SavedInt Cols =
-            new SavedInt("Cols", MainPanel.FileName, 5, true);
+            new SavedInt("Cols", MainPanel.FileName, 10, true);
 
         public override void Awake() {
             try {
