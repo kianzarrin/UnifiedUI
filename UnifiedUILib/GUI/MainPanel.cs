@@ -36,6 +36,7 @@ namespace UnifiedUI.GUI {
         public event Action EventRefreshButtons;
 
         MultiRowPanel multiRowPanel_;
+        FloatingButton floatingButton_;
 
         public void DoRefreshButtons() => EventRefreshButtons?.Invoke();
 
@@ -78,7 +79,7 @@ namespace UnifiedUI.GUI {
                 ModButtons = new List<ButtonBase>();
                 builtinKeyNavigation = true;
                 UIView.GetAView().AddUIComponent(typeof(FloatingButton));
-                AddUIComponent<MultiRowPanel>();
+                multiRowPanel_ = AddUIComponent<MultiRowPanel>();
             } catch (Exception ex) { ex.Log(); }
         }
 
@@ -86,7 +87,7 @@ namespace UnifiedUI.GUI {
             Destroy(MainAtlas);
             this.SetAllDeclaredFieldsToNull();
             instance_ = null;
-            DestroyImmediate(FloatingButton.Instance?.gameObject);
+            DestroyImmediate(floatingButton_?.gameObject);
             base.OnDestroy();
         }
 
@@ -113,8 +114,9 @@ namespace UnifiedUI.GUI {
                 }
 
                 containerPanel_ = AddPanel();
+                containerPanel_.name = "ContainerPanel";
                 containerPanel_.autoLayoutPadding = new RectOffset(2, 0, 2, 2);
-                containerPanel_.autoFitChildrenHorizontally =
+                containerPanel_.autoFitChildrenHorizontally = false;
                 containerPanel_.autoFitChildrenVertically = false; //broken
 
                 Assertion.Assert(multiRowPanel_, "multiRowPanel_");
@@ -144,7 +146,7 @@ namespace UnifiedUI.GUI {
             return null;
         }
 
-        public void AttachAlien(UIComponent alien, string groupName = null) {
+        public void AttachAlien(UIComponent alien, string groupName = DEFAULT_GROUP) {
             try {
                 Assertion.NotNull(alien);
                 alien.size = new Vector2(40, 40);
@@ -199,16 +201,22 @@ namespace UnifiedUI.GUI {
         }
 
         public void Open() {
-            Log.Info(ThisMethod + " called started_=" + started_);
-            if (!started_)
-                return;
-            Show();
-            Refresh();
+            try {
+                Log.Info(ThisMethod + " called started_=" + started_);
+                if (!started_)
+                    return;
+                Show();
+                multiRowPanel_.Arrange();
+                Refresh();
+            } catch (Exception ex) { ex.Log(); }
         }
 
         public void Close() {
-            Log.Info(ThisMethod + " called." + Environment.StackTrace);
-            Hide();
+            try {
+                Log.Info(ThisMethod + " called.");
+                Hide();
+            } catch (Exception ex) { ex.Log(); }
+
         }
 
         #region pos
@@ -232,20 +240,22 @@ namespace UnifiedUI.GUI {
         #endregion
 
         public void Refresh() {
-            if (!Responsive) return;
-            if (ControlToDrag)
-                dragHandle_.tooltip = lblCaption_.tooltip = "hold CTRL to move";
-            else
-                dragHandle_.tooltip = lblCaption_.tooltip = "";
+            try {
+                if (!Responsive) return;
+                if (ControlToDrag)
+                    dragHandle_.tooltip = lblCaption_.tooltip = "hold CTRL to move";
+                else
+                    dragHandle_.tooltip = lblCaption_.tooltip = "";
 
-            FloatingButton.Instance?.Refresh();
-            DoRefreshButtons();
-            LoadPosition();
-            Invalidate();
-            RefreshDragAndCaptionPos();
-            containerPanel_?.FitChildrenHorizontally(2);
-            containerPanel_?.FitChildrenVertically(2);
-            RefreshDragAndCaptionPos();
+                floatingButton_?.Refresh();
+                DoRefreshButtons();
+                LoadPosition();
+                Invalidate();
+                RefreshDragAndCaptionPos();
+                containerPanel_?.FitChildrenHorizontally(2);
+                containerPanel_?.FitChildrenVertically(2);
+                RefreshDragAndCaptionPos();
+            } catch (Exception ex) { ex.Log(); }
         }
 
         void RefreshDragAndCaptionPos() {
