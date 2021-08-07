@@ -45,7 +45,7 @@
     <Reference Include="UnityEngine.UI" />
   </ItemGroup>
   <ItemGroup>
-    <None Update="Resources\B.png">
+    <None Update="Resources\A1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -73,7 +73,7 @@
     <Copy SourceFiles="$(TargetDir)UnifiedUILib.dll.mdb" DestinationFolder="$(DeployDir)" />
     <Copy SourceFiles="$(TargetDir)UnifiedUILib.xml" DestinationFolder="$(DeployDir)" />
 
-    <Copy SourceFiles="$(TargetDir)Resources/B.png" DestinationFolder="$(DeployDir)/Resources" />
+    <Copy SourceFiles="$(TargetDir)Resources/A1.png" DestinationFolder="$(DeployDir)/Resources" />
     <Delete Files="$(DeployDir)$(TargetFileName)" />
     <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(DeployDir)" />
     <Message Importance="high" Text="AssemblyVersion=@(VersionNumber) time=$(Now)" />

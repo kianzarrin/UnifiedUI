@@ -9,6 +9,7 @@ namespace UnifiedUI.Helpers {
     using System.Linq;
     using System.Reflection;
     using UnityEngine;
+    using KianCommons.UI;
 
     public static class UUIHelpers {
         const string UUI_NAME = "UnifiedUI.API.UUIAPI";
@@ -390,6 +391,12 @@ namespace UnifiedUI.Helpers {
             foreach(string path in paths)
                 ret = Path.Combine(ret, path);
             return ret;
+        }
+
+        public static Texture2D LoadTexture(string filePath) {
+            var t = TextureUtil.GetTextureFromFile(filePath);
+            t.name = Path.GetFileNameWithoutExtension(filePath);
+            return t;
         }
 
         /// <summary>

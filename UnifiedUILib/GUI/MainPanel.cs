@@ -10,6 +10,23 @@ namespace UnifiedUI.GUI {
     using static KianCommons.ReflectionHelpers;
 
     public class MainPanel : UIPanel {
+        public class ContainerPanel : UIPanel {
+            public override void Awake() {
+                try {
+                    base.Awake();
+                    autoLayout = true;
+                    autoLayoutDirection = LayoutDirection.Horizontal;
+                    autoLayoutPadding = new RectOffset(2, 0, 2, 2);
+                } catch(Exception ex) { ex.Log(); }
+            }
+
+            public void FitToChildrenWithPadding() {
+                FitChildrenHorizontally(2);
+                FitChildrenVertically(2);
+            }
+        }
+
+
         public const string FileName = "UnifiedUI";
 
         static MainPanel() {
@@ -42,7 +59,7 @@ namespace UnifiedUI.GUI {
 
         private UILabel lblCaption_;
         private UIDragHandle dragHandle_;
-        UIPanel containerPanel_;
+        ContainerPanel containerPanel_;
 
         public List<ButtonBase> ModButtons;
 
@@ -113,12 +130,7 @@ namespace UnifiedUI.GUI {
                     lblCaption_.padding.left = 2;
                 }
 
-                containerPanel_ = AddPanel();
-                containerPanel_.name = "ContainerPanel";
-                containerPanel_.autoLayoutPadding = new RectOffset(2, 0, 2, 2);
-                containerPanel_.autoFitChildrenHorizontally = false;
-                containerPanel_.autoFitChildrenVertically = false; //broken
-
+                containerPanel_ = AddUIComponent<ContainerPanel>();
                 Assertion.Assert(multiRowPanel_, "multiRowPanel_");
                 containerPanel_.AttachUIComponent(multiRowPanel_.gameObject);
 
@@ -180,26 +192,6 @@ namespace UnifiedUI.GUI {
             return _atlas;
         }
 
-        UIPanel AddPanel() => AddPanel(this);
-
-        static UIPanel AddPanel(UIPanel panel) {
-            Assertion.AssertNotNull(panel, "panel");
-            UIPanel newPanel = panel.AddUIComponent<UIPanel>();
-            Assertion.AssertNotNull(newPanel, "newPanel");
-            newPanel.autoLayout = true;
-            newPanel.autoLayoutDirection = LayoutDirection.Horizontal;
-            newPanel.autoFitChildrenHorizontally = newPanel.autoFitChildrenVertically = true;
-
-            return newPanel;
-        }
-
-        static UIPanel AddSpacePanel(UIPanel panel, int space) {
-            panel = panel.AddUIComponent<UIPanel>();
-            panel.width = panel.width;
-            panel.height = space;
-            return panel;
-        }
-
         public void Open() {
             try {
                 Log.Info(ThisMethod + " called started_=" + started_);
@@ -251,9 +243,8 @@ namespace UnifiedUI.GUI {
                 DoRefreshButtons();
                 LoadPosition();
                 Invalidate();
-                RefreshDragAndCaptionPos();
-                containerPanel_?.FitChildrenHorizontally(2);
-                containerPanel_?.FitChildrenVertically(2);
+                dragHandle_.width = lblCaption_.width; // minimum width
+                containerPanel_?.FitToChildrenWithPadding();
                 RefreshDragAndCaptionPos();
             } catch (Exception ex) { ex.Log(); }
         }

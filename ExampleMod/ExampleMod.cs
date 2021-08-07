@@ -70,15 +70,18 @@
         protected override void Awake() {
             try {
                 base.Awake();
-                string sprites = UUIHelpers.GetFullPath<UserModExtension>("Resources", "B.png");
-                Debug.Log("[UUIExampleMod] ExampleTool.Awake() sprites=" + sprites);
+                string spritePath = UUIHelpers.GetFullPath<UserModExtension>("Resources", "A1.png");
+                Debug.Log("[UUIExampleMod] ExampleTool.Awake() sprites=" + spritePath);
+                Texture2D icon = UUIHelpers.LoadTexture(spritePath);
+                var hotkeys = new UUIHotKeys { ActicationKey = ModSettings.Hotkey };
+
                 button_ = UUIHelpers.RegisterToolButton(
                     name: "ExampleModButton",
                     groupName: null, // default group
                     tooltip: "UUI Example Mod",
-                    spritefile: sprites,
                     tool: this,
-                    activationKey: ModSettings.Hotkey);
+                    icon: icon,
+                    hotkeys: hotkeys);
 
             } catch (Exception ex) {
                 Debug.LogException(ex);
@@ -97,7 +100,6 @@
                 UIView.ForwardException(ex);
             }
         }
-
 
         protected override void OnEnable() {
             try {
