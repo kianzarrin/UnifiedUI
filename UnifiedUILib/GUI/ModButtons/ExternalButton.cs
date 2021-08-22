@@ -21,8 +21,11 @@ namespace UnifiedUI.GUI {
             var ret = parent.AddUIComponent<ExternalButton>();
             ret.tooltip = tooltip;
             ret.name = name;
-            if(!spritesFile.IsNullorEmpty())
-            ret.atlas = ret.SetupAtlas(spritesFile);
+            if (!spritesFile.IsNullorEmpty()) {
+                ret.atlas = ret.SetupAtlas(spritesFile);
+                ret.Icon = "";
+            }
+            
             return ret;
         }
 

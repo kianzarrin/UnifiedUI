@@ -10,7 +10,7 @@ namespace UnifiedUI.GUI {
     using static KianCommons.ReflectionHelpers;
 
     public abstract class ButtonBase : UIButton {
-        internal const string ICON = "Icon";
+        internal const string ICON = "fg_icon";
         internal const string BG_NORMAL = "bg_normal";
         internal const string BG_HOVERED = "bg_hovered";
         internal const string BG_PRESSED = "bg_pressed";

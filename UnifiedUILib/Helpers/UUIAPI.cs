@@ -21,7 +21,6 @@ namespace UnifiedUI.API {
             ret.ActiveKeys = activeKeys;
             ret.Tool = tool;
             return ret;
-
         }
 
         // register tool button.
@@ -40,6 +39,7 @@ namespace UnifiedUI.API {
             ret.BGHovered = spriteNames[1] ?? "";
             ret.BGPressed = spriteNames[2] ?? "";
             ret.BGDisabled = spriteNames[3] ?? "";
+            ret.Icon = "";
 
             ret.ActivationKey = activationKey;
             ret.ActiveKeys = activeKeys;
@@ -83,6 +83,7 @@ namespace UnifiedUI.API {
             ret.BGHovered = spriteNames[1] ?? "";
             ret.BGPressed = spriteNames[2] ?? "";
             ret.BGDisabled = spriteNames[3] ?? "";
+            ret.Icon = "";
 
             ret.ActivationKey = activationKey;
             ret.ActiveKeys = activeKeys;
