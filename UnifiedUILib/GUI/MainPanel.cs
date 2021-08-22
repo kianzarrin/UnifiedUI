@@ -134,9 +134,10 @@ namespace UnifiedUI.GUI {
                 Assertion.Assert(multiRowPanel_, "multiRowPanel_");
                 containerPanel_.AttachUIComponent(multiRowPanel_.gameObject);
 
-                isVisible = false;
                 started_ = true;
+                isVisible = true;
                 Refresh();
+                isVisible = false;
             } catch (Exception ex) {
                 Log.Exception(ex);
             }
@@ -241,11 +242,11 @@ namespace UnifiedUI.GUI {
 
                 floatingButton_?.Refresh();
                 DoRefreshButtons();
-                LoadPosition();
                 Invalidate();
                 dragHandle_.width = lblCaption_.width; // minimum width
                 containerPanel_?.FitToChildrenWithPadding();
                 RefreshDragAndCaptionPos();
+                LoadPosition();
             } catch (Exception ex) { ex.Log(); }
         }
 
