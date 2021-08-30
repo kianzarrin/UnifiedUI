@@ -17,9 +17,14 @@ namespace UnifiedUI.GUI {
                     autoLayout = true;
                     autoLayoutDirection = LayoutDirection.Horizontal;
                     autoLayoutPadding = default;
-                    padding = new RectOffset(2, 0, 2, 2);
-                    autoSize = autoFitChildrenHorizontally = autoFitChildrenVertically = true;
+                    padding = new RectOffset(2, 2, 2, 2);
+                    //autoSize = autoFitChildrenHorizontally = autoFitChildrenVertically = true;
                 } catch (Exception ex) { ex.Log(); }
+            }
+
+            public void FitToChildrenWithPadding() {
+                FitChildrenHorizontally(2);
+                FitChildrenVertically(2);
             }
         }
 
@@ -133,13 +138,13 @@ namespace UnifiedUI.GUI {
                 containerPanel_.AttachUIComponent(MultiRowPanel.gameObject);
 
 
-                var panelw = containerPanel_.AddUIComponent<UIPanel>();
-                panelw.name = "horizontal final padding hack";
-                panelw.size = new Vector2(1, 1);
+                //var panelw = containerPanel_.AddUIComponent<UIPanel>();
+                //panelw.name = "horizontal final padding hack";
+                //panelw.size = new Vector2(1, 1);
 
-                var panelh = AddUIComponent<UIPanel>();
-                panelh.name = "vertical final padding hack";
-                panelh.size = new Vector2(1, 2);
+                //var panelh = AddUIComponent<UIPanel>();
+                //panelh.name = "vertical final padding hack";
+                //panelh.size = new Vector2(1, 2);
 
                 started_ = true;
                 isVisible = true;
@@ -252,7 +257,7 @@ namespace UnifiedUI.GUI {
                 floatingButton_?.Refresh();
                 DoRefreshButtons();
                 dragHandle_.width = lblCaption_.width; // minimum width
-                //containerPanel_?.FitToChildrenWithPadding();
+                containerPanel_?.FitToChildrenWithPadding();
                 RefreshDragAndCaptionPos();
                 LoadPosition();
                 //Invalidate();

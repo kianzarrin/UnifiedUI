@@ -1,12 +1,9 @@
 namespace UnifiedUI.GUI {
     using ColossalFramework;
     using ColossalFramework.UI;
-    using JetBrains.Annotations;
     using KianCommons;
-    using KianCommons.IImplict;
     using System;
     using System.Collections;
-    using System.Collections.Generic;
     using System.Linq;
     using UnityEngine;
 
@@ -22,9 +19,6 @@ namespace UnifiedUI.GUI {
                 base.Awake();
                 backgroundSprite = "GenericPanelWhite";
                 color = new Color32(170, 170, 170, byte.MaxValue);
-                autoLayout = true;
-                autoLayoutDirection = LayoutDirection.Vertical;
-                padding = autoLayoutPadding = new RectOffset();
             } catch (Exception ex) { ex.Log(); }
         }
 
@@ -41,11 +35,15 @@ namespace UnifiedUI.GUI {
 
         public override void OnDestroy() {
             Log.Called();
+            foreach (var item in ButtomGroups.Keys.Cast<UIComponent>()) {
+                item.eventVisibilityChanged -= Rearrange;
+            }
             base.OnDestroy();
         }
 
 
         public Hashtable ButtomGroups = new Hashtable();
+
         public string GroupName(UIComponent button) => (string)ButtomGroups[button];
 
         public void AddButton(UIComponent c, string groupName) {
@@ -62,88 +60,49 @@ namespace UnifiedUI.GUI {
                 Log.Called();
                 var sortedButtoms = ButtomGroups.Keys.Cast<UIComponent>().OrderBy(GroupName);
 
-                autoFitChildrenHorizontally = autoFitChildrenVertically = false;
                 int col = 0;
+                int row = 0;
                 string prevGroup = null;
-                UIPanel row = null;
                 foreach (var item in sortedButtoms) {
-                    if (col == 0) row = AddUIComponent<RowPanel>();
-
                     string groupName = (string)ButtomGroups[item];
                     if (col != 0 && GroupSeperator && prevGroup != groupName) {
-                        AddSeperator(row);
+                        AddSeperator(this);
                     }
                     prevGroup = groupName;
-                    row.AttachUIComponent(item.gameObject);
 
-                    if(item.isVisibleSelf)
-                        col = (++col) % Cols;
+                    if (item.parent != this)
+                        AttachUIComponent(item.gameObject);
+                    item.eventVisibilityChanged -= Rearrange;
+                    item.eventVisibilityChanged += Rearrange; item.relativePosition = ButtonBase.SIZE * new Vector2(col, row);
+
+
+                    if (item.isVisibleSelf) {
+                        col = ++col;
+                        if(col >= Cols) {
+                            col = 0;
+                            row++;
+                        }
+                    }
                 }
 
-                DeleteEmptyRows();
-                autoFitChildrenHorizontally = autoFitChildrenVertically = true;
+                if (col > 0) row++;
+                if (row > 0) col = Cols;
+                size = ButtonBase.SIZE * new Vector2(col, row);
             } catch (Exception ex) { ex.Log(); }
         }
 
-        const string ROW_NAME = "UUI_row";
+        void Rearrange(UIComponent _, bool __) {
+            Log.Called();
+            MainPanel.Instance.RearrangeIfOpen();
+        }
+
         const string SEPERATOR_NAME = "UUI_seperator";
-        public IEnumerable<RowPanel> Rows => GetComponentsInChildren<RowPanel>();
-        public IEnumerable<RowPanel> EmptyRows => Rows.Where(IsRowEmpty);
-
-        static bool IsRowEmpty(RowPanel row) {
-            return !row.GetComponentsInChildren<UIComponent>()
-                .Where(item => item.name != ROW_NAME && item.name != SEPERATOR_NAME)
-                .Any();
-        }
-
-        public void DeleteEmptyRows() {
-            try {
-                var emptyrows = EmptyRows.ToArray();
-                Log.Info($"deleting {emptyrows.Length} empty rows (total = {Rows.Count()})");
-                foreach (var row in emptyrows) {
-                    RemoveUIComponent(row);
-                    Destroy(row.gameObject);
-                }
-            } catch(Exception ex) { ex.Log(); }
-        }
-
         public UIComponent AddSeperator(UIComponent parent) {
             Log.Called();
             var panel = parent.AddUIComponent<UIPanel>();
             panel.size = new Vector2(10, 40);
             panel.name = SEPERATOR_NAME;
             return panel;
-        }
-
-        public class RowPanel: UIPanel, IEnablablingObject {
-            public override void Awake() {
-                base.Awake();
-                autoLayout = true;
-                autoLayoutDirection = LayoutDirection.Horizontal;
-                autoFitChildrenHorizontally = autoFitChildrenVertically = true;
-                name = ROW_NAME;
-            }
-
-            public override void Start() {
-                base.Start();
-                eventSizeChanged -= Rearrange;
-
-                // eventSizeChanged is called very late. that is why we need 1 frame of delay.
-                (this as MonoBehaviour).Invoke(nameof(ListenToEvents),0); 
-            }
-
-
-            [UsedImplicitly]
-            public void ListenToEvents() {
-                Log.Called();
-                eventSizeChanged += Rearrange;
-            }
-
-            void Rearrange(UIComponent _, Vector2 __) {
-                if (isVisible) {
-                    MainPanel.Instance.RearrangeIfOpen();
-                }
-            }
         }
     }
 }
