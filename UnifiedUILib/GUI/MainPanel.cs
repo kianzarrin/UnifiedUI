@@ -16,13 +16,10 @@ namespace UnifiedUI.GUI {
                     base.Awake();
                     autoLayout = true;
                     autoLayoutDirection = LayoutDirection.Horizontal;
-                    autoLayoutPadding = new RectOffset(2, 0, 2, 2);
-                } catch(Exception ex) { ex.Log(); }
-            }
-
-            public void FitToChildrenWithPadding() {
-                FitChildrenHorizontally(2);
-                FitChildrenVertically(2);
+                    autoLayoutPadding = default;
+                    padding = new RectOffset(2, 0, 2, 2);
+                    autoSize = autoFitChildrenHorizontally = autoFitChildrenVertically = true;
+                } catch (Exception ex) { ex.Log(); }
             }
         }
 
@@ -52,7 +49,7 @@ namespace UnifiedUI.GUI {
 
         public event Action EventRefreshButtons;
 
-        MultiRowPanel multiRowPanel_;
+        public MultiRowPanel MultiRowPanel;
         FloatingButton floatingButton_;
 
         public void DoRefreshButtons() => EventRefreshButtons?.Invoke();
@@ -67,6 +64,7 @@ namespace UnifiedUI.GUI {
 
 
         bool started_ = false;
+        bool opening_;
         #region Instanciation
 
         static MainPanel instance_;
@@ -96,7 +94,7 @@ namespace UnifiedUI.GUI {
                 ModButtons = new List<ButtonBase>();
                 builtinKeyNavigation = true;
                 UIView.GetAView().AddUIComponent(typeof(FloatingButton));
-                multiRowPanel_ = AddUIComponent<MultiRowPanel>();
+                MultiRowPanel = AddUIComponent<MultiRowPanel>();
             } catch (Exception ex) { ex.Log(); }
         }
 
@@ -131,8 +129,17 @@ namespace UnifiedUI.GUI {
                 }
 
                 containerPanel_ = AddUIComponent<ContainerPanel>();
-                Assertion.Assert(multiRowPanel_, "multiRowPanel_");
-                containerPanel_.AttachUIComponent(multiRowPanel_.gameObject);
+                Assertion.Assert(MultiRowPanel, "multiRowPanel_");
+                containerPanel_.AttachUIComponent(MultiRowPanel.gameObject);
+
+
+                var panelw = containerPanel_.AddUIComponent<UIPanel>();
+                panelw.name = "horizontal final padding hack";
+                panelw.size = new Vector2(1, 1);
+
+                var panelh = AddUIComponent<UIPanel>();
+                panelh.name = "vertical final padding hack";
+                panelh.size = new Vector2(1, 2);
 
                 started_ = true;
                 isVisible = true;
@@ -148,11 +155,11 @@ namespace UnifiedUI.GUI {
             try {
                 Log.Called(name, groupName, tooltip, spritefile);
                 var c = ExternalButton.Create(
-                    parent: multiRowPanel_,
+                    parent: MultiRowPanel,
                     name: name,
                     tooltip: tooltip,
                     spritesFile: spritefile);
-                multiRowPanel_.AddButton(c, groupName);
+                MultiRowPanel.AddButton(c, groupName);
                 ModButtons.Add(c);
                 return c;
             } catch (Exception ex) { ex.Log(); }
@@ -163,15 +170,15 @@ namespace UnifiedUI.GUI {
             try {
                 Assertion.NotNull(alien);
                 alien.size = new Vector2(40, 40);
-                multiRowPanel_.AttachUIComponent(alien.gameObject);
-                multiRowPanel_.AddButton(alien, groupName);
+                MultiRowPanel.AttachUIComponent(alien.gameObject);
+                MultiRowPanel.AddButton(alien, groupName);
             } catch (Exception ex) { ex.Log(); }
         }
 
         public ButtonT AddButton<ButtonT>(string groupName = DEFAULT_GROUP) where ButtonT : ButtonBase {
             try {
-                var button = multiRowPanel_.AddUIComponent<ButtonT>();
-                multiRowPanel_.AddButton(button, groupName);
+                var button = MultiRowPanel.AddUIComponent<ButtonT>();
+                MultiRowPanel.AddButton(button, groupName);
                 ModButtons.Add(button);
                 return button;
             } catch (Exception ex) { ex.Log(); }
@@ -198,10 +205,12 @@ namespace UnifiedUI.GUI {
                 Log.Info(ThisMethod + " called started_=" + started_);
                 if (!started_)
                     return;
+                opening_ = true;
                 Show();
-                multiRowPanel_.Arrange();
+                MultiRowPanel.Arrange();
                 Refresh();
             } catch (Exception ex) { ex.Log(); }
+            opening_ = false;
         }
 
         public void Close() {
@@ -242,12 +251,20 @@ namespace UnifiedUI.GUI {
 
                 floatingButton_?.Refresh();
                 DoRefreshButtons();
-                Invalidate();
                 dragHandle_.width = lblCaption_.width; // minimum width
-                containerPanel_?.FitToChildrenWithPadding();
+                //containerPanel_?.FitToChildrenWithPadding();
                 RefreshDragAndCaptionPos();
                 LoadPosition();
+                //Invalidate();
             } catch (Exception ex) { ex.Log(); }
+        }
+
+        bool IsOpen => isVisible && !opening_;
+        public void RearrangeIfOpen() {
+            if (IsOpen) {
+                MultiRowPanel.Arrange();
+                Refresh();
+            }
         }
 
         void RefreshDragAndCaptionPos() {

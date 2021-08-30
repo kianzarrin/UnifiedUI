@@ -27,24 +27,12 @@ namespace UnifiedUI.LifeCycle {
             if (PluginUtil.GetNetworkDetective().IsActive("1.1"))
                 MainPanel.Instance.AddButton<NetworkDetectiveButton>();
 
-            if(PluginUtil.GetIMT().IsActive("1.7.5"))
-                MainPanel.Instance.AddButton<IntersectionMarkingButton>();
-
             if(PluginUtil.GetRAB().IsActive("1.10"))
                 MainPanel.Instance.AddButton<RoundaboutBuilderButton>();
 
             if(PluginUtil.GetPedestrianBridge().IsActive("2.1"))
                 MainPanel.Instance.AddButton<PedestrianBridgeButton>();
 
-            var nc = PluginUtil.GetNodeController();
-            if(nc.IsActive())
-            {
-                var version = nc.userModInstance.VersionOf();
-                bool create2 = version.Major == 2 && version.Minor < 3;
-                bool create3 = version.Major == 3 && version < new Version("3.1.1");
-                if (create2 || create3)
-                    MainPanel.Instance.AddButton<NodeControllerButton>();
-            }
 
             //Test.Run();
             //Test.Run2();

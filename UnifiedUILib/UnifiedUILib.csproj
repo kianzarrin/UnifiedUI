@@ -67,6 +67,7 @@
     <None Remove="Resources\unlock-ring.png" />
     <None Remove="Resources\uui.png" />
     <Compile Include="KianCommons\KianCommons\IImplict\IMod.cs" />
+    <Compile Include="KianCommons\KianCommons\IImplict\IMonoBehaviour.cs" />
     <Compile Include="KianCommons\KianCommons\Math\BezierUtil.cs" />
     <Compile Include="KianCommons\KianCommons\Math\ControlPoint2.cs" />
     <Compile Include="KianCommons\KianCommons\Math\ControlPoint3.cs" />

@@ -1,7 +1,9 @@
 namespace UnifiedUI.GUI {
     using ColossalFramework;
     using ColossalFramework.UI;
+    using JetBrains.Annotations;
     using KianCommons;
+    using KianCommons.IImplict;
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -60,11 +62,12 @@ namespace UnifiedUI.GUI {
                 Log.Called();
                 var sortedButtoms = ButtomGroups.Keys.Cast<UIComponent>().OrderBy(GroupName);
 
+                autoFitChildrenHorizontally = autoFitChildrenVertically = false;
                 int col = 0;
                 string prevGroup = null;
                 UIPanel row = null;
                 foreach (var item in sortedButtoms) {
-                    if (col == 0) row = AddRowPanel();
+                    if (col == 0) row = AddUIComponent<RowPanel>();
 
                     string groupName = (string)ButtomGroups[item];
                     if (col != 0 && GroupSeperator && prevGroup != groupName) {
@@ -72,21 +75,22 @@ namespace UnifiedUI.GUI {
                     }
                     prevGroup = groupName;
                     row.AttachUIComponent(item.gameObject);
-                    col = (++col) % Cols;
+
+                    if(item.isVisibleSelf)
+                        col = (++col) % Cols;
                 }
 
                 DeleteEmptyRows();
-
-                FitChildren();
-            } catch(Exception ex) { ex.Log(); }
+                autoFitChildrenHorizontally = autoFitChildrenVertically = true;
+            } catch (Exception ex) { ex.Log(); }
         }
 
         const string ROW_NAME = "UUI_row";
         const string SEPERATOR_NAME = "UUI_seperator";
-        public IEnumerable<UIPanel> Rows => GetComponentsInChildren<UIPanel>().Where(item => item.name == ROW_NAME);
-        public IEnumerable<UIPanel> EmptyRows => Rows.Where(IsRowEmpty);
+        public IEnumerable<RowPanel> Rows => GetComponentsInChildren<RowPanel>();
+        public IEnumerable<RowPanel> EmptyRows => Rows.Where(IsRowEmpty);
 
-        static bool IsRowEmpty(UIPanel row) {
+        static bool IsRowEmpty(RowPanel row) {
             return !row.GetComponentsInChildren<UIComponent>()
                 .Where(item => item.name != ROW_NAME && item.name != SEPERATOR_NAME)
                 .Any();
@@ -103,22 +107,43 @@ namespace UnifiedUI.GUI {
             } catch(Exception ex) { ex.Log(); }
         }
 
-        public UIPanel AddRowPanel() {
-            Log.Called();
-            var panel = AddUIComponent<UIPanel>();
-            panel.autoLayout = true;
-            panel.autoLayoutDirection = LayoutDirection.Horizontal;
-            panel.autoFitChildrenHorizontally = panel.autoFitChildrenVertically = true;
-            panel.name = ROW_NAME;
-            return panel;
-        }
-
         public UIComponent AddSeperator(UIComponent parent) {
             Log.Called();
             var panel = parent.AddUIComponent<UIPanel>();
             panel.size = new Vector2(10, 40);
             panel.name = SEPERATOR_NAME;
             return panel;
+        }
+
+        public class RowPanel: UIPanel, IEnablablingObject {
+            public override void Awake() {
+                base.Awake();
+                autoLayout = true;
+                autoLayoutDirection = LayoutDirection.Horizontal;
+                autoFitChildrenHorizontally = autoFitChildrenVertically = true;
+                name = ROW_NAME;
+            }
+
+            public override void Start() {
+                base.Start();
+                eventSizeChanged -= Rearrange;
+
+                // eventSizeChanged is called very late. that is why we need 1 frame of delay.
+                (this as MonoBehaviour).Invoke(nameof(ListenToEvents),0); 
+            }
+
+
+            [UsedImplicitly]
+            public void ListenToEvents() {
+                Log.Called();
+                eventSizeChanged += Rearrange;
+            }
+
+            void Rearrange(UIComponent _, Vector2 __) {
+                if (isVisible) {
+                    MainPanel.Instance.RearrangeIfOpen();
+                }
+            }
         }
     }
 }

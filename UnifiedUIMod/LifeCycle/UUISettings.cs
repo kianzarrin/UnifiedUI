@@ -76,7 +76,7 @@ namespace UnifiedUI.LifeCycle {
 
         static void TryRefresh() {
             if (MainPanel.Exists)
-                MainPanel.Instance.Refresh();
+                MainPanel.Instance.RearrangeIfOpen();
         }
 
         public static void Collisions(UIHelper helper) {
