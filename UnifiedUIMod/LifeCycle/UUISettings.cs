@@ -56,8 +56,7 @@ namespace UnifiedUI.LifeCycle {
                 }
 
                 helper.AddSavedClampedIntTextfield("Number of columns", MultiRowPanel.Cols, 0, 100, TryRefresh);
-                helper.AddSavedToggle("put Seperator between groups", MultiRowPanel.GroupSeperator, TryRefresh);
-                helper.AddSavedToggle("Hold control to drag", MainPanel.ControlToDrag, TryRefresh);
+                //helper.AddSavedToggle("put Seperator between groups", MultiRowPanel.GroupSeperator, TryRefresh);
                 helper.AddSavedToggle("Switch to previous tool on disable", MainPanel.SwitchToPrevTool);
                 helper.AddSavedToggle("Clear info panels when tool changes", MainPanel.ClearInfoPanelsOnToolChanged);
 

@@ -46,8 +46,6 @@ namespace UnifiedUI.GUI {
             "PanelX", FileName, 0, true);
         public static readonly SavedFloat SavedY = new SavedFloat(
             "PanelY", FileName, 150, true);
-        public readonly static SavedBool ControlToDrag =
-            new SavedBool("ControlToDrag", FileName, false, true);
 
         public static SavedBool SwitchToPrevTool = new SavedBool("SwitchToPrevTool", FileName, true, true);
         public static SavedBool ClearInfoPanelsOnToolChanged = new SavedBool("ClearInfoPanelsOnToolChanged", FileName, false, true);
@@ -60,7 +58,7 @@ namespace UnifiedUI.GUI {
         public void DoRefreshButtons() => EventRefreshButtons?.Invoke();
 
         private UILabel lblCaption_;
-        private UIDragHandle dragHandle_;
+        private UIDragHandleRight dragHandle_;
         ContainerPanel containerPanel_;
 
         public List<ButtonBase> ModButtons;
@@ -120,7 +118,7 @@ namespace UnifiedUI.GUI {
                 SetupSprites();
 
                 {
-                    dragHandle_ = AddUIComponent<ControlledDrag>();
+                    dragHandle_ = AddUIComponent<UIDragHandleRight>();
                     dragHandle_.height = 20;
                     dragHandle_.relativePosition = Vector3.zero;
                     dragHandle_.eventMouseUp += DragHandle__eventMouseUp;
@@ -249,10 +247,7 @@ namespace UnifiedUI.GUI {
         public void Refresh() {
             try {
                 if (!Responsive) return;
-                if (ControlToDrag)
-                    dragHandle_.tooltip = lblCaption_.tooltip = "hold CTRL to move";
-                else
-                    dragHandle_.tooltip = lblCaption_.tooltip = "";
+                dragHandle_.tooltip = lblCaption_.tooltip = "hold right-click to move";
 
                 floatingButton_?.Refresh();
                 DoRefreshButtons();

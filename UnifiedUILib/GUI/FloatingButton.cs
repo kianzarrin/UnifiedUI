@@ -17,31 +17,18 @@ namespace UnifiedUI.GUI {
 
         const string UNLOCK_RING_SPRITE_NAME = "UnlockRing";
 
-        private UIDragHandle drag_ { get; set; }
-
-        UISprite unlockRing_;
+        private UIDragHandleRight drag_ { get; set; }
 
         void SetTooltip(string text) {
-            tooltip = unlockRing_.tooltip = drag_.tooltip = text;
+            tooltip = drag_.tooltip = text;
         }
 
-        static bool isDraggable_;
-        public bool IsDragable {
-            get => isDraggable_;
-            set {
-                if (isDraggable_ != value) {
-                    isDraggable_ = value;
-                    unlockRing_.spriteName = value ? UNLOCK_RING_SPRITE_NAME : ""; // instead of isVisible I do this to show tooltip.
-                }
-            }
-        }
 
         bool started_ = false;
         public override void Start() {
             LogCalled();
             base.Start();
             SetupAtlas();
-            AddUnlockRing();
             SetupDrag();
             started_ = true;
             Refresh();
@@ -53,29 +40,18 @@ namespace UnifiedUI.GUI {
             atlas = GetOrCreateAtlas(SuggestedAtlasName, spritesFile, true, names);
         }
 
-        public void AddUnlockRing() {
-            unlockRing_ = AddUIComponent<UISprite>();
-            unlockRing_.name = "unlock ring";
-            unlockRing_.atlas = atlas;
-            unlockRing_.relativePosition = default;
-            unlockRing_.size = size;
-        }
-
         public void SetupDrag() {
             var dragHandler = new GameObject("UnifiedUI_FloatingButton_DragHandler");
             dragHandler.transform.parent = transform;
             dragHandler.transform.localPosition = Vector3.zero;
-            drag_ = dragHandler.AddComponent<ControlledDrag>();
+            drag_ = dragHandler.AddComponent<UIDragHandleRight>();
 
             drag_.size = size;
             drag_.eventMouseUp += Drag_eventMouseUp;
         }
 
         public void Refresh() {
-            if(MainPanel.ControlToDrag)
-                SetTooltip("hold CTRL to move");
-            else
-                SetTooltip("");
+            SetTooltip("hold right-click to move");
             Invalidate();
         }
 
@@ -108,12 +84,7 @@ namespace UnifiedUI.GUI {
         public override void Update() {
             base.Update();
             if (!started_) return;
-            if (MainPanel.ControlToDrag)
-                IsDragable = containsMouse && Helpers.ControlIsPressed;
-            else
-                IsDragable = true;
         }
-
 
         #region pos
         public bool Responsive => MainPanel.InLoadedGame && started_;
