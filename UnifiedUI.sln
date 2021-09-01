@@ -10,6 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{87C3BB21-72F2-414C-9D2A-EDDC2BF23D97}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\Main.yml = .github\workflows\Main.yml
+		UnifiedUIMod\TODO.txt = UnifiedUIMod\TODO.txt
 		Version.props = Version.props
 	EndProjectSection
 EndProject
