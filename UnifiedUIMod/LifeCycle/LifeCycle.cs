@@ -20,27 +20,37 @@ namespace UnifiedUI.LifeCycle {
         public override string Description => "organsized UI for some other mods into one unified place.";
 
         public override void Load() {
-            LogCalled();
-            KianCommons.UI.TextureUtil.EmbededResources = false;
-            Log.VERBOSE = false;
+            try {
+                LogCalled();
+                KianCommons.UI.TextureUtil.EmbededResources = false;
+                Log.VERBOSE = false;
 
-            if (PluginUtil.GetNetworkDetective().IsActive("1.1"))
-                MainPanel.Instance.AddButton<NetworkDetectiveButton>();
+                if (PluginUtil.GetNetworkDetective().IsActive("1.1"))
+                    MainPanel.Instance.AddButton<NetworkDetectiveButton>();
 
-            if(PluginUtil.GetRAB().IsActive("1.10"))
-                MainPanel.Instance.AddButton<RoundaboutBuilderButton>();
+                if (PluginUtil.GetRAB().IsActive("1.10"))
+                    MainPanel.Instance.AddButton<RoundaboutBuilderButton>();
 
-            if(PluginUtil.GetPedestrianBridge().IsActive("2.1"))
-                MainPanel.Instance.AddButton<PedestrianBridgeButton>();
+                if (PluginUtil.GetPedestrianBridge().IsActive("2.1"))
+                    MainPanel.Instance.AddButton<PedestrianBridgeButton>();
 
+#if DEBUG
+                //var grabber = Tool.Grabber.Create();
+                //grabber.enabled = false;
 
-            //Test.Run();
-            //Test.Run2();
-            //Test.Run3();
+                //Test.Run();
+                //Test.Run2();
+                Test.Run3();
+#endif
+
+            } catch (Exception ex) { ex.Log(); }
         }
 
         public override void UnLoad() {
             LogCalled();
+//#if DEBUG
+//            Tool.Grabber.Release();
+//#endif
             MainPanel.Release();
             UUISettings.ReviveDisabledKeys();
         }

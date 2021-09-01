@@ -121,4 +121,7 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="KianCommons\KianCommons\Tool\" />
+  </ItemGroup>
 </Project>

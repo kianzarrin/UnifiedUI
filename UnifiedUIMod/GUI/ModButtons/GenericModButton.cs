@@ -145,11 +145,12 @@ namespace UnifiedUI.GUI {
             var ret = UIView.GetAView()
                 .GetComponentsInChildren<UIButton>(includeInactive:true) // TODO: is includeInactive this redundant?
                 .Where(c => c is not GenericModButton && c.GetType().Name == typeName);
-            if(ret.IsNullorEmpty())
-                Log.Debug("could not find any button of type: " + typeName, false);
-                
-            else
-                Log.Debug($"GetButtons({typeName})->{ret.ToSTR()}", false);
+            if (Log.VERBOSE) {
+                if (ret.IsNullorEmpty())
+                    Log.Debug("could not find any button of type: " + typeName, false);
+                else
+                    Log.Debug($"GetButtons({typeName})->{ret.ToSTR()}", false);
+            }
             return ret.Select(c => c as UIComponent);
         }
 

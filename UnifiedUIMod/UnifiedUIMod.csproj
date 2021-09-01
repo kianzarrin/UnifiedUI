@@ -30,6 +30,7 @@
       $(CitiesSkylinesBinaries);
       ../libs/
     </AssemblySearchPaths>
+    <RootNamespace>UnifiedUI</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <!--<PackageReference Include="CitiesHarmony.API" Version="2.0.0" />-->
@@ -128,6 +129,11 @@
     <None Remove="Resources\uui_592076973_right.png" />
     <None Remove="Resources\uui_672248733.png" />
     <None Remove="Resources\uui_878991312.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="KianCommons\KianCommons\Serialization\Vector3Serializable.cs" />
+    <Compile Include="KianCommons\KianCommons\Serialization\XMLData.cs" />
+    <Compile Include="KianCommons\KianCommons\Serialization\XMLUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\UnifiedUILib\UnifiedUILib.csproj">

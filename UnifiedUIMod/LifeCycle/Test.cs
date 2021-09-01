@@ -14,7 +14,7 @@ namespace UnifiedUI.LifeCycle {
         static UIComponent button_;
         static ToolBase tool_;
         static UUISprites Sprites => UUISprites.CreateFromFile(LifeCycle.Instance.GetFullPath("A.png"));
-        static Texture2D Sprite => TextureUtil.GetTextureFromFile(LifeCycle.Instance.GetFullPath("A1.png"));
+        static Texture2D Sprite => UUIHelpers.LoadTexture(LifeCycle.Instance.GetFullPath("A1.png"));
 
         public class UUITestTool: ToolBase { }
 

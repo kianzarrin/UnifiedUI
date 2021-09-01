@@ -55,6 +55,14 @@ namespace UnifiedUI.GUI {
             } catch(Exception ex) { ex.Log(); }
         }
 
+        public void RemoveButton(UIComponent c) {
+            try {
+                ButtomGroups.Remove(c);
+                if (started_)
+                    Arrange();
+            } catch (Exception ex) { ex.Log(); }
+        }
+
         public void Arrange() {
             try {
                 Log.Called();
