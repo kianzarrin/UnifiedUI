@@ -40,7 +40,7 @@ namespace UnifiedUI.LifeCycle {
 
                 //Test.Run();
                 //Test.Run2();
-                Test.Run3();
+                //Test.Run3();
 #endif
 
             } catch (Exception ex) { ex.Log(); }

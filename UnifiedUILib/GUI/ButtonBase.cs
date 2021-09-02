@@ -30,6 +30,16 @@ namespace UnifiedUI.GUI {
         public virtual string Name => GetType().Name;
         public virtual string Tooltip => null;
 
+        public void RefreshToolTip() {
+            try {
+                if (Tooltip != null)
+                    tooltip = Tooltip;
+                if (ActivationKey == null || tooltip.Contains('('))
+                    return;
+                tooltip += $" ( {ActivationKey} )";
+            } catch(Exception ex) { ex.Log(); }
+        }
+
         public bool active_ = false;
 
         public SavedInputKey ActivationKey;
@@ -54,12 +64,12 @@ namespace UnifiedUI.GUI {
                 Log.Debug(ThisMethod + " is called for " + Name, false);
                 base.Start();
                 name = Name;
-                if (Tooltip != null) tooltip = Tooltip;
                 disabledFgSprite = pressedFgSprite = hoveredFgSprite = normalFgSprite = Icon;
                 pressedBgSprite = BGPressed;
                 disabledBgSprite = BGDisabled;
                 UseInactiveSprites();
                 MainPanel.Instance.EventToolChanged += OnToolChanged;
+                MainPanel.Instance.EventRefreshButtons += RefreshToolTip;
             } catch (Exception ex) { Log.Exception(ex); }
         }
 
