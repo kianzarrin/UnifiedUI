@@ -36,7 +36,8 @@ namespace UnifiedUI.GUI {
         public override void OnDestroy() {
             Log.Called();
             foreach (var item in ButtomGroups.Keys.Cast<UIComponent>()) {
-                item.eventVisibilityChanged -= Rearrange;
+                if(item)
+                    item.eventVisibilityChanged -= Rearrange;
             }
             base.OnDestroy();
         }
@@ -66,12 +67,18 @@ namespace UnifiedUI.GUI {
         public void Arrange() {
             try {
                 Log.Called();
-                var sortedButtoms = ButtomGroups.Keys.Cast<UIComponent>().OrderBy(GroupName);
+                var sortedButtoms =
+                    ButtomGroups
+                    ?.Keys
+                    ?.Cast<UIComponent>()
+                    ?.Where(item => item) // ignore destroyed items
+                    ?.OrderBy(GroupName) ?? Enumerable.Empty<UIComponent>();
 
                 int col = 0;
                 int row = 0;
                 string prevGroup = null;
                 foreach (var item in sortedButtoms) {
+                    if (!item) continue; // ignore destroyed items
                     string groupName = (string)ButtomGroups[item];
                     if (col != 0 && GroupSeperator && prevGroup != groupName) {
                         AddSeperator(this);
@@ -93,9 +100,11 @@ namespace UnifiedUI.GUI {
                     }
                 }
 
-                if (col > 0) row++;
-                if (row > 0) col = Cols;
-                size = ButtonBase.SIZE * new Vector2(col, row);
+                int col2 = col;
+                int row2 = row;
+                if (col > 0) row2++; // incomplete row.
+                if (row > 0) col2 = Cols; // at least one full row.
+                size = ButtonBase.SIZE * new Vector2(col2, row2);
             } catch (Exception ex) { ex.Log(); }
         }
 

@@ -249,7 +249,7 @@ namespace UnifiedUI.GUI {
         public void Refresh() {
             try {
                 if (!Responsive) return;
-                if (MultiRowPanel.Cols == 1)
+                if (MultiRowPanel.Cols == 1 || ModButtons.Count(_b => _b.isVisible) <= 1)
                     lblCaption_.text = "UUI";
                 else
                     lblCaption_.text = "UnifiedUI";

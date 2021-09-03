@@ -37,7 +37,7 @@ namespace UnifiedUI.GUI {
                 if (ActivationKey == null || tooltip.Contains('('))
                     return;
                 tooltip += $" ( {ActivationKey} )";
-            } catch(Exception ex) { ex.Log(); }
+            } catch(Exception ex) { ex.Log(this.name); }
         }
 
         public bool active_ = false;
@@ -77,6 +77,8 @@ namespace UnifiedUI.GUI {
 
         public override void OnDestroy() {
             Log.Debug(ThisMethod + " called for " + Name, false);
+            MainPanel.Instance.EventRefreshButtons -= RefreshToolTip;
+            MainPanel.Instance.EventToolChanged -= OnToolChanged;
             Hide();
             this.SetAllDeclaredFieldsToNull();
             base.OnDestroy();
@@ -127,7 +129,7 @@ namespace UnifiedUI.GUI {
         public static void AddTextureToAtlas(UITextureAtlas atlas, Texture2D newTexture) {
             try {
                 if (atlas.spriteNames.Contains(newTexture.name)) {
-                    Log.Error("atlas already has " + newTexture.name);
+                    Log.Warning("atlas already has " + newTexture.name);
                 } else {
                     TextureUtil.AddTexturesToAtlas(atlas, new[] { newTexture });
                 }
