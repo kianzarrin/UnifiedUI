@@ -705,31 +705,31 @@
             <summary>Branch: master</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commit">
-            <summary>Commit: 03234fa</summary>
+            <summary>Commit: e773914</summary>
         </member>
         <member name="F:ThisAssembly.Git.Sha">
-            <summary>Sha: 03234fa3849cbb3bafd627c5adcfd298600e2933</summary>
+            <summary>Sha: e77391479c0ab36c228402b898771a509535e846</summary>
         </member>
         <member name="F:ThisAssembly.Git.CommitDate">
-            <summary>Commit date: 2021-09-02T19:59:17+03:00</summary>
+            <summary>Commit date: 2021-09-03T12:53:16+03:00</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commits">
             <summary>Commits on top of base version: 0</summary>
         </member>
         <member name="F:ThisAssembly.Git.Tag">
-            <summary>Tag: V2.0.0.5</summary>
+            <summary>Tag: V2.1.0</summary>
         </member>
         <member name="F:ThisAssembly.Git.BaseTag">
-            <summary>Base tag: V2.0.0.5</summary>
+            <summary>Base tag: V2.1.0</summary>
         </member>
         <member name="T:ThisAssembly.Git.BaseVersion">
             <summary>Provides access to the base version information used to determine the <see cref="T:ThisAssembly.Git.SemVer" />.</summary>      
         </member>
         <member name="F:ThisAssembly.Git.BaseVersion.Major">
-            <summary>Major: 0</summary>
+            <summary>Major: 2</summary>
         </member>
         <member name="F:ThisAssembly.Git.BaseVersion.Minor">
-            <summary>Minor: 5</summary>
+            <summary>Minor: 1</summary>
         </member>
         <member name="F:ThisAssembly.Git.BaseVersion.Patch">
             <summary>Patch: 0</summary>
@@ -738,10 +738,10 @@
             <summary>Provides access to SemVer information for the current assembly.</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Major">
-            <summary>Major: 0</summary>
+            <summary>Major: 2</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Minor">
-            <summary>Minor: 5</summary>
+            <summary>Minor: 1</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Patch">
             <summary>Patch: 0</summary>

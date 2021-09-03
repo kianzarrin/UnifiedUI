@@ -249,6 +249,11 @@ namespace UnifiedUI.GUI {
         public void Refresh() {
             try {
                 if (!Responsive) return;
+                if (MultiRowPanel.Cols == 1)
+                    lblCaption_.text = "UUI";
+                else
+                    lblCaption_.text = "UnifiedUI";
+
                 if (ControlToDrag)
                     dragHandle_.tooltip = lblCaption_.tooltip = "hold CTRL to move";
                 else
