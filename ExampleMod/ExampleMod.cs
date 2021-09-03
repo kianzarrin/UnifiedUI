@@ -73,7 +73,7 @@
                 string spritePath = UUIHelpers.GetFullPath<UserModExtension>("Resources", "A1.png");
                 Debug.Log("[UUIExampleMod] ExampleTool.Awake() sprites=" + spritePath);
                 Texture2D icon = UUIHelpers.LoadTexture(spritePath);
-                var hotkeys = new UUIHotKeys { ActicationKey = ModSettings.Hotkey };
+                var hotkeys = new UUIHotKeys { ActivationKey = ModSettings.Hotkey };
 
                 button_ = UUIHelpers.RegisterToolButton(
                     name: "ExampleModButton",

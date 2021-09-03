@@ -234,7 +234,7 @@ namespace UnifiedUI.Helpers {
                 tool: tool,
                 atlas: sprites.Atlas,
                 spriteNames: sprites.SpriteNames,
-                activationKey: hotkeys?.ActicationKey,
+                activationKey: hotkeys?.ActivationKey,
                 activeKeys: hotkeys?.InToolKeys);
         }
 
@@ -260,7 +260,7 @@ namespace UnifiedUI.Helpers {
                 spriteNames: sprites.SpriteNames,
                 onToggle: onToggle,
                 onToolChanged: onToolChanged,
-                activationKey: hotkeys?.ActicationKey,
+                activationKey: hotkeys?.ActivationKey,
                 activeKeys: hotkeys?.InToolKeys);
             return new UUICustomButton(component);
         }
@@ -293,7 +293,7 @@ namespace UnifiedUI.Helpers {
                 tooltip: tooltip,
                 tool: tool,
                 texture: icon,
-                activationKey: hotkeys?.ActicationKey,
+                activationKey: hotkeys?.ActivationKey,
                 activeKeys: hotkeys?.InToolKeys);
         }
 
@@ -317,7 +317,7 @@ namespace UnifiedUI.Helpers {
                 texture: icon,
                 onToggle: onToggle,
                 onToolChanged: onToolChanged,
-                activationKey: hotkeys?.ActicationKey,
+                activationKey: hotkeys?.ActivationKey,
                 activeKeys: hotkeys?.InToolKeys);
             return new UUICustomButton(component);
         }
