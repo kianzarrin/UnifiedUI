@@ -98,7 +98,7 @@ namespace UnifiedUI.GUI {
                 instance_ = this;
                 ModButtons = new List<ButtonBase>();
                 builtinKeyNavigation = true;
-                UIView.GetAView().AddUIComponent(typeof(FloatingButton));
+                floatingButton_ = UIView.GetAView().AddUIComponent(typeof(FloatingButton)) as FloatingButton;
                 MultiRowPanel = AddUIComponent<MultiRowPanel>();
             } catch (Exception ex) { ex.Log(); }
         }
@@ -147,7 +147,6 @@ namespace UnifiedUI.GUI {
                 //panelh.size = new Vector2(1, 2);
 
                 started_ = true;
-                isVisible = true;
                 Refresh();
                 isVisible = false;
             } catch (Exception ex) {
@@ -248,8 +247,16 @@ namespace UnifiedUI.GUI {
 
         public void Refresh() {
             try {
+                Log.Called();
                 if (!Responsive) return;
-                if (MultiRowPanel.Cols == 1 || ModButtons.Count(_b => _b.isVisible) <= 1)
+
+                int visibleButtons = ModButtons.Count(_b => _b.isVisibleSelf);
+                Log.Info("Visible buttons = " + visibleButtons);
+                isVisible = floatingButton_.isVisible = visibleButtons > 0;
+                if (visibleButtons == 0)
+                    return;
+
+                if (MultiRowPanel.Cols == 1 || visibleButtons <= 1)
                     lblCaption_.text = "UUI";
                 else
                     lblCaption_.text = "UnifiedUI";
@@ -271,6 +278,8 @@ namespace UnifiedUI.GUI {
 
         bool IsOpen => isVisible && !opening_;
         public void RearrangeIfOpen() {
+            int visibleButtons = ModButtons.Count(_b => _b.isVisibleSelf);
+            isVisible = floatingButton_.isVisible = visibleButtons > 0;
             if (IsOpen) {
                 MultiRowPanel.Arrange();
                 Refresh();
