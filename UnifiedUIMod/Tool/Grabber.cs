@@ -103,9 +103,10 @@ namespace UnifiedUI.Tool {
                     var rect = GetRect(button);
                     if (button.parent == MainPanel.Instance.MultiRowPanel) {
                         if (Buttons.TryGetValue(button, out var data)) {
-                            GUI.Box(rect, string.Empty, RedRectStyle);
+                            var style = Input.GetMouseButton(1) ? OrangeRectStyle : RedRectStyle;
+                            GUI.Box(rect, string.Empty, style);
                             FloatingText = "Right click => detach button";
-                            if(e.type == EventType.MouseDown && e.button == 1) {
+                            if(e.type == EventType.MouseUp && e.button == 1) {
                                 RemoveButton(button);
                                 e.Use();
                             }
@@ -114,13 +115,13 @@ namespace UnifiedUI.Tool {
                             return;
                         }
                     } else {
-                        GUI.Box(rect, string.Empty, GreenRectStyle);
+                        var style = Input.GetMouseButton(1) ? OrangeRectStyle : GreenRectStyle;
+                        GUI.Box(rect, string.Empty, style);
                         FloatingText = "Right click => Move button to UnifiedUI panel";
-                        if (e.type == EventType.MouseDown && e.button == 1) {
+                        if (e.type == EventType.MouseUp && e.button == 1) {
                             AddButton(button);
                             e.Use();
                         }
-
                     }
                 }
             } catch (Exception ex) { ex.Log(); }
@@ -150,16 +151,24 @@ namespace UnifiedUI.Tool {
                 var data = Buttons[button];
                 Assertion.NotNull(data, "data");
                 MainPanel.Instance.MultiRowPanel.RemoveButton(button);
+                button.eventSizeChanged -= ButtonSizeChanged;
                 if (data.OriginalParent == null) {
                     UIView.GetAView().AttachUIComponent(button.gameObject);
                 } else {
                     data.OriginalParent.AttachUIComponent(button.gameObject);
                 }
-                button.size = data.OriginalSize;
-                button.relativePosition = data.OriginalPos;
                 Buttons.Remove(button);
                 MainPanel.Instance.RearrangeIfOpen();
-            } catch(Exception ex) { ex.Log(); }
+
+                StartCoroutine(RestoreButton());
+
+                IEnumerator RestoreButton() {
+                    yield return 0;
+                    button.size = data.OriginalSize;
+                    button.relativePosition = data.OriginalPos;
+                    yield break;
+                }
+            } catch (Exception ex) { ex.Log(); }
         }
 
         bool changing_;

@@ -34,6 +34,7 @@ namespace UnifiedUI.Tool {
         }
 
         protected GUIStyle RedRectStyle;
+        protected GUIStyle OrangeRectStyle;
         protected GUIStyle GreenRectStyle;
 
         protected string FloatingText { get; set; }
@@ -59,23 +60,32 @@ namespace UnifiedUI.Tool {
         protected override void OnToolGUI(Event e) {
             base.OnToolGUI(e);
             if (RedRectStyle == null) {
-                RedRectStyle = new GUIStyle(GUI.skin.box);
                 var bgTexture = new Texture2D(1, 1);
                 bgTexture.SetPixel(0, 0, new Color(1.0f, 0.0f, 0.0f, 0.3f));
                 bgTexture.Apply();
+                RedRectStyle = new GUIStyle(GUI.skin.box); 
                 RedRectStyle.normal.background = bgTexture;
                 RedRectStyle.hover.background = bgTexture;
                 RedRectStyle.active.background = bgTexture;
                 RedRectStyle.focused.background = bgTexture;
 
-                GreenRectStyle = new GUIStyle(GUI.skin.box);
                 bgTexture = new Texture2D(1, 1);
                 bgTexture.SetPixel(0, 0, new Color(0.0f, 1.0f, 0.0f, 0.3f));
                 bgTexture.Apply();
+                GreenRectStyle = new GUIStyle(GUI.skin.box);
                 GreenRectStyle.normal.background = bgTexture;
                 GreenRectStyle.hover.background = bgTexture;
                 GreenRectStyle.active.background = bgTexture;
                 GreenRectStyle.focused.background = bgTexture;
+
+                bgTexture = new Texture2D(1, 1);
+                bgTexture.SetPixel(0, 0, new Color32(255, 128, 0, 75));
+                bgTexture.Apply();
+                OrangeRectStyle = new GUIStyle(GUI.skin.box);
+                OrangeRectStyle.normal.background = bgTexture;
+                OrangeRectStyle.hover.background = bgTexture;
+                OrangeRectStyle.active.background = bgTexture;
+                OrangeRectStyle.focused.background = bgTexture;
             }
         }
     }
