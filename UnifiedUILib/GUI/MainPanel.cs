@@ -252,7 +252,8 @@ namespace UnifiedUI.GUI {
 
                 int visibleButtons = ModButtons.Count(_b => _b.isVisibleSelf);
                 Log.Info("Visible buttons = " + visibleButtons);
-                isVisible = floatingButton_.isVisible = visibleButtons > 0;
+                floatingButton_.isVisible = visibleButtons > 0;
+                isVisible &= visibleButtons > 0;
                 if (visibleButtons == 0)
                     return;
 
@@ -279,7 +280,7 @@ namespace UnifiedUI.GUI {
         bool IsOpen => isVisible && !opening_;
         public void RearrangeIfOpen() {
             int visibleButtons = ModButtons.Count(_b => _b.isVisibleSelf);
-            isVisible = floatingButton_.isVisible = visibleButtons > 0;
+            isVisible &= floatingButton_.isVisible = visibleButtons > 0;
             if (IsOpen) {
                 MultiRowPanel.Arrange();
                 Refresh();
