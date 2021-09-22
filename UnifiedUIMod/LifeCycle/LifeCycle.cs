@@ -34,9 +34,10 @@ namespace UnifiedUI.LifeCycle {
                 if (PluginUtil.GetPedestrianBridge().IsActive("2.1"))
                     MainPanel.Instance.AddButton<PedestrianBridgeButton>();
 
+                var grabber = Tool.Grabber.Create();
+                grabber.enabled = false;
+
 #if DEBUG
-                //var grabber = Tool.Grabber.Create();
-                //grabber.enabled = false;
 
                 //Test.Run();
                 //Test.Run2();
@@ -48,9 +49,7 @@ namespace UnifiedUI.LifeCycle {
 
         public override void UnLoad() {
             LogCalled();
-//#if DEBUG
-//            Tool.Grabber.Release();
-//#endif
+            Tool.Grabber.Release();
             MainPanel.Release();
             UUISettings.ReviveDisabledKeys();
         }

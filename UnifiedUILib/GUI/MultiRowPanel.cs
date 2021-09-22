@@ -72,7 +72,9 @@ namespace UnifiedUI.GUI {
                     ?.Keys
                     ?.Cast<UIComponent>()
                     ?.Where(item => item) // ignore destroyed items
-                    ?.OrderBy(GroupName) ?? Enumerable.Empty<UIComponent>();
+                    ?.OrderBy(GroupName)
+                    ?.ThenBy(item => item.name)
+                    ?? Enumerable.Empty<UIComponent>();
 
                 int col = 0;
                 int row = 0;

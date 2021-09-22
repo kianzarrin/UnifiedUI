@@ -89,7 +89,7 @@ namespace UnifiedUI.Tool {
             try {
                 Log.Called();
                 base.Awake();
-                var sprite = TextureUtil.GetTextureFromFile(LifeCycle.Instance.GetFullPath("A1.png"));
+                var sprite = TextureUtil.GetTextureFromFile(LifeCycle.Instance.GetFullPath("pin.png"));
                 UUIHelpers.RegisterToolButton("grabber", null, "grabber", this, sprite);
             } catch(Exception ex) { ex.Log(); }
         }

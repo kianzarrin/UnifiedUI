@@ -151,6 +151,9 @@
     <None Update="Resources\NodeController.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\pin.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\uui_imt.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
