@@ -705,19 +705,19 @@
             <summary>Branch: master</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commit">
-            <summary>Commit: f1d4f96</summary>
+            <summary>Commit: ae81659</summary>
         </member>
         <member name="F:ThisAssembly.Git.Sha">
-            <summary>Sha: f1d4f96827f5a9aa6b119b44fe674f8b93623432</summary>
+            <summary>Sha: ae81659d4fb33f3dda5f8283bd4a6dc6a48eab2d</summary>
         </member>
         <member name="F:ThisAssembly.Git.CommitDate">
-            <summary>Commit date: 2021-09-10T01:45:31+03:00</summary>
+            <summary>Commit date: 2021-09-22T09:16:41+03:00</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commits">
-            <summary>Commits on top of base version: 0</summary>
+            <summary>Commits on top of base version: 2</summary>
         </member>
         <member name="F:ThisAssembly.Git.Tag">
-            <summary>Tag: V2.1.5</summary>
+            <summary>Tag: V2.1.5-2-gae81659</summary>
         </member>
         <member name="F:ThisAssembly.Git.BaseTag">
             <summary>Base tag: V2.1.5</summary>
@@ -744,7 +744,7 @@
             <summary>Minor: 1</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Patch">
-            <summary>Patch: 5</summary>
+            <summary>Patch: 7</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Label">
             <summary>Label: </summary>

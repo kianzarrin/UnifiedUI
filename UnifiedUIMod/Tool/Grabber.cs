@@ -16,9 +16,9 @@ namespace UnifiedUI.Tool {
 
     public class UUIGrabberData : XMLData<UUIGrabberData>  {
         public class ButtonData {
-            public string[] Parents;
-            public string FullTypeName;
             public string Name;
+            public string FullTypeName;
+            public string[] Parents;
 
             public static string [] GetParents(UIComponent parent) {
                 List<string> parents = new List<string>();
@@ -45,40 +45,56 @@ namespace UnifiedUI.Tool {
 
             public bool Matches(UIButton button) {
                 var data2 = Create(button);
-                return Name ==
-                    data2.Name &&
+                var ret = Matches(data2);
+                if (ret) {
+                    Log.Debug($"buton={button} | {this} matches {data2}", false);
+                }
+                return ret;
+            }
+
+            public bool Matches(ButtonData data2) {
+                return
+                    Name == data2.Name &&
                     FullTypeName == data2.FullTypeName &&
                     Parents.SequenceEqual(data2.Parents);
             }
+
+
+
+            public override string ToString() => $"ButtonData(Name={Name} FullTypeName={FullTypeName} Parents={Parents.ToSTR()})";
         }
 
-        public List<ButtonData> Buttons;
+        public List<ButtonData> SavedButtons = new List<ButtonData>();
 
         public void SaveSnapShot() {
             TakeSnapShot();
             Save();
+            SavedButtons.Clear(); // prevent conflict with DelayedStart
         }
 
         public void TakeSnapShot() {
-            Buttons.Clear();
-            foreach (var b in Grabber.Instance.Buttons) {
-                Buttons.Add(ButtonData.Create(b.Key, b.Value.OriginalParent));
+            SavedButtons.Clear();
+            foreach (var b in Grabber.Instance.GrabbedButtons) {
+                SavedButtons.Add(ButtonData.Create(b.Key, b.Value.OriginalParent));
             }
         }
 
         public void TryRestore() {
+            Log.Called();
             try {
                 var buttons = GameObject.FindObjectsOfType<UIButton>();
                 foreach (var button in buttons) {
                     ButtonData remove = null;
-                    foreach (var item in Buttons) {
+                    foreach (var item in SavedButtons) {
                         if (item.Matches(button)) {
                             remove = item;
                             break;
                         }
                     }
-                    Buttons.Remove(remove);
-                    Grabber.Instance.AddButton(button);
+                    if (remove != null) {
+                        SavedButtons.Remove(remove);
+                        Grabber.Instance.AddButton(button);
+                    }
                 }
             } catch (Exception ex) { ex.Log(); }
         }
@@ -91,7 +107,7 @@ namespace UnifiedUI.Tool {
             public Vector2 OriginalPos;
         }
 
-        public Dictionary<UIButton, Metadata> Buttons = new Dictionary<UIButton, Metadata>();
+        public Dictionary<UIButton, Metadata> GrabbedButtons = new Dictionary<UIButton, Metadata>();
 
         protected override void Awake() {
             try {
@@ -103,16 +119,22 @@ namespace UnifiedUI.Tool {
         }
 
         public void Start() {
-            StartCoroutine(DelayedStart());
+            Log.Called();
+            _ = UUIGrabberData.Instance;
+
+            //tool does not remained enabled on start so lets use main menu instead.
+            MainPanel.Instance.StartCoroutine(DelayedStart());
         }
 
         public IEnumerator DelayedStart() {
             Log.Called();
-            for (int i = 1; i <= 10 && !(UUIGrabberData.Instance?.Buttons).IsNullorEmpty(); ++i) {
+            static bool MoreExists() => !((UUIGrabberData.Instance?.SavedButtons).IsNullorEmpty());
+            for (int i = 1; i <= 10 && MoreExists(); ++i) {
                 try {
                     UUIGrabberData.Instance?.TryRestore();
                 } catch (Exception ex) { ex.Log(); }
                 yield return new WaitForSeconds(i);
+                Log.Called("i="+i);
             }
             Log.Succeeded();
         }
@@ -125,12 +147,13 @@ namespace UnifiedUI.Tool {
                 if (button) {
                     var rect = GetRect(button);
                     if (button.parent == MainPanel.Instance.MultiRowPanel) {
-                        if (Buttons.TryGetValue(button, out var data)) {
+                        if (GrabbedButtons.TryGetValue(button, out var data)) {
                             var style = Input.GetMouseButton(1) ? OrangeRectStyle : RedRectStyle;
                             GUI.Box(rect, string.Empty, style);
                             FloatingText = "Right click => detach button";
                             if(e.type == EventType.MouseUp && e.button == 1) {
                                 RemoveButton(button);
+                                UUIGrabberData.Instance.SaveSnapShot();
                                 e.Use();
                             }
                         } else {
@@ -143,6 +166,7 @@ namespace UnifiedUI.Tool {
                         FloatingText = "Right click => Move button to UnifiedUI panel";
                         if (e.type == EventType.MouseUp && e.button == 1) {
                             AddButton(button);
+                            UUIGrabberData.Instance.SaveSnapShot();
                             e.Use();
                         }
                     }
@@ -154,7 +178,7 @@ namespace UnifiedUI.Tool {
             try {
                 Log.Called();
                 Assertion.NotNull(button, "button");
-                Buttons[button] = new Metadata {
+                GrabbedButtons[button] = new Metadata {
                     OriginalParent = button.parent,
                     OriginalSize = button.size,
                     OriginalPos = button.relativePosition,
@@ -164,7 +188,7 @@ namespace UnifiedUI.Tool {
                 button.size = new Vector2(ButtonBase.SIZE, ButtonBase.SIZE);
                 button.eventSizeChanged -= ButtonSizeChanged;
                 button.eventSizeChanged += ButtonSizeChanged;
-                UUIGrabberData.Instance.SaveSnapShot();
+
             } catch(Exception ex) { ex.Log(); }
         }
 
@@ -172,7 +196,7 @@ namespace UnifiedUI.Tool {
             try {
                 Log.Called();
                 Assertion.NotNull(button, "button");
-                var data = Buttons[button];
+                var data = GrabbedButtons[button];
                 Assertion.NotNull(data, "data");
                 MainPanel.Instance.MultiRowPanel.RemoveButton(button);
                 button.eventSizeChanged -= ButtonSizeChanged;
@@ -181,9 +205,8 @@ namespace UnifiedUI.Tool {
                 } else {
                     data.OriginalParent.AttachUIComponent(button.gameObject);
                 }
-                Buttons.Remove(button);
+                GrabbedButtons.Remove(button);
                 MainPanel.Instance.RearrangeIfOpen();
-                UUIGrabberData.Instance.SaveSnapShot();
 
                 StartCoroutine(RestoreButton());
 
