@@ -100,7 +100,7 @@ namespace UnifiedUI.Tool {
         }
     }
 
-    internal sealed class Grabber : UUIToolBase<Grabber>, IStartingObject {
+    internal sealed class Grabber : UUIToolBase<Grabber> {
         public struct Metadata {
             public UIComponent OriginalParent;
             public Vector2 OriginalSize;
@@ -115,24 +115,22 @@ namespace UnifiedUI.Tool {
                 base.Awake();
                 var sprite = TextureUtil.GetTextureFromFile(LifeCycle.Instance.GetFullPath("pin.png"));
                 UUIHelpers.RegisterToolButton("grabber", null, "grabber", this, sprite);
-            } catch(Exception ex) { ex.Log(); }
-        }
-
-        public void Start() {
-            Log.Called();
-            _ = UUIGrabberData.Instance;
-
-            //tool does not remained enabled on start so lets use main menu instead.
-            MainPanel.Instance.StartCoroutine(DelayedStart());
+                _ = UUIGrabberData.Instance;
+                //tool does not remained enabled on start so lets use main menu instead.
+                MainPanel.Instance.StartCoroutine(DelayedStart());
+            } catch (Exception ex) { ex.Log(); }
         }
 
         public IEnumerator DelayedStart() {
             Log.Called();
+
+            // wait a couple of frames
+            yield return 0;
+            yield return 0;
+
             static bool MoreExists() => !((UUIGrabberData.Instance?.SavedButtons).IsNullorEmpty());
             for (int i = 1; i <= 10 && MoreExists(); ++i) {
-                try {
-                    UUIGrabberData.Instance?.TryRestore();
-                } catch (Exception ex) { ex.Log(); }
+                UUIGrabberData.Instance?.TryRestore();
                 yield return new WaitForSeconds(i);
                 Log.Called("i="+i);
             }
@@ -143,6 +141,7 @@ namespace UnifiedUI.Tool {
             try {
                 base.OnToolGUI(e);
                 var button = HoveredButton;
+                FloatingText = "move cursor to button to move UnifiedUI panel.";
 
                 if (button) {
                     var rect = GetRect(button);
@@ -157,13 +156,14 @@ namespace UnifiedUI.Tool {
                                 e.Use();
                             }
                         } else {
-                            FloatingText = "move cursor to button to move UnifiedUI panel.";
                             return;
                         }
                     } else {
                         var style = Input.GetMouseButton(1) ? OrangeRectStyle : GreenRectStyle;
                         GUI.Box(rect, string.Empty, style);
-                        FloatingText = "Right click => Move button to UnifiedUI panel";
+                        FloatingText =
+                            "Right click => Move button to UnifiedUI panel\n" +
+                            "Does not always work ... but you can undo.";
                         if (e.type == EventType.MouseUp && e.button == 1) {
                             AddButton(button);
                             UUIGrabberData.Instance.SaveSnapShot();

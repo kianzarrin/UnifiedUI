@@ -26,11 +26,6 @@ namespace UnifiedUI.Tool {
             base.OnDisable();
             if (ToolsModifierControl.toolController.CurrentTool == this)
                 ToolsModifierControl.SetTool<DefaultTool>();
-
-            ShowToolInfo(
-                !FloatingText.IsNullOrWhiteSpace(),
-                FloatingText,
-                Camera.main.ScreenToWorldPoint(Input.mousePosition));
         }
 
         protected GUIStyle RedRectStyle;
@@ -44,6 +39,66 @@ namespace UnifiedUI.Tool {
             if (UIView.library.Get("PauseMenu").isVisible) {
                 UIView.library.Hide("PauseMenu");
                 enabled = false;
+            }
+            ShowToolInfo(
+                !FloatingText.IsNullOrWhiteSpace(),
+                FloatingText,
+                (Vector2)Input.mousePosition);
+        }
+
+        private static readonly string kCursorInfoErrorColor = "<color #ff7e00>";
+        private static readonly string kCursorInfoNormalColor = "<color #87d3ff>";
+        private static readonly string kCursorInfoCloseColorTag = "</color>";
+
+        protected void ShowToolInfo(bool show, string text, Vector2 pos) {
+            if (ToolBase.cursorInfoLabel == null) {
+                return;
+            }
+            ToolErrors errors = this.GetErrors();
+            if ((errors & ToolErrors.VisibleErrors) != ToolErrors.None) {
+                bool hasText = !string.IsNullOrEmpty(text);
+                if (hasText) {
+                    text += "\n";
+                } else {
+                    text = string.Empty;
+                }
+                text += kCursorInfoErrorColor;
+                for(var toolErrors = ToolErrors.ObjectCollision;
+                    toolErrors <= ToolErrors.AdministrationBuildingExists;
+                    toolErrors = (ToolErrors)((int)toolErrors << 1)) {
+                    if((errors & toolErrors) != ToolErrors.None) {
+                        if(hasText) {
+                            text += "\n";
+                        }
+                        hasText = true;
+                        text += this.GetErrorString(toolErrors);
+                    }
+                }
+                text += kCursorInfoCloseColorTag;
+            }
+            if (!string.IsNullOrEmpty(text) && show) {
+                text = kCursorInfoNormalColor + text + kCursorInfoCloseColorTag;
+                ToolBase.cursorInfoLabel.isVisible = true;
+                UIView uiview = ToolBase.cursorInfoLabel.GetUIView();
+                Vector2 res = (!(ToolBase.fullscreenContainer != null)) ? uiview.GetScreenResolution() : ToolBase.fullscreenContainer.size;
+                Vector2 startCorner = ToolBase.cursorInfoLabel.pivot.UpperLeftToTransform(ToolBase.cursorInfoLabel.size, ToolBase.cursorInfoLabel.arbitraryPivotOffset);
+                Vector3 relativePosition = uiview.ScreenPointToGUI(pos/ uiview.inputScale) + startCorner;
+                ToolBase.cursorInfoLabel.text = text;
+                if (relativePosition.x < 0f) {
+                    relativePosition.x = 0f;
+                }
+                if (relativePosition.y < 0f) {
+                    relativePosition.y = 0f;
+                }
+                if (relativePosition.x + ToolBase.cursorInfoLabel.width > res.x) {
+                    relativePosition.x = res.x - ToolBase.cursorInfoLabel.width;
+                }
+                if (relativePosition.y + ToolBase.cursorInfoLabel.height > res.y) {
+                    relativePosition.y = res.y - ToolBase.cursorInfoLabel.height;
+                }
+                ToolBase.cursorInfoLabel.relativePosition = relativePosition;
+            } else {
+                ToolBase.cursorInfoLabel.isVisible = false;
             }
         }
 
