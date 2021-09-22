@@ -12,6 +12,7 @@ namespace UnifiedUI.Tool {
     using UnifiedUI.Helpers;
     using KianCommons.UI;
     using LifeCycle;
+    using KianCommons.IImplict;
 
     public class UUIGrabberData : XMLData<UUIGrabberData>  {
         public class ButtonData {
@@ -53,6 +54,11 @@ namespace UnifiedUI.Tool {
 
         public List<ButtonData> Buttons;
 
+        public void SaveSnapShot() {
+            TakeSnapShot();
+            Save();
+        }
+
         public void TakeSnapShot() {
             Buttons.Clear();
             foreach (var b in Grabber.Instance.Buttons) {
@@ -61,22 +67,24 @@ namespace UnifiedUI.Tool {
         }
 
         public void TryRestore() {
-            var buttons = GameObject.FindObjectsOfType<UIButton>();
-            foreach (var button in buttons) {
-                ButtonData remove = null;
-                foreach (var item in Buttons) {
-                    if (item.Matches(button)) {
-                        remove = item;
-                        break;
+            try {
+                var buttons = GameObject.FindObjectsOfType<UIButton>();
+                foreach (var button in buttons) {
+                    ButtonData remove = null;
+                    foreach (var item in Buttons) {
+                        if (item.Matches(button)) {
+                            remove = item;
+                            break;
+                        }
                     }
+                    Buttons.Remove(remove);
+                    Grabber.Instance.AddButton(button);
                 }
-                Buttons.Remove(remove);
-                Grabber.Instance.AddButton(button);
-            }
+            } catch (Exception ex) { ex.Log(); }
         }
     }
 
-    internal class Grabber : UUIToolBase<Grabber> {
+    internal sealed class Grabber : UUIToolBase<Grabber>, IStartingObject {
         public struct Metadata {
             public UIComponent OriginalParent;
             public Vector2 OriginalSize;
@@ -92,6 +100,21 @@ namespace UnifiedUI.Tool {
                 var sprite = TextureUtil.GetTextureFromFile(LifeCycle.Instance.GetFullPath("pin.png"));
                 UUIHelpers.RegisterToolButton("grabber", null, "grabber", this, sprite);
             } catch(Exception ex) { ex.Log(); }
+        }
+
+        public void Start() {
+            StartCoroutine(DelayedStart());
+        }
+
+        public IEnumerator DelayedStart() {
+            Log.Called();
+            for (int i = 1; i <= 10 && !(UUIGrabberData.Instance?.Buttons).IsNullorEmpty(); ++i) {
+                try {
+                    UUIGrabberData.Instance?.TryRestore();
+                } catch (Exception ex) { ex.Log(); }
+                yield return new WaitForSeconds(i);
+            }
+            Log.Succeeded();
         }
 
         protected override void OnToolGUI(Event e) {
@@ -141,6 +164,7 @@ namespace UnifiedUI.Tool {
                 button.size = new Vector2(ButtonBase.SIZE, ButtonBase.SIZE);
                 button.eventSizeChanged -= ButtonSizeChanged;
                 button.eventSizeChanged += ButtonSizeChanged;
+                UUIGrabberData.Instance.SaveSnapShot();
             } catch(Exception ex) { ex.Log(); }
         }
 
@@ -159,6 +183,7 @@ namespace UnifiedUI.Tool {
                 }
                 Buttons.Remove(button);
                 MainPanel.Instance.RearrangeIfOpen();
+                UUIGrabberData.Instance.SaveSnapShot();
 
                 StartCoroutine(RestoreButton());
 
