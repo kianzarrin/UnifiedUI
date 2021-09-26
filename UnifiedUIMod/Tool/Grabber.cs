@@ -114,7 +114,7 @@ namespace UnifiedUI.Tool {
                 Log.Called();
                 base.Awake();
                 var sprite = TextureUtil.GetTextureFromFile(LifeCycle.Instance.GetFullPath("pin.png"));
-                UUIHelpers.RegisterToolButton("grabber", null, "grabber", this, sprite);
+                UUIHelpers.RegisterToolButton("grabber", null, "grabber [EXPERIMENTAL]", this, sprite);
                 _ = UUIGrabberData.Instance;
                 //tool does not remained enabled on start so lets use main menu instead.
                 MainPanel.Instance.StartCoroutine(DelayedStart());
