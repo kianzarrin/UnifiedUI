@@ -102,7 +102,9 @@ namespace UnifiedUI.Tool {
             }
         }
 
-        public UIButton HoveredButton => FindObjectsOfType<UIButton>().FirstOrDefault(item => item.containsMouse);
+        public UIButton HoveredButton =>
+            FindObjectsOfType<UIButton>()
+            .FirstOrDefault(item => item.containsMouse && item is not FloatingButton);
 
         public static Rect GetRect(UIComponent c) {
             var size = c.size;

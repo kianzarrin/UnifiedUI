@@ -177,6 +177,10 @@ namespace UnifiedUI.Tool {
         public void AddButton(UIButton button) {
             try {
                 Log.Called();
+                if(button is FloatingButton) {
+                    Log.Info("skip adding UUI button.");
+                    return;
+                }
                 Assertion.NotNull(button, "button");
                 GrabbedButtons[button] = new Metadata {
                     OriginalParent = button.parent,

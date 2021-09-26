@@ -705,22 +705,22 @@
             <summary>Branch: master</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commit">
-            <summary>Commit: ae81659</summary>
+            <summary>Commit: de64b16</summary>
         </member>
         <member name="F:ThisAssembly.Git.Sha">
-            <summary>Sha: ae81659d4fb33f3dda5f8283bd4a6dc6a48eab2d</summary>
+            <summary>Sha: de64b167a3cf7e059c2195c7df222a29ab01cf03</summary>
         </member>
         <member name="F:ThisAssembly.Git.CommitDate">
-            <summary>Commit date: 2021-09-22T09:16:41+03:00</summary>
+            <summary>Commit date: 2021-09-22T12:21:35+03:00</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commits">
-            <summary>Commits on top of base version: 2</summary>
+            <summary>Commits on top of base version: 0</summary>
         </member>
         <member name="F:ThisAssembly.Git.Tag">
-            <summary>Tag: V2.1.5-2-gae81659</summary>
+            <summary>Tag: V2.1.7</summary>
         </member>
         <member name="F:ThisAssembly.Git.BaseTag">
-            <summary>Base tag: V2.1.5</summary>
+            <summary>Base tag: V2.1.7</summary>
         </member>
         <member name="T:ThisAssembly.Git.BaseVersion">
             <summary>Provides access to the base version information used to determine the <see cref="T:ThisAssembly.Git.SemVer" />.</summary>      
@@ -732,7 +732,7 @@
             <summary>Minor: 1</summary>
         </member>
         <member name="F:ThisAssembly.Git.BaseVersion.Patch">
-            <summary>Patch: 5</summary>
+            <summary>Patch: 7</summary>
         </member>
         <member name="T:ThisAssembly.Git.SemVer">
             <summary>Provides access to SemVer information for the current assembly.</summary>
