@@ -154,6 +154,9 @@
     <None Update="Resources\pin.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\PreviewImage.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\uui_imt.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -208,7 +211,7 @@
 
   <Target Name="DeployToWorkshop" AfterTargets="DeployToModDirectory" Condition="'$(Configuration)|$(Platform)'=='Workshop|AnyCPU'">
     <ItemGroup>
-      <FilesToDelete Include="$(ContentPath)/*.*" Exclude="$(ContentPath)/PreviewImage.png" />
+      <FilesToDelete Include="$(ContentPath)/*.*" />
       <FilesToCopy Include="$(DeployDir)/*.*" />
     </ItemGroup>
     <Delete Files="@(FilesToDelete)" />
