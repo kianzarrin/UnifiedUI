@@ -22,7 +22,11 @@ namespace UnifiedUI.GUI {
         UISprite unlockRing_;
 
         void SetTooltip(string text) {
-            tooltip = unlockRing_.tooltip = drag_.tooltip = text;
+            tooltip = text;
+            if(unlockRing_)
+                unlockRing_.tooltip = text;
+            if(drag_)
+                drag_.tooltip = text;
         }
 
         static bool isDraggable_;
