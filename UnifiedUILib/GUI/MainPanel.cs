@@ -70,7 +70,7 @@ namespace UnifiedUI.GUI {
 
         bool started_ = false;
         bool opening_;
-        #region Instanciation
+        #region Instantiation
 
         static MainPanel instance_;
         public static MainPanel Instance =>
@@ -84,7 +84,7 @@ namespace UnifiedUI.GUI {
 
         public static void Release() => DestroyImmediate(instance_?.gameObject);
 
-        #endregion Instanciation
+        #endregion Instantiation
 
         public override void Awake() {
             try {
@@ -250,7 +250,7 @@ namespace UnifiedUI.GUI {
                 Log.Called();
                 if (!Responsive) return;
 
-                int visibleButtons = ModButtons.Count(_b => _b.isVisibleSelf);
+                int visibleButtons = ModButtons.Count(_b => _b && _b.isVisibleSelf);
                 Log.Info("Visible buttons = " + visibleButtons);
                 floatingButton_.isVisible = visibleButtons > 0;
                 isVisible &= visibleButtons > 0;
@@ -279,7 +279,7 @@ namespace UnifiedUI.GUI {
 
         bool IsOpen => isVisible && !opening_;
         public void RearrangeIfOpen() {
-            int visibleButtons = ModButtons.Count(_b => _b.isVisibleSelf);
+            int visibleButtons = ModButtons.Count(_b => _b && _b.isVisibleSelf);
             isVisible &= floatingButton_.isVisible = visibleButtons > 0;
             if (IsOpen) {
                 MultiRowPanel.Arrange();
@@ -344,7 +344,7 @@ namespace UnifiedUI.GUI {
             if (UIView.HasModalInput() || UIView.HasInputFocus())
                 return;
 
-            if (ModButtons.Any(b => b.AvoidCollision())) {
+            if (ModButtons.Any(b => b && b.AvoidCollision())) {
                 Log.Info("Active Key pressed");
                 return;
             }
@@ -355,7 +355,7 @@ namespace UnifiedUI.GUI {
             }
 
             foreach (var button in ModButtons) {
-                if (button.HandleHotKey())
+                if (button && button.HandleHotKey())
                     return;
             }
 

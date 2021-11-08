@@ -86,7 +86,7 @@ namespace UnifiedUI.LifeCycle {
 
                     var keys = new List<SavedInputKey>();
                     foreach(var b in mainPanel.ModButtons) {
-                        if(b.ActivationKey != null)
+                        if(b?.ActivationKey != null)
                             keys.Add(b.ActivationKey);
                     }
                     keys.AddRange(mainPanel.CustomHotkeys.Keys);
