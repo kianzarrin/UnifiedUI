@@ -56,7 +56,7 @@ namespace UnifiedUI.LifeCycle {
                 }
 
                 helper.AddSavedClampedIntTextfield("Number of columns", MultiRowPanel.Cols, 0, 100, TryRefresh);
-                helper.AddSavedToggle("put Seperator between groups", MultiRowPanel.GroupSeperator, TryRefresh);
+                helper.AddSavedToggle("put Separator between groups", MultiRowPanel.GroupSeperator, TryRefresh);
                 helper.AddSavedToggle("Hold control to drag", MainPanel.ControlToDrag, TryRefresh);
                 helper.AddSavedToggle("Switch to previous tool on disable", MainPanel.SwitchToPrevTool);
                 helper.AddSavedToggle("Clear info panels when tool changes", MainPanel.ClearInfoPanelsOnToolChanged);
@@ -67,7 +67,7 @@ namespace UnifiedUI.LifeCycle {
                         "Hide original activation buttons (legacy)",
                         HideOriginalButtons,
                         TryRefresh);
-                    hideCheckBox.tooltip = "this feature is stale only works on a few mods. each mod owner should handle this independantly.";
+                    hideCheckBox.tooltip = "this feature is stale only works on a few mods. each mod owner should handle this independently.";
                 }
             } catch(Exception e) {
                 Log.Exception(e);

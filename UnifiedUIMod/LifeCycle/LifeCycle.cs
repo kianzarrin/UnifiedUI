@@ -17,7 +17,7 @@ namespace UnifiedUI.LifeCycle {
 
     public class LifeCycle : LifeCycleBase, IModWithSettings, IUserMod {
         public override string Name => "Unified UI " + VersionString;
-        public override string Description => "organsized UI for some other mods into one unified place.";
+        public override string Description => "organized UI for some other mods into one unified place.";
 
         public override void Load() {
             try {
@@ -30,9 +30,6 @@ namespace UnifiedUI.LifeCycle {
 
                 if (PluginUtil.GetRAB().IsActive("1.10"))
                     MainPanel.Instance.AddButton<RoundaboutBuilderButton>();
-
-                if (PluginUtil.GetPedestrianBridge().IsActive("2.1"))
-                    MainPanel.Instance.AddButton<PedestrianBridgeButton>();
 
                 var grabber = Tool.Grabber.Create();
                 grabber.enabled = false;
