@@ -80,8 +80,6 @@ namespace UnifiedUI.Util {
 
         private static IEnumerator DoClick(UIScrollablePanel scrollablePanel, UIButton networkButton) {
             yield return 0;
-            yield return 0;
-
             networkButton.SimulateClick();
             scrollablePanel.ScrollIntoView(networkButton);
         }
