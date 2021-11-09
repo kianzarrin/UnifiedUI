@@ -6,6 +6,7 @@ namespace UnifiedUI.GUI {
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using UnifiedUI.Util;
     using UnityEngine;
     using static KianCommons.ReflectionHelpers;
 
@@ -228,7 +229,8 @@ namespace UnifiedUI.GUI {
                 Prevtool = null;
             } else {
                 SetTool(Prevtool);
-                Prevtool = null; // prevent exit loop.
+                OpenToolPanelUtil.TryOpen();
+                Prevtool = null; // prevent exit loop.  
             }
         }
 
