@@ -17,7 +17,7 @@ namespace UnifiedUI.Helpers {
         const string ASSEMLY_NAME = "UnifiedUILib";
 
         /// <typeparam name="TDelegate">delegate type</typeparam>
-        /// <returns>Type[] represeting arguments of the delegate.</returns>
+        /// <returns>Type[] representing arguments of the delegate.</returns>
         internal static Type[] GetParameterTypes<TDelegate>()
             where TDelegate : Delegate =>
             typeof(TDelegate)
@@ -30,7 +30,7 @@ namespace UnifiedUI.Helpers {
         /// Gets directly declared method based on a delegate that has
         /// the same name as the target method
         /// </summary>
-        /// <param name="type">the class/type where the method is delcared</param>
+        /// <param name="type">the class/type where the method is declared</param>
         /// <param name="name">the name of the method</param>
         internal static MethodInfo GetMethod<TDelegate>(this Type type, string name) where TDelegate : Delegate {
             return type.GetMethod(
@@ -51,7 +51,7 @@ namespace UnifiedUI.Helpers {
 
 
         static bool IsUUIMod(this PluginManager.PluginInfo p) =>
-            p.userModInstance.GetType().Assembly.GetType(UUI_NAME) != null;
+            p?.userModInstance?.GetType()?.Assembly?.GetType(UUI_NAME) != null;
 
         static bool IsUUILib(this Assembly assembly) => assembly.GetName().Name == ASSEMLY_NAME;
 
