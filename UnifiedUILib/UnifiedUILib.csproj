@@ -36,6 +36,7 @@
     <RepositoryUrl>https://github.com/kianzarrin/UnifiedUI</RepositoryUrl>
     <PackageTags>Cities Skylines UnifedUI</PackageTags>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <Description>Unfied UI for Cities Skylines</Description>
   </PropertyGroup>
   <ItemGroup>
     <!--<PackageReference Include="CitiesHarmony.API" Version="2.0.0" />-->
@@ -43,7 +44,6 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Mono.Unofficial.pdb2mdb" Version="4.2.3.4" />
   </ItemGroup>
   <ItemDefinitionGroup>
     <Reference>
