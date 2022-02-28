@@ -26,14 +26,14 @@
         </member>
         <member name="M:UnifiedUI.Helpers.UUIHelpers.GetParameterTypes``1">
             <typeparam name="TDelegate">delegate type</typeparam>
-            <returns>Type[] represeting arguments of the delegate.</returns>
+            <returns>Type[] representing arguments of the delegate.</returns>
         </member>
         <member name="M:UnifiedUI.Helpers.UUIHelpers.GetMethod``1(System.Type,System.String)">
             <summary>
             Gets directly declared method based on a delegate that has
             the same name as the target method
             </summary>
-            <param name="type">the class/type where the method is delcared</param>
+            <param name="type">the class/type where the method is declared</param>
             <param name="name">the name of the method</param>
         </member>
         <member name="M:UnifiedUI.Helpers.UUIHelpers.RegisterToolButton(System.String,System.String,System.String,System.String,ToolBase,ColossalFramework.SavedInputKey,System.Collections.Generic.Dictionary{ColossalFramework.SavedInputKey,System.Func{System.Boolean}})">
@@ -705,22 +705,22 @@
             <summary>Branch: master</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commit">
-            <summary>Commit: e483897</summary>
+            <summary>Commit: 9ba95e3</summary>
         </member>
         <member name="F:ThisAssembly.Git.Sha">
-            <summary>Sha: e483897a6c95bc38acf04f569a935d691c7179b7</summary>
+            <summary>Sha: 9ba95e3a5dfa0117abec12a35f2bbb46d30deea3</summary>
         </member>
         <member name="F:ThisAssembly.Git.CommitDate">
-            <summary>Commit date: 2021-11-09T07:53:47+02:00</summary>
+            <summary>Commit date: 2022-02-28T13:04:48+02:00</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commits">
             <summary>Commits on top of base version: 1</summary>
         </member>
         <member name="F:ThisAssembly.Git.Tag">
-            <summary>Tag: V2.1.11-1-ge483897</summary>
+            <summary>Tag: V2.1.13-1-g9ba95e3</summary>
         </member>
         <member name="F:ThisAssembly.Git.BaseTag">
-            <summary>Base tag: V2.1.11</summary>
+            <summary>Base tag: V2.1.13</summary>
         </member>
         <member name="T:ThisAssembly.Git.BaseVersion">
             <summary>Provides access to the base version information used to determine the <see cref="T:ThisAssembly.Git.SemVer" />.</summary>      
@@ -732,7 +732,7 @@
             <summary>Minor: 1</summary>
         </member>
         <member name="F:ThisAssembly.Git.BaseVersion.Patch">
-            <summary>Patch: 11</summary>
+            <summary>Patch: 13</summary>
         </member>
         <member name="T:ThisAssembly.Git.SemVer">
             <summary>Provides access to SemVer information for the current assembly.</summary>
@@ -744,7 +744,7 @@
             <summary>Minor: 1</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Patch">
-            <summary>Patch: 12</summary>
+            <summary>Patch: 14</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Label">
             <summary>Label: </summary>

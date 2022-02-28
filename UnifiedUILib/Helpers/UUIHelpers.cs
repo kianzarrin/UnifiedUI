@@ -12,6 +12,38 @@ namespace UnifiedUI.Helpers {
     using KianCommons.UI;
 
     public static class UUIHelpers {
+        #region backward compatibility
+
+        [Obsolete]
+        public struct UUISprites {
+            public UITextureAtlas Atlas;
+            public string NormalSprite, HoveredSprite, PressedSprite, DisabledSprite;
+            public Helpers.UUISprites Convert() {
+                return new Helpers.UUISprites {
+                    Atlas = Atlas,
+                    NormalSprite = NormalSprite, HoveredSprite = HoveredSprite, PressedSprite = PressedSprite, DisabledSprite = DisabledSprite
+                };
+            }
+        }
+
+        [Obsolete]
+        public static UIComponent RegisterToolButton(
+            string name, string groupName, string tooltip, UUISprites sprites, ToolBase tool,
+            SavedInputKey activationKey, IEnumerable<SavedInputKey> activeKeys) {
+            var hotkeys = new UUIHotKeys { ActivationKey = activationKey };
+            foreach (var item in activeKeys)
+                hotkeys.AddInToolKey(item);
+
+            return RegisterToolButton(
+                name: name,
+                groupName: groupName,
+                tooltip: tooltip,
+                tool: tool,
+                sprites: sprites.Convert(),
+                hotkeys: hotkeys);
+        }
+        #endregion
+
         const string UUI_NAME = "UnifiedUI.API.UUIAPI";
 
         const string ASSEMLY_NAME = "UnifiedUILib";
@@ -225,7 +257,7 @@ namespace UnifiedUI.Helpers {
         /// <returns>component containing the button. you can hide this component if necessary.</returns>
         [Obsolete]
         public static UIComponent RegisterToolButton(
-            string name, string groupName, string tooltip, ToolBase tool, UUISprites sprites, UUIHotKeys hotkeys = null) {
+            string name, string groupName, string tooltip, ToolBase tool, Helpers.UUISprites sprites, UUIHotKeys hotkeys = null) {
             var Register = CreateDelegate<RegisterToolHandler2>(GetUUI(), "Register");
             return Register(
                 name: name,
@@ -248,7 +280,7 @@ namespace UnifiedUI.Helpers {
         /// <returns>wrapper for the button which you can use to change the its state.</returns>
         [Obsolete]
         public static UUICustomButton RegisterCustomButton(
-            string name, string groupName, string tooltip, UUISprites sprites,
+            string name, string groupName, string tooltip, Helpers.UUISprites sprites,
             Action<bool> onToggle, Action<ToolBase> onToolChanged = null,
             UUIHotKeys hotkeys = null) {
             var Register = CreateDelegate<RegisterCustomHandler2>(GetUUI(), "Register");
