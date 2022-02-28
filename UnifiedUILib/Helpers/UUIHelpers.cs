@@ -13,8 +13,7 @@ namespace UnifiedUI.Helpers {
 
     public static class UUIHelpers {
         #region backward compatibility
-
-        [Obsolete]
+        [Obsolete("", error:true)]
         public struct UUISprites {
             public UITextureAtlas Atlas;
             public string NormalSprite, HoveredSprite, PressedSprite, DisabledSprite;
@@ -26,7 +25,7 @@ namespace UnifiedUI.Helpers {
             }
         }
 
-        [Obsolete]
+        [Obsolete("", error: true)]
         public static UIComponent RegisterToolButton(
             string name, string groupName, string tooltip, UUISprites sprites, ToolBase tool,
             SavedInputKey activationKey, IEnumerable<SavedInputKey> activeKeys) {
