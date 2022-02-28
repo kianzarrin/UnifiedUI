@@ -29,7 +29,7 @@
     </AssemblySearchPaths>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Version>2.2</Version>
+    <Version>$(FileVersion)</Version>
     <Authors>Kian Zarrin</Authors>
     <Product>Unifed UI</Product>
     <Copyright>2022 Kian Zarrin</Copyright>
