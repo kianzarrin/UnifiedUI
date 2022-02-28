@@ -705,19 +705,19 @@
             <summary>Branch: master</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commit">
-            <summary>Commit: 9ba95e3</summary>
+            <summary>Commit: 7cca817</summary>
         </member>
         <member name="F:ThisAssembly.Git.Sha">
-            <summary>Sha: 9ba95e3a5dfa0117abec12a35f2bbb46d30deea3</summary>
+            <summary>Sha: 7cca817bb0bf3afb68510df597ae9c18ad4f2eee</summary>
         </member>
         <member name="F:ThisAssembly.Git.CommitDate">
-            <summary>Commit date: 2022-02-28T13:04:48+02:00</summary>
+            <summary>Commit date: 2022-02-28T13:15:51+02:00</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commits">
             <summary>Commits on top of base version: 1</summary>
         </member>
         <member name="F:ThisAssembly.Git.Tag">
-            <summary>Tag: V2.1.13-1-g9ba95e3</summary>
+            <summary>Tag: V2.1.13-1-g7cca817</summary>
         </member>
         <member name="F:ThisAssembly.Git.BaseTag">
             <summary>Base tag: V2.1.13</summary>

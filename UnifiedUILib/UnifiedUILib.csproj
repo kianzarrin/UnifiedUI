@@ -2,6 +2,7 @@
   <Import Project="../Version.props" />
   <PropertyGroup>
     <TargetFramework>net35</TargetFramework>
+    <TargetFrameworks>net35</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <Deterministic>false</Deterministic>
     <DebugType>full</DebugType>
@@ -26,6 +27,15 @@
       $(CitiesSkylinesBinaries);
       ../libs/
     </AssemblySearchPaths>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <Version>2.2</Version>
+    <Authors>Kian Zarrin</Authors>
+    <Product>Unifed UI</Product>
+    <Copyright>2022 Kian Zarrin</Copyright>
+    <RepositoryUrl>https://github.com/kianzarrin/UnifiedUI</RepositoryUrl>
+    <PackageTags>Cities Skylines UnifedUI</PackageTags>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
   <ItemGroup>
     <!--<PackageReference Include="CitiesHarmony.API" Version="2.0.0" />-->
@@ -41,6 +51,10 @@
     </Reference>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
     <Reference Include="Assembly-CSharp" />
     <Reference Include="ColossalManaged" />
     <Reference Include="ICities" />
