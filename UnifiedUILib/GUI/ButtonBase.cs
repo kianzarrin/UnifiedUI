@@ -7,6 +7,7 @@ namespace UnifiedUI.GUI {
     using System.Collections.Generic;
     using System.Linq;
     using UnifiedUI.Util;
+    using UnifiedUILib.Util;
     using UnityEngine;
     using static KianCommons.ReflectionHelpers;
 
@@ -159,14 +160,14 @@ namespace UnifiedUI.GUI {
             foreach(var pair in ActiveKeys) {
                 var active = pair.Value?.Invoke() ?? true;
                 var key = pair.Key;
-                if(active && key.IsKeyUp())
+                if(active && key.KeyActivated())
                     return true;
             }
             return false;
         }
 
         public bool HandleHotKey() {
-            if(ActivationKey != null && ActivationKey.IsKeyUp()) {
+            if(ActivationKey != null && ActivationKey.KeyActivated()) {
                 Toggle();
                 return true;
             }

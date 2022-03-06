@@ -7,6 +7,7 @@ namespace UnifiedUI.LifeCycle {
     using System.Collections.Generic;
     using UnityEngine;
     using UnifiedUI.GUI;
+    using UnifiedUILib.Util;
 
     public static class UUISettings {
         public const string CONFLICTS_PANEL_NAME = "Conflicts_keymapping";
@@ -55,6 +56,9 @@ namespace UnifiedUI.LifeCycle {
                     Collisions(g1);
                 }
 
+                helper.AddSavedToggle("Activate hotkeys on release", KeyExtensions.KeyUpActivated).tooltip =
+                    "on : hotkeys work when releasing the button.\n" +
+                    "off: hotkeys work when pressing  the button.";
                 helper.AddSavedClampedIntTextfield("Number of columns", MultiRowPanel.Cols, 0, 100, TryRefresh);
                 helper.AddSavedToggle("put Separator between groups", MultiRowPanel.GroupSeperator, TryRefresh);
                 helper.AddSavedToggle("Hold control to drag", MainPanel.ControlToDrag, TryRefresh);

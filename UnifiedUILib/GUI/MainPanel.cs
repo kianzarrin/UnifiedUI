@@ -6,6 +6,7 @@ namespace UnifiedUI.GUI {
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using UnifiedUILib.Util;
     using UnityEngine;
     using static KianCommons.ReflectionHelpers;
 
@@ -349,7 +350,7 @@ namespace UnifiedUI.GUI {
                 return;
             }
 
-            if (CustomActiveHotkeys.Any(pair => pair.Value != null && pair.Value.Invoke() && pair.Key.IsKeyUp())) {
+            if (CustomActiveHotkeys.Any(pair => pair.Value != null && pair.Value.Invoke() && pair.Key.KeyActivated())) {
                 Log.Info("Active Key pressed");
                 return;
             }
@@ -360,7 +361,7 @@ namespace UnifiedUI.GUI {
             }
 
             foreach (var pair in CustomHotkeys) {
-                if (pair.Key.IsKeyUp()) {
+                if (pair.Key.KeyActivated()) {
                     pair.Value?.Invoke();
                     return;
                 }
