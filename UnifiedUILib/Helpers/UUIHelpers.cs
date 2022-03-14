@@ -1,3 +1,5 @@
+using System.Runtime.CompilerServices;
+[assembly: InternalsVisibleTo("NetworkMultitool")]
 namespace UnifiedUI.Helpers {
     using ColossalFramework;
     using ColossalFramework.Plugins;
@@ -12,9 +14,10 @@ namespace UnifiedUI.Helpers {
     using KianCommons.UI;
 
     public static class UUIHelpers {
-        #region backward compatibility
+        #region macsurgey compatibility
+
         [Obsolete("", error:true)]
-        public struct UUISprites {
+        internal struct UUISprites {
             public UITextureAtlas Atlas;
             public string NormalSprite, HoveredSprite, PressedSprite, DisabledSprite;
             public Helpers.UUISprites Convert() {
@@ -26,7 +29,7 @@ namespace UnifiedUI.Helpers {
         }
 
         [Obsolete("", error: true)]
-        public static UIComponent RegisterToolButton(
+        internal static UIComponent RegisterToolButton(
             string name, string groupName, string tooltip, UUISprites sprites, ToolBase tool,
             SavedInputKey activationKey, IEnumerable<SavedInputKey> activeKeys) {
             var hotkeys = new UUIHotKeys { ActivationKey = activationKey };
