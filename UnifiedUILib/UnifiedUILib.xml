@@ -705,22 +705,22 @@
             <summary>Branch: master</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commit">
-            <summary>Commit: c0fe572</summary>
+            <summary>Commit: 6b13c2c</summary>
         </member>
         <member name="F:ThisAssembly.Git.Sha">
-            <summary>Sha: c0fe57266a57076ba39394947f85bfbf84fa3258</summary>
+            <summary>Sha: 6b13c2c8512854ae7bfe38e445066a120d8dabb4</summary>
         </member>
         <member name="F:ThisAssembly.Git.CommitDate">
-            <summary>Commit date: 2022-03-06T19:41:40+02:00</summary>
+            <summary>Commit date: 2022-03-14T13:00:58+02:00</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commits">
             <summary>Commits on top of base version: 0</summary>
         </member>
         <member name="F:ThisAssembly.Git.Tag">
-            <summary>Tag: V2.2.3</summary>
+            <summary>Tag: V2.2.4</summary>
         </member>
         <member name="F:ThisAssembly.Git.BaseTag">
-            <summary>Base tag: V2.2.3</summary>
+            <summary>Base tag: V2.2.4</summary>
         </member>
         <member name="T:ThisAssembly.Git.BaseVersion">
             <summary>Provides access to the base version information used to determine the <see cref="T:ThisAssembly.Git.SemVer" />.</summary>      
@@ -732,7 +732,7 @@
             <summary>Minor: 2</summary>
         </member>
         <member name="F:ThisAssembly.Git.BaseVersion.Patch">
-            <summary>Patch: 3</summary>
+            <summary>Patch: 4</summary>
         </member>
         <member name="T:ThisAssembly.Git.SemVer">
             <summary>Provides access to SemVer information for the current assembly.</summary>
@@ -744,7 +744,7 @@
             <summary>Minor: 2</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Patch">
-            <summary>Patch: 3</summary>
+            <summary>Patch: 4</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Label">
             <summary>Label: </summary>
