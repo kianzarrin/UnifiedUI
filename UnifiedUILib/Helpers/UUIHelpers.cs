@@ -16,7 +16,7 @@ namespace UnifiedUI.Helpers {
     public static class UUIHelpers {
         #region macsurgey compatibility
 
-        [Obsolete("", error:true)]
+        [Obsolete("use UnifiedUI.Helpers.UUISprites instead", error:true)]
         internal struct UUISprites {
             public UITextureAtlas Atlas;
             public string NormalSprite, HoveredSprite, PressedSprite, DisabledSprite;
@@ -28,7 +28,7 @@ namespace UnifiedUI.Helpers {
             }
         }
 
-        [Obsolete("", error: true)]
+        [Obsolete("use UnifiedUI.Helpers.UUISprites instead", error: true)]
         internal static UIComponent RegisterToolButton(
             string name, string groupName, string tooltip, UUISprites sprites, ToolBase tool,
             SavedInputKey activationKey, IEnumerable<SavedInputKey> activeKeys) {
