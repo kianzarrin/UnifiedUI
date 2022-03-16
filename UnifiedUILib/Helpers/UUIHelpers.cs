@@ -17,11 +17,13 @@ namespace UnifiedUI.Helpers {
     using System.Reflection;
     using UnityEngine;
     using KianCommons.UI;
+    using System.ComponentModel;
 
     public static class UUIHelpers {
         #region macsurgey compatibility
 
         [Obsolete("use UnifiedUI.Helpers.UUISprites instead", error:true)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         internal struct UUISprites {
             public UITextureAtlas Atlas;
             public string NormalSprite, HoveredSprite, PressedSprite, DisabledSprite;
@@ -34,6 +36,7 @@ namespace UnifiedUI.Helpers {
         }
 
         [Obsolete("use UnifiedUI.Helpers.UUISprites instead", error: true)]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         internal static UIComponent RegisterToolButton(
             string name, string groupName, string tooltip, UUISprites sprites, ToolBase tool,
             SavedInputKey activationKey, IEnumerable<SavedInputKey> activeKeys) {
