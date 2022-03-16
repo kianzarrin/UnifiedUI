@@ -1,5 +1,10 @@
 using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("NetworkMultitool")]
+[assembly: InternalsVisibleTo("NodeController")]
+[assembly: InternalsVisibleTo("NodeMarkup")]
+[assembly: InternalsVisibleTo("BuildingSpawnPoints")]
+[assembly: InternalsVisibleTo("NoBigTruck")] // is it needed?
+
 namespace UnifiedUI.Helpers {
     using ColossalFramework;
     using ColossalFramework.Plugins;

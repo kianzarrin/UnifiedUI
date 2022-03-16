@@ -693,10 +693,10 @@
             <summary>Provides access to the git information for the current assembly.</summary>
         </member>
         <member name="F:ThisAssembly.Git.IsDirty">
-            <summary>IsDirty: false</summary>
+            <summary>IsDirty: true</summary>
         </member>
         <member name="F:ThisAssembly.Git.IsDirtyString">
-            <summary>IsDirtyString: false</summary>
+            <summary>IsDirtyString: true</summary>
         </member>
         <member name="F:ThisAssembly.Git.RepositoryUrl">
             <summary>Repository URL: https://github.com/kianzarrin/UnifiedUI</summary>
@@ -705,46 +705,46 @@
             <summary>Branch: master</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commit">
-            <summary>Commit: e818511</summary>
+            <summary>Commit: a4f4564</summary>
         </member>
         <member name="F:ThisAssembly.Git.Sha">
-            <summary>Sha: e81851171ee7de11869fddec913d212d3f2f73a9</summary>
+            <summary>Sha: a4f4564ea2eeffd63485ab228063ba2ca782747c</summary>
         </member>
         <member name="F:ThisAssembly.Git.CommitDate">
-            <summary>Commit date: 2022-03-14T13:14:07+02:00</summary>
+            <summary>Commit date: 2022-03-14T13:47:02+02:00</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commits">
-            <summary>Commits on top of base version: 1</summary>
+            <summary>Commits on top of base version: 189</summary>
         </member>
         <member name="F:ThisAssembly.Git.Tag">
-            <summary>Tag: V2.2.4-1-ge818511</summary>
+            <summary>Tag: t2-1-ga4f4564</summary>
         </member>
         <member name="F:ThisAssembly.Git.BaseTag">
-            <summary>Base tag: V2.2.4</summary>
+            <summary>Base tag: t2</summary>
         </member>
         <member name="T:ThisAssembly.Git.BaseVersion">
             <summary>Provides access to the base version information used to determine the <see cref="T:ThisAssembly.Git.SemVer" />.</summary>      
         </member>
         <member name="F:ThisAssembly.Git.BaseVersion.Major">
-            <summary>Major: 2</summary>
+            <summary>Major: 0</summary>
         </member>
         <member name="F:ThisAssembly.Git.BaseVersion.Minor">
-            <summary>Minor: 2</summary>
+            <summary>Minor: 0</summary>
         </member>
         <member name="F:ThisAssembly.Git.BaseVersion.Patch">
-            <summary>Patch: 4</summary>
+            <summary>Patch: 0</summary>
         </member>
         <member name="T:ThisAssembly.Git.SemVer">
             <summary>Provides access to SemVer information for the current assembly.</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Major">
-            <summary>Major: 2</summary>
+            <summary>Major: 0</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Minor">
-            <summary>Minor: 2</summary>
+            <summary>Minor: 0</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Patch">
-            <summary>Patch: 5</summary>
+            <summary>Patch: 189</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Label">
             <summary>Label: </summary>
@@ -753,7 +753,7 @@
             <summary>Label with dash prefix: </summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Source">
-            <summary>Source: Tag</summary>
+            <summary>Source: Default</summary>
         </member>
     </members>
 </doc>
