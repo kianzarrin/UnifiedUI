@@ -33,9 +33,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\UnifiedUILib\UnifiedUILib.csproj" />
+    <PackageReference Include="UnifiedUILib" Version="2.2.6" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp" />
@@ -67,12 +65,8 @@
 
     <Delete Files="$(TargetDir)*.mdb" />
     <Exec Command="&quot;$(pdb2mdb)&quot; &quot;$(TargetPath)&quot;" />
-    <Exec Command="&quot;$(pdb2mdb)&quot; &quot;$(TargetDir)UnifiedUILib.dll&quot;" />
     <Copy SourceFiles="$(TargetPath).mdb" DestinationFolder="$(DeployDir)" />
     <Copy SourceFiles="$(TargetDir)UnifiedUILib.dll" DestinationFolder="$(DeployDir)" />
-    <Copy SourceFiles="$(TargetDir)UnifiedUILib.dll.mdb" DestinationFolder="$(DeployDir)" />
-    <Copy SourceFiles="$(TargetDir)UnifiedUILib.xml" DestinationFolder="$(DeployDir)" />
-
     <Copy SourceFiles="$(TargetDir)Resources/A1.png" DestinationFolder="$(DeployDir)/Resources" />
     <Delete Files="$(DeployDir)$(TargetFileName)" />
     <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(DeployDir)" />

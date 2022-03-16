@@ -1,10 +1,3 @@
-using System.Runtime.CompilerServices;
-[assembly: InternalsVisibleTo("NetworkMultitool")]
-[assembly: InternalsVisibleTo("NodeController")]
-[assembly: InternalsVisibleTo("NodeMarkup")]
-[assembly: InternalsVisibleTo("BuildingSpawnPoints")]
-[assembly: InternalsVisibleTo("NoBigTruck")] // is it needed?
-
 namespace UnifiedUI.Helpers {
     using ColossalFramework;
     using ColossalFramework.Plugins;
@@ -17,14 +10,12 @@ namespace UnifiedUI.Helpers {
     using System.Reflection;
     using UnityEngine;
     using KianCommons.UI;
-    using System.ComponentModel;
-
     public static class UUIHelpers {
         #region macsurgey compatibility
 
         [Obsolete("use UnifiedUI.Helpers.UUISprites instead", error:true)]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        internal struct UUISprites {
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public struct UUISprites {
             public UITextureAtlas Atlas;
             public string NormalSprite, HoveredSprite, PressedSprite, DisabledSprite;
             public Helpers.UUISprites Convert() {
@@ -36,8 +27,8 @@ namespace UnifiedUI.Helpers {
         }
 
         [Obsolete("use UnifiedUI.Helpers.UUISprites instead", error: true)]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        internal static UIComponent RegisterToolButton(
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+        public static UIComponent RegisterToolButton(
             string name, string groupName, string tooltip, UUISprites sprites, ToolBase tool,
             SavedInputKey activationKey, IEnumerable<SavedInputKey> activeKeys) {
             var hotkeys = new UUIHotKeys { ActivationKey = activationKey };
@@ -447,6 +438,16 @@ namespace UnifiedUI.Helpers {
         public static bool IsUUIEnabled() {
             var uui = GetUUIPlugin();
             return uui != null && uui.isEnabled;
+        }
+
+        internal delegate UIComponent KeyActivatedDelegate(SavedInputKey key);
+
+        /// <summary>
+        /// checks if hotkey is activated on key Down/Up depending on UUI's user settings.
+        /// </summary>
+        public static bool KeyActivated(this SavedInputKey key) {
+            var KeyActivated = CreateDelegate<KeyActivatedDelegate>(GetUUI(), "KeyActivated");
+            return KeyActivated(key);
         }
     }
 }

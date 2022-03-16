@@ -1,9 +1,5 @@
-namespace UnifiedUILib.Util {
+namespace UnifiedUI.Util {
     using ColossalFramework;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using UnifiedUI.GUI;
     using UnityEngine;
 

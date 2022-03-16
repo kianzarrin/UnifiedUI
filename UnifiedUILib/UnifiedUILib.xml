@@ -166,6 +166,11 @@
             test if UnifiedUI is present and enable.
             </summary>
         </member>
+        <member name="M:UnifiedUI.Helpers.UUIHelpers.KeyActivated(ColossalFramework.SavedInputKey)">
+            <summary>
+            checks if hotkey is activated on key Down/Up depending on UUI's user settings.
+            </summary>
+        </member>
         <member name="M:UnifiedUI.Helpers.UUIHotKeys.AddInToolKey(ColossalFramework.SavedInputKey)">
             <summary>
             add in-mod hotkey. this will take priority over (suppress) the activation key of other mods.
@@ -693,10 +698,10 @@
             <summary>Provides access to the git information for the current assembly.</summary>
         </member>
         <member name="F:ThisAssembly.Git.IsDirty">
-            <summary>IsDirty: false</summary>
+            <summary>IsDirty: true</summary>
         </member>
         <member name="F:ThisAssembly.Git.IsDirtyString">
-            <summary>IsDirtyString: false</summary>
+            <summary>IsDirtyString: true</summary>
         </member>
         <member name="F:ThisAssembly.Git.RepositoryUrl">
             <summary>Repository URL: https://github.com/kianzarrin/UnifiedUI</summary>
@@ -705,46 +710,46 @@
             <summary>Branch: master</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commit">
-            <summary>Commit: 4384fbe</summary>
+            <summary>Commit: 60058ec</summary>
         </member>
         <member name="F:ThisAssembly.Git.Sha">
-            <summary>Sha: 4384fbed48682bf6bf45cff427f525203d262ee6</summary>
+            <summary>Sha: 60058eca90b6f597848ea09567865724075d2957</summary>
         </member>
         <member name="F:ThisAssembly.Git.CommitDate">
-            <summary>Commit date: 2022-03-16T14:28:55+02:00</summary>
+            <summary>Commit date: 2022-03-16T19:23:17+02:00</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commits">
-            <summary>Commits on top of base version: 190</summary>
+            <summary>Commits on top of base version: 2</summary>
         </member>
         <member name="F:ThisAssembly.Git.Tag">
-            <summary>Tag: t2-2-g4384fbe</summary>
+            <summary>Tag: V2.2.5-2-g60058ec</summary>
         </member>
         <member name="F:ThisAssembly.Git.BaseTag">
-            <summary>Base tag: t2</summary>
+            <summary>Base tag: V2.2.5</summary>
         </member>
         <member name="T:ThisAssembly.Git.BaseVersion">
             <summary>Provides access to the base version information used to determine the <see cref="T:ThisAssembly.Git.SemVer" />.</summary>      
         </member>
         <member name="F:ThisAssembly.Git.BaseVersion.Major">
-            <summary>Major: 0</summary>
+            <summary>Major: 2</summary>
         </member>
         <member name="F:ThisAssembly.Git.BaseVersion.Minor">
-            <summary>Minor: 0</summary>
+            <summary>Minor: 2</summary>
         </member>
         <member name="F:ThisAssembly.Git.BaseVersion.Patch">
-            <summary>Patch: 0</summary>
+            <summary>Patch: 5</summary>
         </member>
         <member name="T:ThisAssembly.Git.SemVer">
             <summary>Provides access to SemVer information for the current assembly.</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Major">
-            <summary>Major: 0</summary>
+            <summary>Major: 2</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Minor">
-            <summary>Minor: 0</summary>
+            <summary>Minor: 2</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Patch">
-            <summary>Patch: 190</summary>
+            <summary>Patch: 7</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Label">
             <summary>Label: </summary>
@@ -753,7 +758,7 @@
             <summary>Label with dash prefix: </summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Source">
-            <summary>Source: Default</summary>
+            <summary>Source: Tag</summary>
         </member>
     </members>
 </doc>

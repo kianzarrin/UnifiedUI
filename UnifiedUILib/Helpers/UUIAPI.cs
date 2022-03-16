@@ -6,6 +6,7 @@ namespace UnifiedUI.API {
     using System.Collections.Generic;
     using UnifiedUI.GUI;
     using UnityEngine;
+    using UnifiedUI.Util;
 
     public static class UUIAPI {
         #region tool
@@ -158,6 +159,10 @@ namespace UnifiedUI.API {
         public static void AttachAlien(UIComponent alien, string groupName) {
             Log.Called(alien, groupName);
             MainPanel.Instance.AttachAlien(alien, groupName);
+        }
+
+        public static bool KeyActivated(SavedInputKey key) {
+            return KeyExtensions.KeyActivated(key);
         }
     }
 }

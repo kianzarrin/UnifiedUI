@@ -6,7 +6,7 @@ namespace UnifiedUI.GUI {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using UnifiedUILib.Util;
+    using UnifiedUI.Util;
     using UnityEngine;
     using static KianCommons.ReflectionHelpers;
 
