@@ -440,7 +440,7 @@ namespace UnifiedUI.Helpers {
             return uui != null && uui.isEnabled;
         }
 
-        internal delegate UIComponent KeyActivatedDelegate(SavedInputKey key);
+        internal delegate bool KeyActivatedDelegate(SavedInputKey key);
 
         /// <summary>
         /// checks if hotkey is activated on key Down/Up depending on UUI's user settings.
