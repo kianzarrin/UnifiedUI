@@ -1,3 +1,10 @@
+using System.Runtime.CompilerServices;
+[assembly: InternalsVisibleTo("NetworkMultitool")]
+[assembly: InternalsVisibleTo("NodeController")]
+[assembly: InternalsVisibleTo("NodeMarkup")]
+[assembly: InternalsVisibleTo("BuildingSpawnPoints")]
+[assembly: InternalsVisibleTo("NoBigTruck")] // is it needed?
+
 namespace UnifiedUI.Helpers {
     using ColossalFramework;
     using ColossalFramework.Plugins;
@@ -10,12 +17,14 @@ namespace UnifiedUI.Helpers {
     using System.Reflection;
     using UnityEngine;
     using KianCommons.UI;
+
+
     public static class UUIHelpers {
         #region macsurgey compatibility
 
         [Obsolete("use UnifiedUI.Helpers.UUISprites instead", error:true)]
         [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public struct UUISprites {
+        internal struct UUISprites {
             public UITextureAtlas Atlas;
             public string NormalSprite, HoveredSprite, PressedSprite, DisabledSprite;
             public Helpers.UUISprites Convert() {
@@ -28,7 +37,7 @@ namespace UnifiedUI.Helpers {
 
         [Obsolete("use UnifiedUI.Helpers.UUISprites instead", error: true)]
         [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public static UIComponent RegisterToolButton(
+        internal static UIComponent RegisterToolButton(
             string name, string groupName, string tooltip, UUISprites sprites, ToolBase tool,
             SavedInputKey activationKey, IEnumerable<SavedInputKey> activeKeys) {
             var hotkeys = new UUIHotKeys { ActivationKey = activationKey };
