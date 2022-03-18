@@ -119,7 +119,8 @@ namespace UnifiedUI.Helpers {
             return ret;
         }
 
-        internal static Type GetUUI() => GetUUILib().GetType(UUI_NAME, throwOnError: true);
+        private static Type uui_ = null;
+        internal static Type GetUUI() => uui_ ??= GetUUILib().GetType(UUI_NAME, throwOnError: true);
 
         #region register with FileName
         internal delegate UIComponent RegisterCustomHandler
@@ -455,8 +456,12 @@ namespace UnifiedUI.Helpers {
         /// checks if hotkey is activated on key Down/Up depending on UUI's user settings.
         /// </summary>
         public static bool KeyActivated(this SavedInputKey key) {
-            var KeyActivated = CreateDelegate<KeyActivatedDelegate>(GetUUI(), "KeyActivated");
-            return KeyActivated(key);
+            if (GetUUI() != null) {
+                var KeyActivated = CreateDelegate<KeyActivatedDelegate>(GetUUI(), "KeyActivated");
+                return KeyActivated(key);
+            } else {
+                return key.IsKeyUp();
+            }
         }
     }
 }
