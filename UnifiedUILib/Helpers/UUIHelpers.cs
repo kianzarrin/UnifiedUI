@@ -119,8 +119,34 @@ namespace UnifiedUI.Helpers {
             return ret;
         }
 
+        private static void Reset() {
+            uui_ = null;
+            PluginManager.instance.eventPluginsStateChanged -= Reset;
+            PluginManager.instance.eventPluginsChanged -= Reset;
+            LoadingManager.instance.m_levelPreLoaded -= Reset;
+        }
+
         private static Type uui_ = null;
-        internal static Type GetUUI() => uui_ ??= GetUUILib().GetType(UUI_NAME, throwOnError: true);
+        internal static Type GetUUI() {
+            if(uui_ != null) {
+                return uui_; // return cached uui_
+            }
+
+            uui_ = GetUUILib().GetType(UUI_NAME, throwOnError: true);
+
+            if(uui_ != null) {
+                // if uui_ is cached, then reset it if something changed.
+                // useful for hot-reload.
+                PluginManager.instance.eventPluginsStateChanged -= Reset;
+                PluginManager.instance.eventPluginsChanged -= Reset;
+                LoadingManager.instance.m_levelPreLoaded -= Reset;
+                PluginManager.instance.eventPluginsStateChanged += Reset;
+                PluginManager.instance.eventPluginsChanged += Reset;
+                LoadingManager.instance.m_levelPreLoaded += Reset;
+            }
+
+            return uui_;
+        }
 
         #region register with FileName
         internal delegate UIComponent RegisterCustomHandler
