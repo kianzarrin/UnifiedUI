@@ -461,7 +461,7 @@ namespace UnifiedUI.Helpers {
             return uui != null && uui.isEnabled;
         }
 
-        #region key
+        #region key activated
         private static void Reset() {
             keyActivatedDelegate_ = null;
             PluginManager.instance.eventPluginsStateChanged -= Reset;
@@ -505,6 +505,6 @@ namespace UnifiedUI.Helpers {
                 return key.IsKeyUp();
             }
         }
-        #endregion
+        #endregion key activated
     }
 }
