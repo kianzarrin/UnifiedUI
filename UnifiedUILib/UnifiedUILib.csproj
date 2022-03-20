@@ -37,6 +37,9 @@
     <PackageTags>Cities Skylines UnifedUI</PackageTags>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <Description>Unfied UI for Cities Skylines</Description>
+    <PackageIcon>PreviewImage.png</PackageIcon>
+    <PackageIconUrl />
+    <PackageReleaseNotes>fixed log spam for KetActivated.</PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
     <!--<PackageReference Include="CitiesHarmony.API" Version="2.0.0" />-->
@@ -52,6 +55,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="..\UnifiedUIMod\Resources\PreviewImage.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="Resources\uui.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
