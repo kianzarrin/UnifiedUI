@@ -31,12 +31,13 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Version>$(FileVersion)</Version>
     <Authors>Kian Zarrin</Authors>
-    <Product>Unifed UI</Product>
+    <Product>Unfied UI for Cities Skylines</Product>
     <Copyright>2022 Kian Zarrin</Copyright>
     <RepositoryUrl>https://github.com/kianzarrin/UnifiedUI</RepositoryUrl>
     <PackageTags>Cities Skylines UnifedUI</PackageTags>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <Description>Unfied UI for Cities Skylines</Description>
+    <Description>A library to that allows all mods in Cities Skylines to add their buttons to the same panel.
+It also allows for detection/resolution of hotkey conflicts.</Description>
     <PackageIcon>PreviewImage.png</PackageIcon>
     <PackageIconUrl />
     <PackageReleaseNotes>fixed log spam for KetActivated.</PackageReleaseNotes>
