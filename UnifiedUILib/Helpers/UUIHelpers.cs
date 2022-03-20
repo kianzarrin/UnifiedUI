@@ -86,17 +86,6 @@ namespace UnifiedUI.Helpers {
             return (TDelegate)Delegate.CreateDelegate(typeof(TDelegate), method);
         }
 
-        internal static TDelegate CreateClosedDelegate<TDelegate>(object instance, string name) where TDelegate : Delegate {
-            try {
-                var type = instance.GetType();
-                var method = type.GetMethod<TDelegate>(name);
-                if (method == null) return null;
-                return (TDelegate)Delegate.CreateDelegate(type: typeof(TDelegate), firstArgument: instance, method: method);
-            } catch (Exception ex) {
-                throw new Exception($"CreateClosedDelegate<{typeof(TDelegate).Name}>({instance.GetType().Name},{name}) failed!", ex);
-            }
-        }
-
         internal static IEnumerable<PluginManager.PluginInfo> Plugins => PluginManager.instance.GetPluginsInfo();
 
         internal static PluginManager.PluginInfo GetUUIPlugin() =>
@@ -474,7 +463,7 @@ namespace UnifiedUI.Helpers {
                 return keyActivatedDelegate_; // return cached uui_
             }
 
-            keyActivatedDelegate_ = CreateClosedDelegate<KeyActivatedDelegate>(GetUUI(), "KeyActivated");
+            keyActivatedDelegate_ = CreateDelegate<KeyActivatedDelegate>(GetUUI(), "KeyActivated");
 
             if (keyActivatedDelegate_ != null) {
                 // if uui_ is cached, then reset it if something changed.
