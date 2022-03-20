@@ -86,6 +86,17 @@ namespace UnifiedUI.Helpers {
             return (TDelegate)Delegate.CreateDelegate(typeof(TDelegate), method);
         }
 
+        internal static TDelegate CreateClosedDelegate<TDelegate>(object instance, string name) where TDelegate : Delegate {
+            try {
+                var type = instance.GetType();
+                var method = type.GetMethod<TDelegate>(name);
+                if (method == null) return null;
+                return (TDelegate)Delegate.CreateDelegate(type: typeof(TDelegate), firstArgument: instance, method: method);
+            } catch (Exception ex) {
+                throw new Exception($"CreateClosedDelegate<{typeof(TDelegate).Name}>({instance.GetType().Name},{name}) failed!", ex);
+            }
+        }
+
         internal static IEnumerable<PluginManager.PluginInfo> Plugins => PluginManager.instance.GetPluginsInfo();
 
         internal static PluginManager.PluginInfo GetUUIPlugin() =>
@@ -119,34 +130,8 @@ namespace UnifiedUI.Helpers {
             return ret;
         }
 
-        private static void Reset() {
-            uui_ = null;
-            PluginManager.instance.eventPluginsStateChanged -= Reset;
-            PluginManager.instance.eventPluginsChanged -= Reset;
-            LoadingManager.instance.m_levelPreLoaded -= Reset;
-        }
-
-        private static Type uui_ = null;
-        internal static Type GetUUI() {
-            if(uui_ != null) {
-                return uui_; // return cached uui_
-            }
-
-            uui_ = GetUUILib().GetType(UUI_NAME, throwOnError: true);
-
-            if(uui_ != null) {
-                // if uui_ is cached, then reset it if something changed.
-                // useful for hot-reload.
-                PluginManager.instance.eventPluginsStateChanged -= Reset;
-                PluginManager.instance.eventPluginsChanged -= Reset;
-                LoadingManager.instance.m_levelPreLoaded -= Reset;
-                PluginManager.instance.eventPluginsStateChanged += Reset;
-                PluginManager.instance.eventPluginsChanged += Reset;
-                LoadingManager.instance.m_levelPreLoaded += Reset;
-            }
-
-            return uui_;
-        }
+        internal static Type GetUUI() =>
+            GetUUILib().GetType(UUI_NAME, throwOnError: true);
 
         #region register with FileName
         internal delegate UIComponent RegisterCustomHandler
@@ -476,18 +461,50 @@ namespace UnifiedUI.Helpers {
             return uui != null && uui.isEnabled;
         }
 
+        #region key
+        private static void Reset() {
+            keyActivatedDelegate_ = null;
+            PluginManager.instance.eventPluginsStateChanged -= Reset;
+            PluginManager.instance.eventPluginsChanged -= Reset;
+            LoadingManager.instance.m_levelPreLoaded -= Reset;
+        }
+
+        internal static KeyActivatedDelegate GetKeyActivatedDelegate() {
+            if (keyActivatedDelegate_ != null) {
+                return keyActivatedDelegate_; // return cached uui_
+            }
+
+            keyActivatedDelegate_ = CreateClosedDelegate<KeyActivatedDelegate>(GetUUI(), "KeyActivated");
+
+            if (keyActivatedDelegate_ != null) {
+                // if uui_ is cached, then reset it if something changed.
+                // useful for hot-reload.
+                PluginManager.instance.eventPluginsStateChanged -= Reset;
+                PluginManager.instance.eventPluginsChanged -= Reset;
+                LoadingManager.instance.m_levelPreLoaded -= Reset;
+                PluginManager.instance.eventPluginsStateChanged += Reset;
+                PluginManager.instance.eventPluginsChanged += Reset;
+                LoadingManager.instance.m_levelPreLoaded += Reset;
+            }
+
+            return keyActivatedDelegate_;
+        }
+
         internal delegate bool KeyActivatedDelegate(SavedInputKey key);
+
+        private static KeyActivatedDelegate keyActivatedDelegate_;
 
         /// <summary>
         /// checks if hotkey is activated on key Down/Up depending on UUI's user settings.
         /// </summary>
         public static bool KeyActivated(this SavedInputKey key) {
-            if (GetUUI() != null) {
-                var KeyActivated = CreateDelegate<KeyActivatedDelegate>(GetUUI(), "KeyActivated");
+            var KeyActivated = GetKeyActivatedDelegate();
+            if (KeyActivated != null) {
                 return KeyActivated(key);
             } else {
                 return key.IsKeyUp();
             }
         }
+        #endregion
     }
 }
