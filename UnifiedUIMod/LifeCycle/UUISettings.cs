@@ -8,6 +8,8 @@ namespace UnifiedUI.LifeCycle {
     using UnityEngine;
     using UnifiedUI.GUI;
     using UnifiedUI.Util;
+    using System.Reflection;
+    using UnifiedUILib.Helpers;
 
     public static class UUISettings {
         public const string CONFLICTS_PANEL_NAME = "Conflicts_keymapping";
@@ -111,8 +113,12 @@ namespace UnifiedUI.LifeCycle {
                             if(conflict) {
                                 var file1 = (string)ReflectionHelpers.GetFieldValue(key1, "m_FileName");
                                 var file2 = (string)ReflectionHelpers.GetFieldValue(key2, "m_FileName");
-                                keymappingsPanel.AddKeymapping($"{file1}.{key1.name}", key1);
-                                keymappingsPanel.AddKeymapping($"{file2}.{key2.name}", key2);
+                                var b1 = keymappingsPanel.AddKeymapping($"{file1}.{key1.name}", key1);
+                                var b2 = keymappingsPanel.AddKeymapping($"{file2}.{key2.name}", key2);
+                                b1.eventKeyDown += OnConflictResolved;
+                                b1.eventMouseDown += OnConflictResolved;
+                                b2.eventKeyDown += OnConflictResolved;
+                                b2.eventMouseDown += OnConflictResolved;
                                 Log.Warning($"Collision Detected: " +
                                     $"{file1}.{key1.name}:'{key1}' collides with " +
                                     $"{file2}.{key2.name}:'{key2}'");
@@ -125,6 +131,18 @@ namespace UnifiedUI.LifeCycle {
                 }
             } catch(Exception ex) {
                 Log.Exception(ex);
+            }
+        }
+
+        static void OnConflictResolved(UIComponent c, UIComponentEventParameter p) {
+            try {
+                var mi =
+                    c?.objectUserData
+                    ?.GetType()
+                    ?.GetMethod(nameof(UnsavedInputKey.OnConflictResolved), types: new Type [0] ,throwOnError: false);
+                mi?.Invoke(c.objectUserData, null);
+            } catch(Exception ex) {
+                ex.Log(false);
             }
         }
     }
