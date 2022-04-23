@@ -9,7 +9,7 @@ namespace UnifiedUI.LifeCycle {
     using UnifiedUI.GUI;
     using UnifiedUI.Util;
     using System.Reflection;
-    using UnifiedUILib.Helpers;
+    using UnifiedUI.Helpers;
 
     public static class UUISettings {
         public const string CONFLICTS_PANEL_NAME = "Conflicts_keymapping";
