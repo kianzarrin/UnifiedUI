@@ -1,4 +1,4 @@
-namespace UnifiedUILib.Helpers {
+namespace UnifiedUI.Helpers {
     using ColossalFramework;
     using System;
     using System.Collections.Generic;

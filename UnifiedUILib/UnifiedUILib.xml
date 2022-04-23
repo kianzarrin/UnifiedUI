@@ -4,14 +4,9 @@
         <name>UnifiedUILib</name>
     </assembly>
     <members>
-        <member name="M:UnifiedUI.API.UUIAPI.Register(System.String,System.String,System.String,System.String,System.Action{System.Boolean},System.Action{ToolBase},ColossalFramework.SavedInputKey,System.Collections.Generic.Dictionary{ColossalFramework.SavedInputKey,System.Func{System.Boolean}})">
+        <member name="M:UnifiedUI.Helpers.UnsavedInputKey.OnConflictResolved">
             <summary>
-            Register custom button
-            </summary>
-        </member>
-        <member name="M:UnifiedUI.API.UUIAPI.Register(System.String,System.String,System.String,UnityEngine.Texture2D,System.Action{System.Boolean},System.Action{ToolBase},ColossalFramework.SavedInputKey,System.Collections.Generic.Dictionary{ColossalFramework.SavedInputKey,System.Func{System.Boolean}})">
-            <summary>
-            Register custom button
+            Override this to serialize hotkey when user changes hotkey inside UUI.
             </summary>
         </member>
         <member name="P:UnifiedUI.Helpers.UUICustomButton.Button">
@@ -186,6 +181,16 @@
             (for example when the mod has sub-tools)
             in other wors, if isAvailbe returns true, then activation key of other mods are suppressed.
             </param>
+        </member>
+        <member name="M:UnifiedUI.API.UUIAPI.Register(System.String,System.String,System.String,System.String,System.Action{System.Boolean},System.Action{ToolBase},ColossalFramework.SavedInputKey,System.Collections.Generic.Dictionary{ColossalFramework.SavedInputKey,System.Func{System.Boolean}})">
+            <summary>
+            Register custom button
+            </summary>
+        </member>
+        <member name="M:UnifiedUI.API.UUIAPI.Register(System.String,System.String,System.String,UnityEngine.Texture2D,System.Action{System.Boolean},System.Action{ToolBase},ColossalFramework.SavedInputKey,System.Collections.Generic.Dictionary{ColossalFramework.SavedInputKey,System.Func{System.Boolean}})">
+            <summary>
+            Register custom button
+            </summary>
         </member>
         <member name="M:KianCommons.Math.BezierUtil.Travel2(ColossalFramework.Math.Bezier3,System.Single,UnityEngine.Vector3@)">
             <summary>
@@ -710,19 +715,19 @@
             <summary>Branch: master</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commit">
-            <summary>Commit: 46588dc</summary>
+            <summary>Commit: 09b7ea2</summary>
         </member>
         <member name="F:ThisAssembly.Git.Sha">
-            <summary>Sha: 46588dce57bc45ac73602284a6441c375fa9bd50</summary>
+            <summary>Sha: 09b7ea2cfb7c89ef87c31226e7d4e476410bff91</summary>
         </member>
         <member name="F:ThisAssembly.Git.CommitDate">
-            <summary>Commit date: 2022-03-20T09:15:58+02:00</summary>
+            <summary>Commit date: 2022-04-23T00:02:50+03:00</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commits">
-            <summary>Commits on top of base version: 2</summary>
+            <summary>Commits on top of base version: 3</summary>
         </member>
         <member name="F:ThisAssembly.Git.Tag">
-            <summary>Tag: V2.2.8-2-g46588dc</summary>
+            <summary>Tag: V2.2.8-3-g09b7ea2</summary>
         </member>
         <member name="F:ThisAssembly.Git.BaseTag">
             <summary>Base tag: V2.2.8</summary>
@@ -749,7 +754,7 @@
             <summary>Minor: 2</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Patch">
-            <summary>Patch: 10</summary>
+            <summary>Patch: 11</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Label">
             <summary>Label: </summary>
