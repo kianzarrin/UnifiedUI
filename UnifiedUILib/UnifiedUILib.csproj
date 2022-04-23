@@ -40,7 +40,7 @@
 It also allows for detection/resolution of hotkey conflicts.</Description>
     <PackageIcon>PreviewImage.png</PackageIcon>
     <PackageIconUrl />
-    <PackageReleaseNotes>fixed log spam for KetActivated.</PackageReleaseNotes>
+    <PackageReleaseNotes>UnsavedInputKey for XML support.</PackageReleaseNotes>
   </PropertyGroup>
   <ItemGroup>
     <!--<PackageReference Include="CitiesHarmony.API" Version="2.0.0" />-->

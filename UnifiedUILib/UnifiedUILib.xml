@@ -715,22 +715,22 @@
             <summary>Branch: master</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commit">
-            <summary>Commit: 09b7ea2</summary>
+            <summary>Commit: edf2063</summary>
         </member>
         <member name="F:ThisAssembly.Git.Sha">
-            <summary>Sha: 09b7ea2cfb7c89ef87c31226e7d4e476410bff91</summary>
+            <summary>Sha: edf2063cd3c7f5f72d15c8e6993ad262e468287d</summary>
         </member>
         <member name="F:ThisAssembly.Git.CommitDate">
-            <summary>Commit date: 2022-04-23T00:02:50+03:00</summary>
+            <summary>Commit date: 2022-04-23T11:13:32+03:00</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commits">
-            <summary>Commits on top of base version: 3</summary>
+            <summary>Commits on top of base version: 0</summary>
         </member>
         <member name="F:ThisAssembly.Git.Tag">
-            <summary>Tag: V2.2.8-3-g09b7ea2</summary>
+            <summary>Tag: V2.2.9</summary>
         </member>
         <member name="F:ThisAssembly.Git.BaseTag">
-            <summary>Base tag: V2.2.8</summary>
+            <summary>Base tag: V2.2.9</summary>
         </member>
         <member name="T:ThisAssembly.Git.BaseVersion">
             <summary>Provides access to the base version information used to determine the <see cref="T:ThisAssembly.Git.SemVer" />.</summary>      
@@ -742,7 +742,7 @@
             <summary>Minor: 2</summary>
         </member>
         <member name="F:ThisAssembly.Git.BaseVersion.Patch">
-            <summary>Patch: 8</summary>
+            <summary>Patch: 9</summary>
         </member>
         <member name="T:ThisAssembly.Git.SemVer">
             <summary>Provides access to SemVer information for the current assembly.</summary>
@@ -754,7 +754,7 @@
             <summary>Minor: 2</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Patch">
-            <summary>Patch: 11</summary>
+            <summary>Patch: 9</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Label">
             <summary>Label: </summary>
