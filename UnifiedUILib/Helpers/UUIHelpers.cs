@@ -137,13 +137,14 @@ namespace UnifiedUI.Helpers {
         /// register a button to tie to the given tool.
         /// </summary>
         /// <param name="name">game object name for button</param>
-        /// <param name="groupName">the group under which button will be added. use null to addd to the default gorup.</param>
+        /// <param name="groupName">the group under which button will be added. use null to add to the default group.</param>
         /// <param name="spritefile">full path to the file that contains 4 40x40x button sprites(see example)</param>
-        /// <param name="tool">the tool to tie the buttont to.</param>
+        /// <param name="tool">the tool to tie the button to.</param>
         /// <param name="activationKey">hot key to trigger the button</param>
         /// <param name="activeKeys">turn off these hotkeys in other mods</param>
         /// <returns>component containing the button. you can hide this component if necessary.</returns>
         [Obsolete]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public static UIComponent RegisterToolButton(
             string name, string groupName, string tooltip, string spritefile, ToolBase tool,
             SavedInputKey activationKey = null, Dictionary<SavedInputKey, Func<bool>> activeKeys = null) {
@@ -162,13 +163,14 @@ namespace UnifiedUI.Helpers {
         /// register a button to tie to the given tool.
         /// </summary>
         /// <param name="name">game object name for button</param>
-        /// <param name="groupName">the group under which button will be added. use null to addd to the default gorup.</param>
+        /// <param name="groupName">the group under which button will be added. use null to add to the default group.</param>
         /// <param name="spritefile">full path to the file that contains 4 40x40x button sprites(see example)</param>
-        /// <param name="tool">the tool to tie the buttont to.</param>
+        /// <param name="tool">the tool to tie the button to.</param>
         /// <param name="activationKey">hot key to trigger the button</param>
         /// <param name="activeKeys">turn off these hotkeys in other mods</param>
         /// <returns>component containing the button. you can hide this component if necessary.</returns>
         [Obsolete]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public static UIComponent RegisterToolButton(
             string name, string groupName, string tooltip, string spritefile, ToolBase tool,
             SavedInputKey activationKey, IEnumerable<SavedInputKey> activeKeys) {
@@ -191,7 +193,7 @@ namespace UnifiedUI.Helpers {
         /// register a custom button .
         /// </summary>
         /// <param name="name">game object name for button</param>
-        /// <param name="groupName">the group under which button will be added. use null to addd to the default gorup.</param>
+        /// <param name="groupName">the group under which button will be added. use null to add to the default group.</param>
         /// <param name="spritefile">full path to the file that contains 4 40x40x button sprites(see example)</param>
         /// <param name="onToggle">call-back for when the button is activated/deactivated</param>
         /// <param name="onToolChanged">call-back for when any active tool changes.</param>
@@ -199,6 +201,7 @@ namespace UnifiedUI.Helpers {
         /// <param name="activeKeys">hotkey->active dictionary. turns off these hotkeys in other mods while active</param>
         /// <returns>wrapper for the button which you can use to change the its state.</returns>
         [Obsolete]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public static UUICustomButton RegisterCustomButton(
             string name, string groupName, string tooltip, string spritefile,
             Action<bool> onToggle, Action<ToolBase> onToolChanged = null,
@@ -220,7 +223,7 @@ namespace UnifiedUI.Helpers {
         /// register a custom button .
         /// </summary>
         /// <param name="name">game object name for button</param>
-        /// <param name="groupName">the group under which button will be added. use null to addd to the default gorup.</param>
+        /// <param name="groupName">the group under which button will be added. use null to add to the default group.</param>
         /// <param name="spritefile">full path to the file that contains 4 40x40x button sprites(see example)</param>
         /// <param name="onToggle">call-back for when the button is activated/deactivated</param>
         /// <param name="onToolChanged">call-back for when any active tool changes.</param>
@@ -228,6 +231,7 @@ namespace UnifiedUI.Helpers {
         /// <param name="activeKeys">hotkey->active dictionary. turns off these hotkeys in other mods while active</param>
         /// <returns>wrapper for the button which you can use to change the its state.</returns>
         [Obsolete]
+        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public static UUICustomButton RegisterCustomButton(
             string name, string groupName, string tooltip, string spritefile,
             Action<bool> onToggle, Action<ToolBase> onToolChanged,
@@ -263,8 +267,8 @@ namespace UnifiedUI.Helpers {
         /// register a button to tie to the given tool.
         /// </summary>
         /// <param name="name">game object name for button</param>
-        /// <param name="groupName">the group under which button will be added. use null to addd to the default gorup.</param>
-        /// <param name="tool">the tool to tie the buttont to.</param>
+        /// <param name="groupName">the group under which button will be added. use null to add to the default group.</param>
+        /// <param name="tool">the tool to tie the button to.</param>
         /// <returns>component containing the button. you can hide this component if necessary.</returns>
         [Obsolete]
         public static UIComponent RegisterToolButton(
@@ -285,7 +289,7 @@ namespace UnifiedUI.Helpers {
         /// register a custom button .
         /// </summary>
         /// <param name="name">game object name for button</param>
-        /// <param name="groupName">the group under which button will be added. use null to addd to the default gorup.</param>
+        /// <param name="groupName">the group under which button will be added. use null to add to the default group.</param>
         /// <param name="onToggle">call-back for when the button is activated/deactivated</param>
         /// <param name="onToolChanged">call-back for when any active tool changes.</param>
         /// <returns>wrapper for the button which you can use to change the its state.</returns>
@@ -324,8 +328,8 @@ namespace UnifiedUI.Helpers {
         /// register a button to tie to the given tool.
         /// </summary>
         /// <param name="name">game object name for button. must be unique.</param>
-        /// <param name="groupName">the group under which button will be added. use null to addd to the default gorup.</param>
-        /// <param name="tool">the tool to tie the buttont to.</param>
+        /// <param name="groupName">the group under which button will be added. use null to add to the default group.</param>
+        /// <param name="tool">the tool to tie the button to.</param>
         /// <returns>component containing the button. you can hide this component if necessary.</returns>
         public static UIComponent RegisterToolButton(
             string name, string groupName, string tooltip, ToolBase tool, Texture2D icon, UUIHotKeys hotkeys = null) {
@@ -344,7 +348,7 @@ namespace UnifiedUI.Helpers {
         /// register a custom button .
         /// </summary>
         /// <param name="name">game object name for button</param>
-        /// <param name="groupName">the group under which button will be added. use null to addd to the default gorup.</param>
+        /// <param name="groupName">the group under which button will be added. use null to add to the default group.</param>
         /// <param name="onToggle">call-back for when the button is activated/deactivated</param>
         /// <param name="onToolChanged">call-back for when any active tool changes.</param>
         /// <returns>wrapper for the button which you can use to change the its state.</returns>
@@ -414,7 +418,7 @@ namespace UnifiedUI.Helpers {
         /// Gets the full path to a file from the input mod
         /// </summary>
         /// <param name="userModInstance">instance of IUserMod</param>
-        /// <param name="paths">diretory,file names to combine</param>
+        /// <param name="paths">directories,file names to combine</param>
         /// <returns>full path to file.</returns>
         public static string GetFullPath(this IUserMod userModInstance, params string[] paths) {
             string ret = userModInstance.GetModPath();
@@ -427,7 +431,7 @@ namespace UnifiedUI.Helpers {
         /// Gets the full path to a file from the input mod
         /// </summary>
         /// <typeparam name="UserModT">user mod type</typeparam>
-        /// <param name="paths">diretories/files to combine</param>
+        /// <param name="paths">directories/files to combine</param>
         /// <returns>full path to file.</returns>
         public static string GetFullPath<UserModT>(params string[] paths) where UserModT : IUserMod {
             string ret = GetModPath<UserModT>();
