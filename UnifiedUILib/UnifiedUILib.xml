@@ -36,9 +36,9 @@
             register a button to tie to the given tool.
             </summary>
             <param name="name">game object name for button</param>
-            <param name="groupName">the group under which button will be added. use null to addd to the default gorup.</param>
+            <param name="groupName">the group under which button will be added. use null to add to the default group.</param>
             <param name="spritefile">full path to the file that contains 4 40x40x button sprites(see example)</param>
-            <param name="tool">the tool to tie the buttont to.</param>
+            <param name="tool">the tool to tie the button to.</param>
             <param name="activationKey">hot key to trigger the button</param>
             <param name="activeKeys">turn off these hotkeys in other mods</param>
             <returns>component containing the button. you can hide this component if necessary.</returns>
@@ -48,9 +48,9 @@
             register a button to tie to the given tool.
             </summary>
             <param name="name">game object name for button</param>
-            <param name="groupName">the group under which button will be added. use null to addd to the default gorup.</param>
+            <param name="groupName">the group under which button will be added. use null to add to the default group.</param>
             <param name="spritefile">full path to the file that contains 4 40x40x button sprites(see example)</param>
-            <param name="tool">the tool to tie the buttont to.</param>
+            <param name="tool">the tool to tie the button to.</param>
             <param name="activationKey">hot key to trigger the button</param>
             <param name="activeKeys">turn off these hotkeys in other mods</param>
             <returns>component containing the button. you can hide this component if necessary.</returns>
@@ -60,7 +60,7 @@
             register a custom button .
             </summary>
             <param name="name">game object name for button</param>
-            <param name="groupName">the group under which button will be added. use null to addd to the default gorup.</param>
+            <param name="groupName">the group under which button will be added. use null to add to the default group.</param>
             <param name="spritefile">full path to the file that contains 4 40x40x button sprites(see example)</param>
             <param name="onToggle">call-back for when the button is activated/deactivated</param>
             <param name="onToolChanged">call-back for when any active tool changes.</param>
@@ -73,7 +73,7 @@
             register a custom button .
             </summary>
             <param name="name">game object name for button</param>
-            <param name="groupName">the group under which button will be added. use null to addd to the default gorup.</param>
+            <param name="groupName">the group under which button will be added. use null to add to the default group.</param>
             <param name="spritefile">full path to the file that contains 4 40x40x button sprites(see example)</param>
             <param name="onToggle">call-back for when the button is activated/deactivated</param>
             <param name="onToolChanged">call-back for when any active tool changes.</param>
@@ -86,8 +86,8 @@
             register a button to tie to the given tool.
             </summary>
             <param name="name">game object name for button</param>
-            <param name="groupName">the group under which button will be added. use null to addd to the default gorup.</param>
-            <param name="tool">the tool to tie the buttont to.</param>
+            <param name="groupName">the group under which button will be added. use null to add to the default group.</param>
+            <param name="tool">the tool to tie the button to.</param>
             <returns>component containing the button. you can hide this component if necessary.</returns>
         </member>
         <member name="M:UnifiedUI.Helpers.UUIHelpers.RegisterCustomButton(System.String,System.String,System.String,UnifiedUI.Helpers.UUISprites,System.Action{System.Boolean},System.Action{ToolBase},UnifiedUI.Helpers.UUIHotKeys)">
@@ -95,7 +95,7 @@
             register a custom button .
             </summary>
             <param name="name">game object name for button</param>
-            <param name="groupName">the group under which button will be added. use null to addd to the default gorup.</param>
+            <param name="groupName">the group under which button will be added. use null to add to the default group.</param>
             <param name="onToggle">call-back for when the button is activated/deactivated</param>
             <param name="onToolChanged">call-back for when any active tool changes.</param>
             <returns>wrapper for the button which you can use to change the its state.</returns>
@@ -105,8 +105,8 @@
             register a button to tie to the given tool.
             </summary>
             <param name="name">game object name for button. must be unique.</param>
-            <param name="groupName">the group under which button will be added. use null to addd to the default gorup.</param>
-            <param name="tool">the tool to tie the buttont to.</param>
+            <param name="groupName">the group under which button will be added. use null to add to the default group.</param>
+            <param name="tool">the tool to tie the button to.</param>
             <returns>component containing the button. you can hide this component if necessary.</returns>
         </member>
         <member name="M:UnifiedUI.Helpers.UUIHelpers.RegisterCustomButton(System.String,System.String,System.String,UnityEngine.Texture2D,System.Action{System.Boolean},System.Action{ToolBase},UnifiedUI.Helpers.UUIHotKeys)">
@@ -114,7 +114,7 @@
             register a custom button .
             </summary>
             <param name="name">game object name for button</param>
-            <param name="groupName">the group under which button will be added. use null to addd to the default gorup.</param>
+            <param name="groupName">the group under which button will be added. use null to add to the default group.</param>
             <param name="onToggle">call-back for when the button is activated/deactivated</param>
             <param name="onToolChanged">call-back for when any active tool changes.</param>
             <returns>wrapper for the button which you can use to change the its state.</returns>
@@ -145,7 +145,7 @@
             Gets the full path to a file from the input mod
             </summary>
             <param name="userModInstance">instance of IUserMod</param>
-            <param name="paths">diretory,file names to combine</param>
+            <param name="paths">directories,file names to combine</param>
             <returns>full path to file.</returns>
         </member>
         <member name="M:UnifiedUI.Helpers.UUIHelpers.GetFullPath``1(System.String[])">
@@ -153,7 +153,7 @@
             Gets the full path to a file from the input mod
             </summary>
             <typeparam name="UserModT">user mod type</typeparam>
-            <param name="paths">diretories/files to combine</param>
+            <param name="paths">directories/files to combine</param>
             <returns>full path to file.</returns>
         </member>
         <member name="M:UnifiedUI.Helpers.UUIHelpers.IsUUIEnabled">
@@ -703,10 +703,10 @@
             <summary>Provides access to the git information for the current assembly.</summary>
         </member>
         <member name="F:ThisAssembly.Git.IsDirty">
-            <summary>IsDirty: false</summary>
+            <summary>IsDirty: true</summary>
         </member>
         <member name="F:ThisAssembly.Git.IsDirtyString">
-            <summary>IsDirtyString: false</summary>
+            <summary>IsDirtyString: true</summary>
         </member>
         <member name="F:ThisAssembly.Git.RepositoryUrl">
             <summary>Repository URL: https://github.com/kianzarrin/UnifiedUI</summary>
@@ -715,19 +715,19 @@
             <summary>Branch: master</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commit">
-            <summary>Commit: 1c1f399</summary>
+            <summary>Commit: 50c3904</summary>
         </member>
         <member name="F:ThisAssembly.Git.Sha">
-            <summary>Sha: 1c1f3997d09e33f7689089352120c7e7b8e32506</summary>
+            <summary>Sha: 50c390401ddf01a425e3b0024348866778f0337a</summary>
         </member>
         <member name="F:ThisAssembly.Git.CommitDate">
-            <summary>Commit date: 2022-04-23T15:31:17+03:00</summary>
+            <summary>Commit date: 2022-04-23T18:51:06+03:00</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commits">
-            <summary>Commits on top of base version: 1</summary>
+            <summary>Commits on top of base version: 2</summary>
         </member>
         <member name="F:ThisAssembly.Git.Tag">
-            <summary>Tag: V2.2.9-1-g1c1f399</summary>
+            <summary>Tag: V2.2.9-2-g50c3904</summary>
         </member>
         <member name="F:ThisAssembly.Git.BaseTag">
             <summary>Base tag: V2.2.9</summary>
@@ -754,7 +754,7 @@
             <summary>Minor: 2</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Patch">
-            <summary>Patch: 10</summary>
+            <summary>Patch: 11</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Label">
             <summary>Label: </summary>

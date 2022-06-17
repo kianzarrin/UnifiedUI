@@ -25,9 +25,6 @@ namespace UnifiedUI.LifeCycle {
                 KianCommons.UI.TextureUtil.EmbededResources = false;
                 Log.VERBOSE = false;
 
-                if (PluginUtil.GetNetworkDetective().IsActive("1.1"))
-                    MainPanel.Instance.AddButton<NetworkDetectiveButton>();
-
                 if (PluginUtil.GetRAB().IsActive("1.10"))
                     MainPanel.Instance.AddButton<RoundaboutBuilderButton>();
 
