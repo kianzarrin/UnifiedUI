@@ -8,10 +8,21 @@ namespace UnifiedUI.GUI {
     using UnityEngine;
 
     public class MultiRowPanel : UIPanel {
+        #region settings
+        const bool GroupSeperator_DEF = false;
+        const int Cols_DEF = 10;
+
         public readonly static SavedBool GroupSeperator =
-            new SavedBool("Seperator", MainPanel.FileName, false, true);
+            new SavedBool("Seperator", MainPanel.FileName, GroupSeperator_DEF, true);
         public readonly static SavedInt Cols =
-            new SavedInt("Cols", MainPanel.FileName, 10, true);
+            new SavedInt("Cols", MainPanel.FileName, Cols_DEF, true);
+
+        public static void ResetSettings() {
+            GroupSeperator.value = GroupSeperator_DEF;
+            Cols.value = Cols_DEF;
+        }
+        #endregion
+
 
         public override void Awake() {
             try {
@@ -29,6 +40,7 @@ namespace UnifiedUI.GUI {
                 base.Start();
                 Arrange();
                 Invalidate();
+                eventSizeChanged += (_, __) => MainPanel.Instance.Refresh();
             } catch (Exception ex) { ex.Log(); }
             started_ = true;
         }
@@ -90,8 +102,8 @@ namespace UnifiedUI.GUI {
                     if (item.parent != this)
                         AttachUIComponent(item.gameObject);
                     item.eventVisibilityChanged -= Rearrange;
-                    item.eventVisibilityChanged += Rearrange; item.relativePosition = ButtonBase.SIZE * new Vector2(col, row);
-
+                    item.eventVisibilityChanged += Rearrange;
+                    item.relativePosition = ButtonBase.SIZE * new Vector2(col, row);
 
                     if (item.isVisibleSelf) {
                         col = ++col;

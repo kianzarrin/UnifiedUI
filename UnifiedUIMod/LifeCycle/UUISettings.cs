@@ -10,6 +10,7 @@ namespace UnifiedUI.LifeCycle {
     using UnifiedUI.Util;
     using System.Reflection;
     using UnifiedUI.Helpers;
+    using UnifiedUI.Tool;
 
     public static class UUISettings {
         public const string CONFLICTS_PANEL_NAME = "Conflicts_keymapping";
@@ -37,9 +38,22 @@ namespace UnifiedUI.LifeCycle {
             DisabledKeys.Clear();
         }
 
+        public static void Reset() {
+            MainPanel.RowInstance_?.Close();
+            HideOriginalButtons.value = true;
+            HandleESC.value = true;
+            UUIGrabberData.ResetSettings();
+            FloatingButton.ResetSettings();
+            MainPanel.ResetSettings();
+            MultiRowPanel.ResetSettings();
+        }
+
         public static void OnSettingsUI(UIHelper helper) {
             try {
                 Log.Debug(Environment.StackTrace, false);
+
+                helper.AddButton("Reset", Reset);
+
 
                 //var showCheckBox2 = helper.AddCheckbox(
                 //    "Handle ESC key (esc key exits current tool if any).",

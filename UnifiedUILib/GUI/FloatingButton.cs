@@ -8,10 +8,21 @@ namespace UnifiedUI.GUI {
     using KianCommons.Plugins;
 
     public class FloatingButton : ButtonBase {
+        #region settings
+        const float SavedX_DEF = 0;
+        const float SavedY_DEF = 100;
+
         public static readonly SavedFloat SavedX = new SavedFloat(
-            "ButtonX", MainPanel.FileName, 0, true);
+            "ButtonX", MainPanel.FileName, SavedX_DEF, true);
         public static readonly SavedFloat SavedY = new SavedFloat(
-            "ButtonY", MainPanel.FileName, 100, true);
+            "ButtonY", MainPanel.FileName, SavedY_DEF, true);
+
+        public static void ResetSettings() {
+            SavedX.value = SavedX_DEF;
+            SavedY.value = SavedY_DEF;
+            FindObjectOfType<FloatingButton>()?.LoadPosition();
+        }
+        #endregion
 
         string spritesFile = "uui.png";
 

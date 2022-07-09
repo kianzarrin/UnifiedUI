@@ -43,15 +43,35 @@ namespace UnifiedUI.GUI {
         const string DEFAULT_GROUP = "group1";
 
         public string AtlasName => $"{GetType().FullName}_rev" + this.VersionOf();
-        public static readonly SavedFloat SavedX = new SavedFloat(
-            "PanelX", FileName, 0, true);
-        public static readonly SavedFloat SavedY = new SavedFloat(
-            "PanelY", FileName, 150, true);
-        public readonly static SavedBool ControlToDrag =
-            new SavedBool("ControlToDrag", FileName, false, true);
 
-        public static SavedBool SwitchToPrevTool = new SavedBool("SwitchToPrevTool", FileName, true, true);
-        public static SavedBool ClearInfoPanelsOnToolChanged = new SavedBool("ClearInfoPanelsOnToolChanged", FileName, false, true);
+
+
+        #region options
+        const float SavedX_DEF = 0;
+        const float SavedY_DEF = 150;
+        const bool ControlToDrag_DEF = false;
+        const bool SwitchToPrevTool_DEF = true;
+        const bool ClearInfoPanelsOnToolChanged_DEF = false;
+
+        public static readonly SavedFloat SavedX = new SavedFloat(
+            "PanelX", FileName, SavedX_DEF, true);
+        public static readonly SavedFloat SavedY = new SavedFloat(
+            "PanelY", FileName, SavedY_DEF, true);
+        public readonly static SavedBool ControlToDrag =
+            new SavedBool("ControlToDrag", FileName, ControlToDrag_DEF, true);
+        public static SavedBool SwitchToPrevTool = new SavedBool("SwitchToPrevTool", FileName, SwitchToPrevTool_DEF, true);
+        public static SavedBool ClearInfoPanelsOnToolChanged = new SavedBool("ClearInfoPanelsOnToolChanged", FileName, ClearInfoPanelsOnToolChanged_DEF, true);
+        public static void ResetSettings() {
+            SavedX.value = SavedX_DEF;
+            SavedY.value = SavedY_DEF;
+            ControlToDrag.value = ControlToDrag_DEF;
+            SwitchToPrevTool.value = SwitchToPrevTool_DEF;
+            ClearInfoPanelsOnToolChanged.value = ClearInfoPanelsOnToolChanged_DEF;
+            instance_?.LoadPosition();
+        }
+
+        #endregion
+
 
         public event Action EventRefreshButtons;
 
@@ -164,8 +184,8 @@ namespace UnifiedUI.GUI {
                     name: name,
                     tooltip: tooltip,
                     spritesFile: spritefile);
-                MultiRowPanel.AddButton(c, groupName);
                 ModButtons.Add(c);
+                MultiRowPanel.AddButton(c, groupName);
                 return c;
             } catch (Exception ex) { ex.Log(); }
             return null;
@@ -280,11 +300,13 @@ namespace UnifiedUI.GUI {
 
         bool IsOpen => isVisible && !opening_;
         public void RearrangeIfOpen() {
+            Log.Called();
             int visibleButtons = ModButtons.Count(_b => _b && _b.isVisibleSelf);
             isVisible &= floatingButton_.isVisible = visibleButtons > 0;
             if (IsOpen) {
                 MultiRowPanel.Arrange();
                 Refresh();
+                Invoke(nameof(Refresh), 0.1f);
             }
         }
 
