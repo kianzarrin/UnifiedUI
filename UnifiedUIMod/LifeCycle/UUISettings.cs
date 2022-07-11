@@ -42,6 +42,7 @@ namespace UnifiedUI.LifeCycle {
             MainPanel.RowInstance_?.Close();
             HideOriginalButtons.value = true;
             HandleESC.value = true;
+            Grabber.Instance?.RemoveAll();
             UUIGrabberData.ResetSettings();
             FloatingButton.ResetSettings();
             MainPanel.ResetSettings();

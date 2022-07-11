@@ -223,6 +223,14 @@ namespace UnifiedUI.Tool {
             } catch (Exception ex) { ex.Log(); }
         }
 
+        public void RemoveAll() {
+            var buttons = GrabbedButtons.Keys.ToArray();
+            foreach (var button in buttons) {
+                RemoveButton(button);
+            }
+            GrabbedButtons.Clear();
+        }
+
         bool changing_;
         void ButtonSizeChanged(UIComponent button, Vector2 __) {
             if (changing_)
