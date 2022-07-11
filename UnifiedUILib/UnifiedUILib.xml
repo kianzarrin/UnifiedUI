@@ -194,18 +194,18 @@
         </member>
         <member name="M:KianCommons.Math.BezierUtil.Travel2(ColossalFramework.Math.Bezier3,System.Single,UnityEngine.Vector3@)">
             <summary>
-            Travels some distance on beizer and calculates the point and tangent at that distance.
+            Travels some distance on bezier and calculates the point and tangent at that distance.
             </summary>
-            <param name="distance">distance to travel on the arc in meteres</param>
-            <param name="tangent">normalized tangent on the curve toward the end of the beizer.</param>
+            <param name="distance">distance to travel on the arc in meters</param>
+            <param name="tangent">normalized tangent on the curve toward the end of the bezier.</param>
             <returns>point on the curve at the given distance.</returns>
         </member>
         <member name="M:KianCommons.Math.BezierUtil.Travel2(ColossalFramework.Math.Bezier2,System.Single,UnityEngine.Vector2@)">
             <summary>
-            Travels some distance on beizer and calculates the point and tangent at that distance.
+            Travels some distance on bezier and calculates the point and tangent at that distance.
             </summary>
-            <param name="distance">distance to travel on the arc in meteres</param>
-            <param name="tangent">normalized tangent on the curve toward the end of the beizer.</param>
+            <param name="distance">distance to travel on the arc in meters</param>
+            <param name="tangent">normalized tangent on the curve toward the end of the bezier.</param>
             <returns>point on the curve at the given distance.</returns>
         </member>
         <member name="M:KianCommons.Math.BezierUtil.Bezier2ByDir(UnityEngine.Vector2,UnityEngine.Vector2,UnityEngine.Vector2,UnityEngine.Vector2)">
@@ -240,7 +240,7 @@
         </member>
         <member name="M:KianCommons.Math.VectorUtil.UnsignedAngleRad(UnityEngine.Vector2,UnityEngine.Vector2)">
             <summary>
-            return value is between 0 to pi. v1 and v2 are interchangable.
+            return value is between 0 to pi. v1 and v2 are interchangeable.
             </summary>
         </member>
         <member name="M:KianCommons.Math.VectorUtil.Vector2ByAngleRadCCW(System.Single,System.Single)">
@@ -251,22 +251,22 @@
         </member>
         <member name="M:KianCommons.Math.VectorUtil.SignedAngleRadCCW(UnityEngine.Vector2,UnityEngine.Vector2)">
             <summary>
-            return value is between -pi to pi. v1 and v2 are not interchangable.
+            return value is between -pi to pi. v1 and v2 are not interchangeable.
             the angle goes CCW from v1 to v2.
-            eg v1=0,1 v2=1,0 => angle=pi/2
+            e.g. v1=0,1 v2=1,0 => angle=pi/2
             Note: to convert CCW to CW EITHER swap v1 and v2 OR take the negative of the result.
             </summary>
         </member>
         <member name="M:KianCommons.Math.VectorUtil.NormalCW(UnityEngine.Vector3)">
              <summary>
              rotates horizontally (XZ) by 90 Clock Wise and sets height to zero.
-             the resutl is normalized
+             the result is normalized
             </summary>
         </member>
         <member name="M:KianCommons.Math.VectorUtil.NormalCCW(UnityEngine.Vector3)">
             <summary>
             rotates horizontally (XZ) by 90 Counter Clock Wise and sets height to zero.
-            the resutl is normalized
+            the result is normalized
             </summary>
         </member>
         <member name="M:KianCommons.Math.VectorUtil.SetI(UnityEngine.Vector3,System.Single,System.Int32)">
@@ -282,11 +282,11 @@
             assuming all angles are unique non-zero
             </summary>
             <param name="source">angle to compare with</param>
-            <param name="target">angle being comapred</param>
+            <param name="target">angle being compared</param>
         </member>
         <member name="M:KianCommons.Math.Vector2D.UnsignedAngleRad(KianCommons.Math.Vector2D,KianCommons.Math.Vector2D)">
             <summary>
-            return value is between 0 to pi. v1 and v2 are interchangable.
+            return value is between 0 to pi. v1 and v2 are interchangeable.
             </summary>
         </member>
         <member name="M:KianCommons.Math.Vector2D.SignedAngleRadCCW">
@@ -294,22 +294,22 @@
         </member>
         <member name="M:KianCommons.Math.Vector2D.SignedAngleRadCCW(KianCommons.Math.Vector2D,KianCommons.Math.Vector2D)">
             <summary>
-            return value is between -pi to pi. v1 and v2 are not interchangable.
+            return value is between -pi to pi. v1 and v2 are not interchangeable.
             the angle goes CCW from v1 to v2.
-            eg v1=0,1 v2=1,0 => angle=pi/2
+            e.g. v1=0,1 v2=1,0 => angle=pi/2
             Note: to convert CCW to CW EITHER swap v1 and v2 OR take the negative of the result.
             </summary>
         </member>
         <member name="M:KianCommons.Plugins.DelegateUtil.GetParameterTypes``1">
             <typeparam name="TDelegate">delegate type</typeparam>
-            <returns>Type[] represeting arguments of the delegate.</returns>
+            <returns>Type[] representing arguments of the delegate.</returns>
         </member>
         <member name="M:KianCommons.Plugins.DelegateUtil.GetMethod``1(System.Type,System.String)">
             <summary>
             Gets directly declared method based on a delegate that has
             the same name as the target method
             </summary>
-            <param name="type">the class/type where the method is delcared</param>
+            <param name="type">the class/type where the method is declared</param>
             <param name="name">the name of the method</param>
         </member>
         <member name="M:KianCommons.Plugins.PluginExtensions.IsActive(ColossalFramework.Plugins.PluginManager.PluginInfo)">
@@ -346,12 +346,12 @@
             Draws a half sausage at segment end.
             </summary>
             <param name="segmentId"></param>
-            <param name="cut">The lenght of the highlight [0~1] </param>
+            <param name="cut">The length of the highlight [0~1] </param>
             <param name="bStartNode">Determines the direction of the half sausage.</param>
         </member>
         <member name="M:KianCommons.UI.TextureExtensions.GetReadableCopy(UnityEngine.Texture2D,System.Boolean)">
             <summary>
-            reteurns a copy of the texture with the differenc that: mipmap=false, linear=false, readable=true;
+            returns a copy of the texture with the difference that: mipmap=false, linear=false, readable=true;
             </summary>
         </member>
         <member name="M:KianCommons.UI.TextureUtil.CreateTextureAtlas(System.String,UnityEngine.Texture2D[])">
@@ -361,12 +361,12 @@
         </member>
         <member name="M:KianCommons.EnumBitMaskExtensions.ToUInt64(System.IConvertible)">
             <summary>
-            can convirt any enum based on signed/unsigned integer to long
+            can convert any enum based on signed/unsigned integer to long
             </summary>
         </member>
         <member name="M:KianCommons.EnumBitMaskExtensions.ToInt64(System.IConvertible)">
             <summary>
-            can convirt any enum based on signed/unsigned integer to long
+            can convert any enum based on signed/unsigned integer to long
             </summary>
         </member>
         <member name="M:KianCommons.EnumerationExtensions.Clone1``1(System.Collections.Generic.IEnumerable{``0})">
@@ -414,7 +414,7 @@
         </member>
         <member name="F:KianCommons.Log.ShowTimestamp">
             <summary>
-            Set to <c>true</c> to include timestamp in log entries.
+            Set to <c>true</c> to include time-stamp in log entries.
             </summary>
         </member>
         <member name="F:KianCommons.Log.LogFileName">
@@ -490,10 +490,10 @@
         </member>
         <member name="M:KianCommons.LogExtensions.LogRet``1(``0,System.String)">
             <summary>
-            useful for easily debuggin inline functions
+            useful for easily debugging inline functions
             to be used like this example:
             TYPE inlinefunctionname(...) => expression
-            TYPE inlinefunctionname(...) => expression.LogRet("messege");
+            TYPE inlinefunctionname(...) => expression.LogRet("message");
             </summary>
         </member>
         <member name="M:KianCommons.NetUtil.GetLaneData(System.UInt32)">
@@ -503,11 +503,11 @@
             </summary>
         </member>
         <member name="M:KianCommons.NetUtil.CalculateSegmentBezier3(NetSegment@,System.Boolean)">
-            Note: inverted flag or LHT does not influce the beizer.
+            Note: inverted flag or LHT does not influence the bezier.
         </member>
         <member name="M:KianCommons.NetUtil.CalculateSegmentBezier2(System.UInt16,System.Boolean)">
             <param name="startNode"> if true the bezier is inverted so that it will be facing start node</param>
-            Note: inverted flag or LHT does not influce the beizer.
+            Note: inverted flag or LHT does not influence the bezier.
         </member>
         <member name="M:KianCommons.NetUtil.CalculateSegmentBezier2(System.UInt16,System.UInt16)">
             <param name="endNodeID">bezier will be facing endNodeID</param>
@@ -537,14 +537,14 @@
             checks if vehicles move backward or bypass backward (considers LHT)
             </summary>
             <returns>true if vehicles move backward,
-            false if vehilces going ward, bi-directional, or non-directional</returns>
+            false if vehicles going ward, bi-directional, or non-directional</returns>
         </member>
         <member name="M:KianCommons.NetUtil.IsGoingBackward(NetInfo.Lane,System.Boolean)">
             <summary>
             checks if vehicles move backward or bypass backward (considers LHT)
             </summary>
             <returns>true if vehicles move backward,
-            false if vehilces going ward, bi-directional, or non-directional</returns>
+            false if vehicles going ward, bi-directional, or non-directional</returns>
         </member>
         <member name="M:KianCommons.NetUtil.GetCCSegList(System.UInt16)">
             <summary>
@@ -573,7 +573,7 @@
         </member>
         <member name="M:KianCommons.ReflectionHelpers.SetAllDeclaredFieldsToNull(ColossalFramework.UI.UIComponent)">
             <summary>
-            call this in OnDestroy() to clear all refrences.
+            call this in OnDestroy() to clear all references.
             </summary>
         </member>
         <member name="M:KianCommons.ReflectionHelpers.GetFieldValue(System.Object,System.String)">
@@ -703,10 +703,10 @@
             <summary>Provides access to the git information for the current assembly.</summary>
         </member>
         <member name="F:ThisAssembly.Git.IsDirty">
-            <summary>IsDirty: true</summary>
+            <summary>IsDirty: false</summary>
         </member>
         <member name="F:ThisAssembly.Git.IsDirtyString">
-            <summary>IsDirtyString: true</summary>
+            <summary>IsDirtyString: false</summary>
         </member>
         <member name="F:ThisAssembly.Git.RepositoryUrl">
             <summary>Repository URL: https://github.com/kianzarrin/UnifiedUI</summary>
@@ -715,19 +715,19 @@
             <summary>Branch: master</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commit">
-            <summary>Commit: 49058f5</summary>
+            <summary>Commit: bdec528</summary>
         </member>
         <member name="F:ThisAssembly.Git.Sha">
-            <summary>Sha: 49058f57c92c4fbe23301a0a63765abc3efafcb6</summary>
+            <summary>Sha: bdec528adc212a416568c23c1144cde0c4df5cd2</summary>
         </member>
         <member name="F:ThisAssembly.Git.CommitDate">
-            <summary>Commit date: 2022-06-18T02:11:24+03:00</summary>
+            <summary>Commit date: 2022-07-09T15:18:39+03:00</summary>
         </member>
         <member name="F:ThisAssembly.Git.Commits">
-            <summary>Commits on top of base version: 3</summary>
+            <summary>Commits on top of base version: 5</summary>
         </member>
         <member name="F:ThisAssembly.Git.Tag">
-            <summary>Tag: V2.2.9-3-g49058f5</summary>
+            <summary>Tag: V2.2.9-5-gbdec528</summary>
         </member>
         <member name="F:ThisAssembly.Git.BaseTag">
             <summary>Base tag: V2.2.9</summary>
@@ -754,7 +754,7 @@
             <summary>Minor: 2</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Patch">
-            <summary>Patch: 12</summary>
+            <summary>Patch: 14</summary>
         </member>
         <member name="F:ThisAssembly.Git.SemVer.Label">
             <summary>Label: </summary>
