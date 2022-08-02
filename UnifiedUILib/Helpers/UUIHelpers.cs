@@ -401,7 +401,9 @@ namespace UnifiedUI.Helpers {
         /// <summary>
         /// Destroy all gameObjects, components, and children
         /// </summary>
-        public static void Destroy(this Component button) => GameObject.Destroy(button?.gameObject);
+        public static void Destroy(this Component button) {
+            if (button) GameObject.Destroy(button.gameObject);
+        }
 
         /// <summary>
         /// Gets the path to the mod that has the user mod instance.

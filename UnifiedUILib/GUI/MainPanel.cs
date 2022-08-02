@@ -67,7 +67,7 @@ namespace UnifiedUI.GUI {
             ControlToDrag.value = ControlToDrag_DEF;
             SwitchToPrevTool.value = SwitchToPrevTool_DEF;
             ClearInfoPanelsOnToolChanged.value = ClearInfoPanelsOnToolChanged_DEF;
-            instance_?.LoadPosition();
+            if(instance_)instance_.LoadPosition();
         }
 
         #endregion
@@ -94,8 +94,13 @@ namespace UnifiedUI.GUI {
         #region Instantiation
 
         static MainPanel instance_;
-        public static MainPanel Instance =>
-            instance_ ??= UIView.GetAView().AddUIComponent(typeof(MainPanel)) as MainPanel;
+        public static MainPanel Instance {
+            get {
+                if(!instance_) instance_ = UIView.GetAView().AddUIComponent(typeof(MainPanel)) as MainPanel;
+                return instance_;
+            }
+        }
+            
 
         public static MainPanel RowInstance_ => instance_;
 
@@ -103,7 +108,9 @@ namespace UnifiedUI.GUI {
 
         public static void Ensure() => _ = Instance;
 
-        public static void Release() => DestroyImmediate(instance_?.gameObject);
+        public static void Release() {
+            if(instance_) DestroyImmediate(instance_.gameObject);
+        }
 
         #endregion Instantiation
 
@@ -128,7 +135,7 @@ namespace UnifiedUI.GUI {
             Destroy(MainAtlas);
             this.SetAllDeclaredFieldsToNull();
             instance_ = null;
-            DestroyImmediate(floatingButton_?.gameObject);
+            if(floatingButton_)DestroyImmediate(floatingButton_.gameObject);
             base.OnDestroy();
         }
 
@@ -273,7 +280,7 @@ namespace UnifiedUI.GUI {
 
                 int visibleButtons = ModButtons.Count(_b => _b && _b.isVisibleSelf);
                 Log.Info("Visible buttons = " + visibleButtons);
-                floatingButton_.isVisible = visibleButtons > 0;
+                if(floatingButton_) floatingButton_.isVisible = visibleButtons > 0;
                 isVisible &= visibleButtons > 0;
                 if (visibleButtons == 0)
                     return;
@@ -288,10 +295,10 @@ namespace UnifiedUI.GUI {
                 else
                     dragHandle_.tooltip = lblCaption_.tooltip = "";
 
-                floatingButton_?.Refresh();
+                if (floatingButton_) floatingButton_.Refresh();
                 DoRefreshButtons();
                 dragHandle_.width = lblCaption_.width; // minimum width
-                containerPanel_?.FitToChildrenWithPadding();
+                if(containerPanel_)containerPanel_.FitToChildrenWithPadding();
                 RefreshDragAndCaptionPos();
                 LoadPosition();
                 //Invalidate();

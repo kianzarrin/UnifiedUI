@@ -88,14 +88,14 @@ namespace UnifiedUI.GUI {
             Log.Debug("GenericModButton.Open() called for " + Name);
             base.Activate();
             SetTool(Tool);
-            Widnow?.Show();
+            if (Widnow) Widnow.Show();
         }
 
         public override void Deactivate() {
             Log.Debug("GenericModButton.Close() called  for " + Name);
             base.Deactivate();
             UnsetTool(Tool);
-            Widnow?.Hide();
+            if (Widnow) Widnow.Hide();
         }
 
         /// <summary>

@@ -1,4 +1,4 @@
-﻿namespace UnifiedUI.Helpers {
+namespace UnifiedUI.Helpers {
     using ColossalFramework.UI;
     using System.Reflection;
     using UnityEngine;
@@ -22,8 +22,8 @@
         }
 
         public void Release() {
-            Button = null;
             Button?.Destroy();
+            Button = null;
         }
     }
 }

@@ -39,10 +39,10 @@ namespace UnifiedUI.LifeCycle {
         }
 
         public static void Reset() {
-            MainPanel.RowInstance_?.Close();
+            if(MainPanel.RowInstance_) MainPanel.RowInstance_.Close();
             HideOriginalButtons.value = true;
             HandleESC.value = true;
-            Grabber.Instance?.RemoveAll();
+            if(Grabber.Instance)Grabber.Instance.RemoveAll();
             UUIGrabberData.ResetSettings();
             FloatingButton.ResetSettings();
             MainPanel.ResetSettings();
@@ -107,7 +107,7 @@ namespace UnifiedUI.LifeCycle {
 
                     var keys = new List<SavedInputKey>();
                     foreach(var b in mainPanel.ModButtons) {
-                        if(b?.ActivationKey != null)
+                        if(b && b.ActivationKey != null)
                             keys.Add(b.ActivationKey);
                     }
                     keys.AddRange(mainPanel.CustomHotkeys.Keys);
@@ -151,8 +151,9 @@ namespace UnifiedUI.LifeCycle {
 
         static void OnConflictResolved(UIComponent c, UIComponentEventParameter p) {
             try {
+                if (!c) return;
                 var mi =
-                    c?.objectUserData
+                    c.objectUserData
                     ?.GetType()
                     ?.GetMethod(nameof(UnsavedInputKey.OnConflictResolved), types: new Type [0] ,throwOnError: false);
                 mi?.Invoke(c.objectUserData, null);
